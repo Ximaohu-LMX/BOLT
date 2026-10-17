@@ -9,7 +9,7 @@ The following checks were executed on the prepared standalone BOLT tree before t
 - All 162 non-JOB saved prediction cells passed query/truth/order alignment and Q-error checks. The four datasets passed split-disjointness and nested, paired-label-mask audits.
 - The 12 sensitivity cells were recomputed from saved per-query predictions. All 16 JOB model files were checked; 3,540 measured JOB samples were reaggregated to the recorded summaries.
 - Dataset statistics and LPLM target totals were recomputed from the released files. Figure 1's eight exact counts, bounds, and set-containment relations were checked against the original AUTHOR column.
-- Figures 1–5 were generated locally from the standalone repository.
+- Figures 1–5 were generated locally from the standalone repository. Upper-bound quantiles/violations were recalculated; the unavailable per-query exact-hit identities are explicitly distinguished from the original aggregate exact-hit percentage.
 - The bundled PostgreSQL source compiled to version 14.5 in an independent cluster. Actual hook tests passed for LIKE, NOT LIKE, equality, arrays, NULL handling, and five invalid-map cases.
 - AUTHOR lower- and upper-bound summaries were freshly constructed and compared equal to the frozen summary objects. Both builds completed within their stated time limits.
 - The CPU latency/storage path loaded the published AUTHOR CLIQUE/BOLT checkpoints and completed the full singleton test pass.

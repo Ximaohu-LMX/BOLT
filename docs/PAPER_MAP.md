@@ -67,3 +67,5 @@ Paths such as `tables/` and `figs/` in the output column are relative to `paper_
 All abbreviated script names in the supplement table live in `scripts/` and should be invoked with `bash scripts/<name>`. `--source reference` recomputes numerical accuracy/order diagnostics from saved per-query predictions and reaggregates saved JOB samples. It does not remeasure hardware-specific historical construction/label/CPU costs. Those raw ledgers and their original displayed TeX are retained, while the corresponding `run_costs.sh` phase produces new measurements.
 
 Figure 1 keeps the original post-hoc selected eight-node case and saved model predictions. Its audit independently verifies exact counts, bounds, and set containment on AUTHOR; it does not claim to recreate the original case-search process. Figure 2 has no random experiment to rerun.
+
+The UB/count quantiles and violation counts are recalculated from per-query bounds. The exact-summary-hit percentage comes from the original aggregate summary audit: per-query hit identities were not retained in the historical query export, and empty markers are not interpreted as non-hits.

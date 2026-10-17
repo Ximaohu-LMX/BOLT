@@ -104,9 +104,13 @@ def collect(selected, source="reference"):
         true=np.asarray([float(r['true_count']) for r in bounds])
         database_rows=next(float(r['database_rows']) for r in rows(reference/'dataset_string_statistics.csv') if r['dataset']==ds)
         ratio=upper/true
+        audit=next(r for r in rows(reference/'upper_bound_diagnostics.csv') if r['dataset']==ds)
+        # The original query export did not retain per-query exact-hit identities.
+        # Its audited aggregate is available; missing markers must not become zeros.
+        exact_hit_pct=float(audit['exact_table_hit_pct'])
         ub_rows.append(dict(dataset=ds,test_queries=len(bounds),ub_q50=float(np.median(upper)),ub_database_q50=float(np.median(upper)/database_rows),
             ub_card_q50=float(np.quantile(ratio,.5)),ub_card_q95=float(np.quantile(ratio,.95)),ub_card_q99=float(np.quantile(ratio,.99)),
-            exact_hit_pct=100*float(np.mean([r['exact_summary_hit'].lower()=='true' for r in bounds])),violations=int(np.sum(upper<true))))
+            exact_hit_pct=exact_hit_pct,exact_hit_source='original aggregate summary audit; per-query identities unavailable',violations=int(np.sum(upper<true))))
     write_csv(out/'tables/Table09_S21_upper_bounds.csv',ub_rows)
     if source == 'reference':
         # Retain the original displays and detailed timing evidence under an
