@@ -37,8 +37,17 @@ def download_file(url, target, expected=None, local=None):
 
 
 def install_bundle(bundle, local=None):
+    copies = bundle.get("copies", {})
+    for target, source in copies.items():
+        names = (PurePosixPath(target), PurePosixPath(source))
+        if any(p.is_absolute() or ".." in p.parts for p in names):
+            raise ValueError("Unsafe copied artifact path")
+        if target not in bundle["files"] or source not in bundle["files"] or source in copies:
+            raise ValueError("Copied artifacts must refer to a canonical archive file")
+        if bundle["files"][target] != bundle["files"][source]:
+            raise ValueError("Copied artifact checksum differs from its source")
     try:
-        verify_files(bundle["files"])
+        verify_files(bundle["files"], ROOT)
         print("SKIP verified", bundle["name"], flush=True)
         return
     except (ValueError, OSError):
@@ -48,7 +57,7 @@ def install_bundle(bundle, local=None):
     with tarfile.open(archive, "r:gz") as tar:
         members = list(safe_members(tar))
         actual = {m.name for m in members if m.isfile()}
-        if actual != set(bundle["files"]):
+        if actual != set(bundle["files"]) - set(copies):
             raise ValueError("Archive manifest does not match its member list")
         for member in members:
             if not member.isfile():
@@ -63,7 +72,17 @@ def install_bundle(bundle, local=None):
             if digest(temporary) != bundle["files"][member.name]:
                 raise ValueError(f"Extracted checksum mismatch: {member.name}")
             os.replace(temporary, destination)
-    verify_files(bundle["files"])
+    for target, source in copies.items():
+        destination = ROOT / target
+        if destination.is_symlink() or any(p.is_symlink() for p in destination.parents):
+            raise ValueError("Refusing symlink copy destination")
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        temporary = destination.with_name(destination.name + ".extracting")
+        shutil.copyfile(ROOT / source, temporary)
+        if digest(temporary) != bundle["files"][target]:
+            raise ValueError("Copied artifact checksum mismatch")
+        os.replace(temporary, destination)
+    verify_files(bundle["files"], ROOT)
     print("READY", bundle["name"], flush=True)
 
 

@@ -61,3 +61,33 @@ def test_filters_do_not_schedule_job_as_a_main_dataset():
     selected=select_tasks('accuracy',['AUTHOR'],['A0'],['BOLT'],0)
     assert [t['id'] for t in selected]==['AUTHOR_A0_BOLT_S0']
     assert all(t['suite']!='job' for t in select_tasks('all'))
+
+
+def test_compact_bundle_restores_identical_views_without_links(tmp_path, monkeypatch):
+    import hashlib
+    from repro import datasets
+    root=tmp_path/'checkout';root.mkdir()
+    mirror=tmp_path/'mirror';mirror.mkdir()
+    payload=b'pattern,true\na%,3\n'
+    archive=mirror/'workload.tar.gz'
+    with tarfile.open(archive,'w:gz') as tar:
+        member=tarfile.TarInfo('data/source.txt');member.size=len(payload)
+        tar.addfile(member,io.BytesIO(payload))
+    sha=hashlib.sha256(payload).hexdigest()
+    bundle=dict(name=archive.name,url='unused',sha256=digest(archive),files={'data/source.txt':sha,'data/other/view.txt':sha},copies={'data/other/view.txt':'data/source.txt'})
+    monkeypatch.setattr(datasets,'ROOT',root)
+    datasets.install_bundle(bundle,str(mirror))
+    assert (root/'data/source.txt').read_bytes()==(root/'data/other/view.txt').read_bytes()==payload
+    assert not (root/'data/other/view.txt').is_symlink()
+    (root/'data/other/view.txt').write_text('damaged')
+    assert (root/'data/source.txt').read_bytes()==payload
+    datasets.install_bundle(bundle,str(mirror))
+    assert (root/'data/other/view.txt').read_bytes()==payload
+
+
+def test_compact_bundle_rejects_external_or_chained_copies(tmp_path, monkeypatch):
+    from repro import datasets
+    monkeypatch.setattr(datasets,'ROOT',tmp_path)
+    base=dict(name='x',url='unused',sha256='x',files={'a':'same','b':'same'})
+    with pytest.raises(ValueError):datasets.install_bundle(dict(base,copies={'../outside':'a'}))
+    with pytest.raises(ValueError):datasets.install_bundle(dict(base,copies={'a':'b','b':'a'}))

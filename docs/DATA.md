@@ -6,7 +6,7 @@ The release supplies the final paper's frozen workload inputs separately. A new 
 
 | Bundle | Contents |
 |---|---|
-| `workloads-<DATASET>.tar.gz` | Frozen full/supervised/masked views, seven budgets, chain indices, label masks, validation/test sets, external prefix targets |
+| `workloads-<DATASET>*.tar.gz` | Frozen full/supervised/masked views, seven budgets, chain indices, label masks, validation/test sets, external prefix targets |
 | `summaries.tar.gz` | Pruned and full N-gram caches, associated metadata, and lower-bound witness libraries |
 | `predictions.tar.gz` | Aligned predictions for the 162 non-JOB cells, shared bounds, and 12 sensitivity cells |
 | `checkpoints.tar.gz` | Available saved neural checkpoints for the main model/control experiments |
@@ -14,8 +14,10 @@ The release supplies the final paper's frozen workload inputs separately. A new 
 | `job-inputs.tar.gz` | Four exported JOB columns, workloads, summaries, 16 saved model cells, database identity, and patched PostgreSQL source |
 | `job-evidence.tar.gz` | Raw JOB timings, aggregated results, and correctness evidence |
 
-The task manifest associates configurations, predictions, checkpoints, and expected Q-error summaries. `manifests/source_provenance.json` retains original relative paths and hashes. Those old paths are historical identifiers, not runtime dependencies. Main downloads are about 1.6 GiB compressed in total; use the manifest's byte fields for the exact release sizes. Expanded data and duplicate per-method views need more disk space.
+The task manifest associates configurations, predictions, checkpoints, and expected Q-error summaries. `manifests/source_provenance.json` retains original relative paths and hashes. Those old paths are historical identifiers, not runtime dependencies. Release downloads are about 1.13 GiB compressed in total; use the manifest's byte fields for the exact release sizes. Expanded data and duplicate per-method views need more disk space.
 
 The separate original JOB database comes from [CWI](https://event.cwi.nl/da/job/imdb.tgz). Its expected size is 1,263,193,115 bytes and its SHA-256 is pinned in `artifacts/job/source_import.json`. The importer loads 21 new tables transactionally and never replaces tables in an existing user database.
 
 `data/`, `res/`, `.cache/`, and `artifacts/` are excluded from version control. The downloaded raw columns remain subject to their original source terms. See [third-party notices](../THIRD_PARTY_NOTICES.md).
+
+The WIKI bundle stores 27 distinct file contents once and restores 78 byte-identical views through the manifest's explicit `copies` map. Restored views are independent regular files, not symbolic or hard links. Every restored file retains its original paper-input checksum. This reduces the WIKI archive from about 582 MiB to 249 MiB without changing its 105 extracted files.
