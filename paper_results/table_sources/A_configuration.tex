@@ -1,0 +1,50 @@
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\caption{Main-study and JOB configurations.}
+\label{tab:A_configuration}
+\textbf{(a) Training and summary parameters}\\[3pt]
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lcc@{}}
+\toprule
+Parameter & Main study & JOB \\
+\midrule
+\texttt{learning\_rate} & 0.0001 & 0.0001 \\
+\texttt{l2} & 1e-06 & 1e-06 \\
+\texttt{n\_epoch} & 400 & 400 \\
+\texttt{patience} & 20 & 20 \\
+\texttt{ch\_es} & 100 & 100 \\
+\texttt{pred\_hs} & 128 & 128 \\
+\texttt{n\_pred\_layer} & 3 & 3 \\
+\texttt{seed} & 0 & 0 \\
+\texttt{N} ($n_{\max}$) & 5 & 5 \\
+\texttt{PT} & 20 & 20 \\
+\texttt{dynamicPT} & true & true \\
+\texttt{lambda\_mono} ($\lambda$) & 5.0 & 1.0 \\
+\texttt{mono\_tolerance} ($\tau$) & 0.1 & 0.1 \\
+\texttt{chain\_sample\_ratio} ($\gamma$) & 1.0 & 1.0 \\
+\texttt{lb\_min\_substr\_len} & 5 & 5 \\
+\texttt{lb\_max\_substr\_len} & 15 & 10 \\
+\texttt{lb\_top\_k\_strings} & 500 & 500 \\
+\texttt{lb\_top\_k\_substrings} & 200 & 500 \\
+\texttt{lb\_min\_freq\_ratio} & 0.0001 & 0.0005 \\
+\bottomrule
+\end{tabular*}
+\par\medskip
+\textbf{(b) Dataset and column settings}\\[3pt]
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}llrrr@{}}
+\toprule
+Study & Dataset / column & \texttt{rnn\_hs} & \texttt{batch\_size} & \texttt{max\_entry\_ratio} \\
+\midrule
+Main & AUTHOR & 256 & 64 & 4.8 \\
+Main & DBLP & 256 & 64 & 3.12 \\
+Main & IMDB & 256 & 64 & 1.675 \\
+Main & WIKI & 256 & 64 & 4.35 \\
+\midrule
+JOB & \texttt{movie\_companies.note} & 154 & 63 & 0.99 \\
+JOB & \texttt{title.title} & 151 & 64 & 0.223 \\
+JOB & \texttt{name.name} & 152 & 64 & 0.359 \\
+JOB & \texttt{link\_type.link} & 181 & 64 & 8.0 \\
+\bottomrule
+\end{tabular*}
+\end{table}

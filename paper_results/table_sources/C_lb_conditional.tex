@@ -1,0 +1,21 @@
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\caption{A0 Q-error by lower-bound stratum}
+\label{tab:C_lb_conditional}
+\begin{tabular}{@{}llrrrrrr@{}}
+\toprule
+Dataset & Stratum & Queries & Coverage (\%) & UB & UB+LB & UB+Order & BOLT \\
+\midrule
+AUTHOR & LB=0 & 8860 & 94.71 & 5.93 / 69.53 & 2.45 / 15.86 & 2.36 / 11.43 & 2.24 / 13.37 \\
+AUTHOR & LB>0 & 495 & 5.29 & 5.52 / 52.05 & 1.91 / 7.53 & 5.75 / 48.13 & 2.17 / 10.40 \\
+DBLP & LB=0 & 3462 & 96.27 & 4.84 / 61.86 & 4.58 / 51.20 & 2.52 / 15.99 & 2.84 / 22.17 \\
+DBLP & LB>0 & 134 & 3.73 & 3.05 / 35.56 & 1.58 / 4.35 & 3.42 / 38.57 & 1.71 / 7.12 \\
+IMDB & LB=0 & 71012 & 98.05 & 7.37 / 101.61 & 7.54 / 96.28 & 6.06 / 81.05 & 6.30 / 85.93 \\
+IMDB & LB>0 & 1411 & 1.95 & 101.35 / 1500.04 & 2.32 / 26.06 & 91.20 / 1370.18 & 2.05 / 18.71 \\
+WIKI & LB=0 & 68324 & 97.55 & 9.28 / 130.02 & 10.45 / 128.76 & 3.02 / 25.36 & 3.06 / 26.01 \\
+WIKI & LB>0 & 1719 & 2.45 & 3.38 / 37.79 & 1.32 / 4.28 & 2.47 / 42.73 & 1.20 / 4.31 \\
+\bottomrule
+\end{tabular}
+\end{table}

@@ -1,0 +1,21 @@
+\begin{table}[!t]
+\centering
+\small
+\setlength{\tabcolsep}{1.5pt}
+\caption{Mean Q-error at A0 by lower-bound stratum.}
+\label{tab:lb-conditional}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}llrrrrrr@{}}
+\toprule
+Dataset & Stratum & \shortstack{Share\\(\%)} & UB & UB+LB & UB+Order & LB+Order & BOLT \\
+\midrule
+AUTHOR & $LB=0$ & 94.71 & 5.93 & 2.45 & 2.36 & 2.35 & 2.24 \\
+AUTHOR & $LB>0$ & 5.29 & 5.52 & 1.91 & 5.75 & 2.47 & 2.17 \\
+DBLP & $LB=0$ & 96.27 & 4.84 & 4.58 & 2.52 & 4.81 & 2.84 \\
+DBLP & $LB>0$ & 3.73 & 3.05 & 1.58 & 3.42 & 3.19 & 1.71 \\
+IMDB & $LB=0$ & 98.05 & 7.37 & 7.54 & 6.06 & 6.16 & 6.30 \\
+IMDB & $LB>0$ & 1.95 & 101.35 & 2.32 & 91.20 & 2.33 & 2.05 \\
+WIKI & $LB=0$ & 97.55 & 9.28 & 10.45 & 3.02 & 14.96 & 3.06 \\
+WIKI & $LB>0$ & 2.45 & 3.38 & 1.32 & 2.47 & 4.32 & 1.20 \\
+\bottomrule
+\end{tabular*}
+\end{table}

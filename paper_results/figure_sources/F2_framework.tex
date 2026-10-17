@@ -1,0 +1,9 @@
+\begin{figure*}[t]
+\centering
+\captionsetup{skip=4pt,belowskip=-4pt}
+% Crop measured PDF bottom whitespace; retain all labels and artwork.
+\includegraphics[width=\textwidth,trim=0 14bp 0 0,clip]{figs/F2_framework.pdf}
+\caption{Overview of BOLT.}
+\label{fig:framework}
+\Description{BOLT has four components. Cardinality Bound Construction builds an upper-bound table and a lower-bound table from the data column. Bound-Constrained Model maps pattern tokens to embeddings, encodes them with an LSTM, concatenates a log-transformed upper-bound feature with the final hidden state, and interpolates the prediction head's relative position between the lower and upper bounds. Degradation Chain Generation supplies patterns ordered by containment. Order-Guided Training applies the same bound-constrained model to all chain nodes, with supervised loss on labeled nodes and order loss on adjacent edges.}
+\end{figure*}

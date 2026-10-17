@@ -1,0 +1,33 @@
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\caption{WIKI continuous ordering consistency}
+\label{tab:C_legacy_order_WIKI}
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+Setting & Method & Pair slack & Pair tolerant & Chain slack & Chain tolerant \\
+\midrule
+A100 & NO\_BOUND & 94.57 & 98.03 & 67.34 & 86.66 \\
+A100 & UB & 74.15 & 97.74 & 5.46 & 84.17 \\
+A100 & UB+Order & 76.56 & 99.14 & 9.20 & 93.70 \\
+A100 & UB+LB & 70.93 & 98.10 & 2.98 & 87.16 \\
+A100 & BOLT & 77.94 & 99.27 & 11.70 & 94.63 \\
+A10 & NO\_BOUND & 78.84 & 97.58 & 9.26 & 82.43 \\
+A10 & UB & 73.44 & 96.83 & 5.54 & 78.58 \\
+A10 & UB+Order & 75.30 & 99.67 & 8.75 & 97.50 \\
+A10 & UB+LB & 75.85 & 97.88 & 6.61 & 85.35 \\
+A10 & BOLT & 75.89 & 99.58 & 9.10 & 96.79 \\
+A1 & NO\_BOUND & 82.96 & 95.95 & 18.00 & 70.90 \\
+A1 & UB & 74.39 & 97.05 & 6.79 & 79.35 \\
+A1 & UB+Order & 80.31 & 99.79 & 18.49 & 98.34 \\
+A1 & UB+LB & 79.06 & 96.06 & 12.63 & 72.74 \\
+A1 & BOLT & 81.34 & 99.79 & 21.50 & 98.39 \\
+A0 & NO\_BOUND & 77.25 & 92.12 & 8.77 & 43.47 \\
+A0 & UB & 81.86 & 89.83 & 15.82 & 38.06 \\
+A0 & UB+Order & 93.95 & 99.78 & 67.75 & 98.32 \\
+A0 & UB+LB & 75.20 & 84.38 & 6.92 & 22.61 \\
+A0 & BOLT & 93.10 & 99.78 & 61.41 & 98.32 \\
+\bottomrule
+\end{tabular}
+\end{table}

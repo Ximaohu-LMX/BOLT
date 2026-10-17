@@ -1,0 +1,17 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\caption{Datasets and workloads.}
+\label{tab:workloads}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrrrrr@{}}
+\toprule
+Dataset & \shortstack{Database\\rows} & \shortstack{Mean string\\length} & \shortstack{Training\\pool} & Validation & Test & \shortstack{Training\\chains} & \shortstack{Mean chain\\length} & \shortstack{Mean test\\pattern length} & \shortstack{Test has\\\texttt{\_} (\%)} \\
+\midrule
+AUTHOR & 111,162 & 13.9 & 74,336 & 9,366 & 9,355 & 7,946 & 9.37 & 12.44 & 61.20 \\
+DBLP & 50,000 & 61.7 & 28,270 & 3,587 & 3,596 & 3,141 & 9.03 & 30.79 & 60.97 \\
+IMDB & 1,000,000 & 19.2 & 508,613 & 67,161 & 72,423 & 56,656 & 9.09 & 14.19 & 26.50 \\
+WIKI & 1,031,930 & 98.4 & 524,306 & 67,361 & 70,043 & 58,201 & 9.06 & 43.07 & 67.66 \\
+\bottomrule
+\end{tabular*}
+\end{table*}

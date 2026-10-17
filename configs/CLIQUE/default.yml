@@ -1,0 +1,80 @@
+# 数据集,workload名称；会读取 data/<data_name>/<data_name>.txt 以及对应训练/测试文件。
+data_name: DBLP
+
+# workload 名称；会读取 data/<data_name>/training/<workload>/ 下的数据。
+workload: SEMO
+
+# N-gram 表的最大 n；用于 CLIQUE 的上界估计，越大越精确但覆盖可能更少。
+N: 5
+
+# 静态剪枝阈值；dynamicPT=false 时使用，低频 N-gram 会被剪掉。
+PT: 20
+
+# 随机种子；控制模型初始化、训练数据打乱等随机过程。
+seed: 0
+
+# 最大训练 epoch 数；实际训练可能被 patience 提前停止。
+n_epoch: 400
+
+# 字符 embedding 维度。
+ch_es: 100
+
+# RNN/LSTM 隐状态维度。
+rnn_hs: 256
+
+# 预测 MLP 的隐藏层维度。
+pred_hs: 128
+
+# 测试集比例；仅在重新划分数据的流程中使用。
+p_test: 0.1
+
+# 验证集比例；仅在重新划分数据的流程中使用。
+p_val: 0.1
+
+# 训练集采样比例；1.0 表示使用全部训练数据。
+p_train: 1.0
+
+# 预测 MLP 的层数。
+n_pred_layer: 3
+
+# batch size；mono 训练中也近似控制每个 chain-aware batch 的 pattern 数。
+batch_size: 64
+
+# Adam 学习率。
+learning_rate: 1.0e-4
+
+# L2 weight decay。
+l2: 1.0e-6
+
+# early stopping 的容忍轮数；验证 q-error 连续多少轮无提升后停止。
+patience: 20
+
+# 是否使用 packed learning；训练前缀/子查询序列的多步监督。
+packed: false
+
+# 是否把上界信息作为神经网络输入特征。
+bound_in: true
+
+# packed=true 时是否对所有位置都计算 loss；false 时跳过已在表中的位置。
+pack_all: false
+
+# 是否使用动态 PT；true 时按 max_entry_ratio 控制各长度 N-gram 表大小。
+dynamicPT: true
+
+# 动态 PT 的表大小控制参数；不同数据集会在 main 脚本中被专门覆盖。
+max_entry_ratio: 3.12
+
+# 通用比例参数；部分实验/数据采样流程可能使用。
+ratio: 1.0
+
+# 是否在预测头第一层使用 BatchNorm。
+batch_norm: True
+
+# 是否启用 conditional regression header；false 时模型名会带 -T。
+crh: True
+
+# 是否只使用 N-gram 表估计，不训练神经网络模型。
+table_only: false
+
+# 结果目录标签前缀；最终会和模型名拼接到 res/<data>/<workload>/ 下。
+tag: ""

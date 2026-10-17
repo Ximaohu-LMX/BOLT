@@ -1,0 +1,8 @@
+name: bolt
+channels:
+  - conda-forge
+dependencies:
+  - python=3.9.25
+  - pip
+  - pip:
+      - -r requirements.txt

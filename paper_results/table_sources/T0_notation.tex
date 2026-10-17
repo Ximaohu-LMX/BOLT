@@ -1,0 +1,31 @@
+\begin{table}[t]
+ \centering
+ \caption{Notation.}
+ \label{tab:notation}
+ \small
+ \begin{tabular}{@{}ll@{}}
+ \toprule
+ Symbol & Meaning \\
+ \midrule
+ $\Sigma$ & literal alphabet \\
+ $q$, $\mathcal{L}(q)$ & \texttt{LIKE} pattern and its language \\
+ $s_1,\dots,s_k$ & segments of $q$ separated by \texttt{\%} \\
+ $D$, $N$ & multiset of strings and its size \\
+ $\Match_D(q)$, $c_D(q)$ & matching rows and cardinality \\
+ $q_t\preceq q_l$ & containment, $\mathcal{L}(q_t)\subseteq\mathcal{L}(q_l)$ \\
+ $S_U$, $S_L$ & upper- and lower-bound tables \\
+ $\LB(q)$, $\UB(q)$ & lower and upper cardinality bounds \\
+ $Q$, $\mathcal{Y}$ & training pool and labeled subset \\
+ $C$, $\mathcal{C}$ & degradation chain and training chain set \\
+ $\rho$ & fraction of unique training patterns labeled \\
+ $\gamma$ & fraction of chains retained for supervision \\
+ $\theta$ & model parameters \\
+ $\hat c_\theta(q)$ & predicted cardinality \\
+ $\hat r_\theta(q)$ & predicted relative position in the interval \\
+ $\lambda$ & weight of the order loss \\
+ $\tau$ & tolerance in the order penalty \\
+ $\mathcal{W}$ & test workload \\
+ $\qerr(c,\hat c)$ & Q-error \\
+ \bottomrule
+ \end{tabular}
+\end{table}

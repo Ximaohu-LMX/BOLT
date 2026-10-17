@@ -1,0 +1,12 @@
+{
+  "L": 10,
+  "N": 5,
+  "PT": 20,
+  "data_name": "AUTHOR",
+  "max_n_sample": 100,
+  "model_name": "LBS",
+  "seed": 0,
+  "tag": "",
+  "workload": "A100_CLIQUE",
+  "chain_index": null
+}

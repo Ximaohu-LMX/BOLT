@@ -1,0 +1,23 @@
+\begin{table}[!t]
+\centering
+\small
+\setlength{\tabcolsep}{1.5pt}
+\caption{Inference latency (milliseconds) and storage at A100.}
+\label{tab:inference}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}llrrrrr@{}}
+\toprule
+ & & \multicolumn{2}{c}{Latency} & \multicolumn{3}{c}{Storage (mebibytes)} \\
+\cmidrule(lr){3-4}\cmidrule(lr){5-7}
+Dataset & Method & 50th & 95th & Model & UB & LB \\
+\midrule
+AUTHOR & CLIQUE & 1.58 & 2.16 & 1.62 & 0.60 & -- \\
+AUTHOR & BOLT & 4.08 & 5.59 & 1.62 & 0.60 & 0.01 \\
+DBLP & CLIQUE & 2.39 & 5.95 & 1.62 & 0.60 & -- \\
+DBLP & BOLT & 4.49 & 10.95 & 1.62 & 0.60 & 0.01 \\
+IMDB & CLIQUE & 1.55 & 2.65 & 1.63 & 0.66 & -- \\
+IMDB & BOLT & 2.74 & 4.54 & 1.63 & 0.66 & 0.01 \\
+WIKI & CLIQUE & 2.50 & 9.49 & 3.02 & 6.38 & -- \\
+WIKI & BOLT & 4.93 & 18.10 & 3.02 & 6.38 & 0.01 \\
+\bottomrule
+\end{tabular*}
+\end{table}

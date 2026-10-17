@@ -1,0 +1,10 @@
+\begin{figure}[t]
+\centering
+\captionsetup{skip=4pt,belowskip=-10pt}
+% Crop measured PDF bottom whitespace; retain all labels and artwork.
+\includegraphics[width=\columnwidth,trim=0 12bp 0 0,clip]{figs/fig1_bimo_overview.pdf}
+\caption{Bounds and order on eight AUTHOR patterns.}
+\label{fig:motivation}
+% Source: eight nodes selected from the ten-node AUTHOR training chain 5539 (zero-based index).
+\Description{Real predictions on eight AUTHOR training patterns selected post hoc, with each pattern contained in the next, at A0 with model seed 0. True counts are 1, 1, 1, 1, 1, 2, 6, and 113. Only the first and last patterns are labeled. At the last pattern, UB+LB predicts 79.20, the unbounded model with anchor regression and order loss predicts 235.00, and BOLT predicts 103.40. Solid lines connect all eight hollow prediction markers. Dashed lines show the true counts, including the first and last training labels; these anchors have no separate markers. The solid prediction curves are not forced through their true labels. All panels share a linear viewport from -10 to 250 that contains all bounds, labels, and predictions.}
+\end{figure}

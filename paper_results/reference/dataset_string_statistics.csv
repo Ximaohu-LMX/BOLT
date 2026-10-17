@@ -1,0 +1,5 @@
+dataset,raw_path,database_rows,alphabet_size,string_length_mean,string_length_p50,string_length_p95,string_length_max,source
+AUTHOR,data/AUTHOR/AUTHOR.txt,111162,53,13.862479984167251,14.0,20.0,43,manifests/dataset_string_statistics.csv
+DBLP,data/DBLP/DBLP.txt,50000,63,61.65766,59.0,105.0,302,manifests/dataset_string_statistics.csv
+IMDB,data/IMDB/IMDB.txt,1000000,81,19.209495,17.0,36.0,278,manifests/dataset_string_statistics.csv
+WIKI,data/WIKI/WIKI.txt,1031930,3735,98.41860397507583,90.0,207.0,300,manifests/dataset_string_statistics.csv

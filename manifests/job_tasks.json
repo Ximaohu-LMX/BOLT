@@ -1,0 +1,322 @@
+[
+  {
+    "id": "link_type.link_A100_CLIQUE_S0",
+    "dataset": "link_type.link",
+    "budget": "A100",
+    "method": "CLIQUE",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/link_type.link_A100_CLIQUE_S0.json",
+    "workload": "A100_CLIQUE",
+    "predictions": "artifacts/job/predictions/link_type.link_A100_CLIQUE_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/link_type.link_A100_CLIQUE_S0.pth",
+    "reference": {
+      "q_avg": 1.0229106780368333,
+      "q50": 1.0,
+      "q95": 1.10309805116575,
+      "q99": 1.13059086480995,
+      "q100": 1.137464068221,
+      "test_rows": 6
+    }
+  },
+  {
+    "id": "link_type.link_A100_BOLT_S0",
+    "dataset": "link_type.link",
+    "budget": "A100",
+    "method": "BOLT",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/link_type.link_A100_BOLT_S0.json",
+    "workload": "A100_BIMO",
+    "predictions": "artifacts/job/predictions/link_type.link_A100_BOLT_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/link_type.link_A100_BOLT_S0.pth",
+    "reference": {
+      "q_avg": 1.0,
+      "q50": 1.0,
+      "q95": 1.0,
+      "q99": 1.0,
+      "q100": 1.0,
+      "test_rows": 6
+    }
+  },
+  {
+    "id": "link_type.link_A0_CLIQUE_S0",
+    "dataset": "link_type.link",
+    "budget": "A0",
+    "method": "CLIQUE",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/link_type.link_A0_CLIQUE_S0.json",
+    "workload": "A0_CLIQUE",
+    "predictions": "artifacts/job/predictions/link_type.link_A0_CLIQUE_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/link_type.link_A0_CLIQUE_S0.pth",
+    "reference": {
+      "q_avg": 1.0465404344175704,
+      "q50": 1.0,
+      "q95": 1.2094319548790666,
+      "q99": 1.265280476180151,
+      "q100": 1.279242606505422,
+      "test_rows": 6
+    }
+  },
+  {
+    "id": "link_type.link_A0_BOLT_S0",
+    "dataset": "link_type.link",
+    "budget": "A0",
+    "method": "BOLT",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/link_type.link_A0_BOLT_S0.json",
+    "workload": "A0_BIMO",
+    "predictions": "artifacts/job/predictions/link_type.link_A0_BOLT_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/link_type.link_A0_BOLT_S0.pth",
+    "reference": {
+      "q_avg": 1.0,
+      "q50": 1.0,
+      "q95": 1.0,
+      "q99": 1.0,
+      "q100": 1.0,
+      "test_rows": 6
+    }
+  },
+  {
+    "id": "movie_companies.note_A100_CLIQUE_S0",
+    "dataset": "movie_companies.note",
+    "budget": "A100",
+    "method": "CLIQUE",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/movie_companies.note_A100_CLIQUE_S0.json",
+    "workload": "A100_CLIQUE",
+    "predictions": "artifacts/job/predictions/movie_companies.note_A100_CLIQUE_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/movie_companies.note_A100_CLIQUE_S0.pth",
+    "reference": {
+      "q_avg": 6.930503182059922,
+      "q50": 1.002349756852202,
+      "q95": 37.11212195381489,
+      "q99": 55.99096333007815,
+      "q100": 60.71067367414398,
+      "test_rows": 15
+    }
+  },
+  {
+    "id": "movie_companies.note_A100_BOLT_S0",
+    "dataset": "movie_companies.note",
+    "budget": "A100",
+    "method": "BOLT",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/movie_companies.note_A100_BOLT_S0.json",
+    "workload": "A100_BIMO",
+    "predictions": "artifacts/job/predictions/movie_companies.note_A100_BOLT_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/movie_companies.note_A100_BOLT_S0.pth",
+    "reference": {
+      "q_avg": 4.413378646410153,
+      "q50": 1.0027384402281883,
+      "q95": 16.34877633496506,
+      "q99": 44.869755266992996,
+      "q100": 52.0,
+      "test_rows": 15
+    }
+  },
+  {
+    "id": "movie_companies.note_A0_CLIQUE_S0",
+    "dataset": "movie_companies.note",
+    "budget": "A0",
+    "method": "CLIQUE",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/movie_companies.note_A0_CLIQUE_S0.json",
+    "workload": "A0_CLIQUE",
+    "predictions": "artifacts/job/predictions/movie_companies.note_A0_CLIQUE_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/movie_companies.note_A0_CLIQUE_S0.pth",
+    "reference": {
+      "q_avg": 12.327071563641278,
+      "q50": 3.438169353867898,
+      "q95": 52.50453352956829,
+      "q99": 94.8816312875338,
+      "q100": 105.47590572702522,
+      "test_rows": 15
+    }
+  },
+  {
+    "id": "movie_companies.note_A0_BOLT_S0",
+    "dataset": "movie_companies.note",
+    "budget": "A0",
+    "method": "BOLT",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/movie_companies.note_A0_BOLT_S0.json",
+    "workload": "A0_BIMO",
+    "predictions": "artifacts/job/predictions/movie_companies.note_A0_BOLT_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/movie_companies.note_A0_BOLT_S0.pth",
+    "reference": {
+      "q_avg": 4.707720210417004,
+      "q50": 1.005953017979452,
+      "q95": 18.0316181373302,
+      "q99": 45.20632362746602,
+      "q100": 52.0,
+      "test_rows": 15
+    }
+  },
+  {
+    "id": "title.title_A100_CLIQUE_S0",
+    "dataset": "title.title",
+    "budget": "A100",
+    "method": "CLIQUE",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/title.title_A100_CLIQUE_S0.json",
+    "workload": "A100_CLIQUE",
+    "predictions": "artifacts/job/predictions/title.title_A100_CLIQUE_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/title.title_A100_CLIQUE_S0.pth",
+    "reference": {
+      "q_avg": 23.714412805580732,
+      "q50": 11.82683857142857,
+      "q95": 73.31963729969314,
+      "q99": 167.3241465793964,
+      "q100": 190.8252738993221,
+      "test_rows": 19
+    }
+  },
+  {
+    "id": "title.title_A100_BOLT_S0",
+    "dataset": "title.title",
+    "budget": "A100",
+    "method": "BOLT",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/title.title_A100_BOLT_S0.json",
+    "workload": "A100_BIMO",
+    "predictions": "artifacts/job/predictions/title.title_A100_BOLT_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/title.title_A100_BOLT_S0.pth",
+    "reference": {
+      "q_avg": 30.0160827540844,
+      "q50": 6.779759571428571,
+      "q95": 110.7483820964925,
+      "q99": 249.34967641929865,
+      "q100": 284.0,
+      "test_rows": 19
+    }
+  },
+  {
+    "id": "title.title_A0_CLIQUE_S0",
+    "dataset": "title.title",
+    "budget": "A0",
+    "method": "CLIQUE",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/title.title_A0_CLIQUE_S0.json",
+    "workload": "A0_CLIQUE",
+    "predictions": "artifacts/job/predictions/title.title_A0_CLIQUE_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/title.title_A0_CLIQUE_S0.pth",
+    "reference": {
+      "q_avg": 65.25917050195574,
+      "q50": 13.162761250684788,
+      "q95": 286.6401177366477,
+      "q99": 636.6297835473299,
+      "q100": 724.1272,
+      "test_rows": 19
+    }
+  },
+  {
+    "id": "title.title_A0_BOLT_S0",
+    "dataset": "title.title",
+    "budget": "A0",
+    "method": "BOLT",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/title.title_A0_BOLT_S0.json",
+    "workload": "A0_BIMO",
+    "predictions": "artifacts/job/predictions/title.title_A0_BOLT_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/title.title_A0_BOLT_S0.pth",
+    "reference": {
+      "q_avg": 42.15955513564094,
+      "q50": 13.465054961832061,
+      "q95": 228.19999999999987,
+      "q99": 272.84000000000003,
+      "q100": 284.0,
+      "test_rows": 19
+    }
+  },
+  {
+    "id": "name.name_A100_CLIQUE_S0",
+    "dataset": "name.name",
+    "budget": "A100",
+    "method": "CLIQUE",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/name.name_A100_CLIQUE_S0.json",
+    "workload": "A100_CLIQUE",
+    "predictions": "artifacts/job/predictions/name.name_A100_CLIQUE_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/name.name_A100_CLIQUE_S0.pth",
+    "reference": {
+      "q_avg": 1.9435406813004574,
+      "q50": 1.0,
+      "q95": 6.372616544960507,
+      "q99": 7.62252638572433,
+      "q100": 7.935003845915289,
+      "test_rows": 13
+    }
+  },
+  {
+    "id": "name.name_A100_BOLT_S0",
+    "dataset": "name.name",
+    "budget": "A100",
+    "method": "BOLT",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/name.name_A100_BOLT_S0.json",
+    "workload": "A100_BIMO",
+    "predictions": "artifacts/job/predictions/name.name_A100_BOLT_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/name.name_A100_BOLT_S0.pth",
+    "reference": {
+      "q_avg": 1.1911379564209033,
+      "q50": 1.0,
+      "q95": 2.183310598932842,
+      "q99": 2.403283317652254,
+      "q100": 2.458276497332107,
+      "test_rows": 13
+    }
+  },
+  {
+    "id": "name.name_A0_CLIQUE_S0",
+    "dataset": "name.name",
+    "budget": "A0",
+    "method": "CLIQUE",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/name.name_A0_CLIQUE_S0.json",
+    "workload": "A0_CLIQUE",
+    "predictions": "artifacts/job/predictions/name.name_A0_CLIQUE_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/name.name_A0_CLIQUE_S0.pth",
+    "reference": {
+      "q_avg": 7.186702291778674,
+      "q50": 1.0,
+      "q95": 33.535168267966384,
+      "q99": 69.22394039187448,
+      "q100": 78.14613342285156,
+      "test_rows": 13
+    }
+  },
+  {
+    "id": "name.name_A0_BOLT_S0",
+    "dataset": "name.name",
+    "budget": "A0",
+    "method": "BOLT",
+    "seed": 0,
+    "suite": "job",
+    "config": "configs/runs/name.name_A0_BOLT_S0.json",
+    "workload": "A0_BIMO",
+    "predictions": "artifacts/job/predictions/name.name_A0_BOLT_S0.csv",
+    "checkpoint": "artifacts/job/checkpoints/name.name_A0_BOLT_S0.pth",
+    "reference": {
+      "q_avg": 1.239294199700276,
+      "q50": 1.0,
+      "q95": 2.380255105973249,
+      "q99": 3.197554484140416,
+      "q100": 3.4018793286822095,
+      "test_rows": 13
+    }
+  }
+]

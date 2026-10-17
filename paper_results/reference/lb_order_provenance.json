@@ -1,0 +1,23 @@
+{
+  "run": "research-archive/logs/lb_order/lb_order_seed0_20261013_v2",
+  "contract_sha256": "bfa7dd85bc271b99be2aef605aa14d18ac3eb11a31e4843afd13e94a734e4f11",
+  "verified_tasks": [
+    "AUTHOR_A0_LB_ORDER_S0",
+    "AUTHOR_A10_LB_ORDER_S0",
+    "AUTHOR_A100_LB_ORDER_S0",
+    "DBLP_A0_LB_ORDER_S0",
+    "DBLP_A10_LB_ORDER_S0",
+    "DBLP_A100_LB_ORDER_S0",
+    "IMDB_A0_LB_ORDER_S0",
+    "IMDB_A10_LB_ORDER_S0",
+    "IMDB_A100_LB_ORDER_S0",
+    "WIKI_A0_LB_ORDER_S0",
+    "WIKI_A10_LB_ORDER_S0",
+    "WIKI_A100_LB_ORDER_S0"
+  ],
+  "timing_usable": false,
+  "seed": 0,
+  "WIKI_test_queries": 70043,
+  "WIKI_pairs": 62476,
+  "comparison": "paired complete UB-removal control; not an isolated UB input feature intervention"
+}

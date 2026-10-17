@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "Please cite the accompanying BOLT paper when using this research artifact."
+title: "BOLT: Label-Efficient LIKE Cardinality Estimation"
+type: software
+version: paper-v1.0
+authors:
+  - family-names: "BOLT contributors"
+repository-code: "https://github.com/Ximaohu-LMX/BOLT"
+url: "https://github.com/Ximaohu-LMX/BOLT"

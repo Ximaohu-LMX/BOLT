@@ -1,0 +1,15 @@
+{
+  "title": "BOLT: Label-Efficient LIKE Cardinality Estimation",
+  "submission_files": {
+    "main": {
+      "filename": "main.pdf",
+      "sha256": "7268c2154bb6406b4ceaeecfbd3c747c376fe77dec2fa413971eb7cbd9d04959",
+      "bytes": 1029283
+    },
+    "supplement": {
+      "filename": "supplement.pdf",
+      "sha256": "58296cae3f95ffb8774845496f9f56c5e9c07d6c82139e462a5aa6d20fd09bba",
+      "bytes": 434168
+    }
+  }
+}

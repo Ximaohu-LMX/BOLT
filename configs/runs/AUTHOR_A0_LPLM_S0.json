@@ -1,0 +1,16 @@
+{
+  "batch_size": 128,
+  "data_name": "AUTHOR",
+  "hidden_dim": 396,
+  "lr": 0.0001,
+  "model_name": "LPLM",
+  "n_epoch": 1000,
+  "p_test": 0.1,
+  "p_train": 1.0,
+  "p_valid": 0.1,
+  "patience": 20,
+  "seed": 0,
+  "tag": "",
+  "workload": "A0_CLIQUE",
+  "chain_index": null
+}

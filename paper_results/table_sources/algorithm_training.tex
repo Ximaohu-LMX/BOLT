@@ -1,0 +1,24 @@
+\begin{algorithm}[t]
+\caption{BOLT training}
+\label{alg:training}
+\begin{algorithmic}[1]
+\Require chains $\mathcal{C}$; counts $\{c_D(q):q\in\mathcal{Y}\}$;
+  tables $S_U,S_L$; chain fraction $\gamma$; validation set
+\State Select a fraction $\gamma$ of $\mathcal{C}$ as $\mathcal{C}_\gamma$
+\State Form training collection $\mathcal{T}$ from $\mathcal{C}_\gamma$ and
+  all labeled occurrences on the remaining chains as edge-free examples
+\State Initialize model parameters $\theta$
+\For{each epoch}
+  \For{each batch $B$ from $\mathcal{T}$, with labeled occurrences $B_L$ and edges $B_E$}
+    \State Predict all batch nodes using $S_U,S_L$ and the bounded model
+      in Eq.~\eqref{eq:interval}
+    \State $\mathcal{L}\gets\mathcal{L}_{\mathrm{sup}}(B_L)
+      +\lambda\,\mathcal{L}_{\mathrm{order}}(B_E)$
+    \State Update $\theta$ by a gradient step on $\mathcal{L}$
+  \EndFor
+  \State Retain the best checkpoint $\theta^*$ by validation Q-error
+  \State Stop if the early-stopping patience is exhausted
+\EndFor
+\State \Return $\theta^*$ with $S_U,S_L$
+\end{algorithmic}
+\end{algorithm}

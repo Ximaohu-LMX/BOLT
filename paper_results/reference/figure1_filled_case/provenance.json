@@ -1,0 +1,76 @@
+{
+  "dataset": "AUTHOR",
+  "budget": "A0",
+  "seed": 0,
+  "anchors": [
+    0,
+    7
+  ],
+  "chain_index_zero_based": 5539,
+  "source_chain_id": 5580,
+  "original_chain_length": 10,
+  "positions": [
+    0,
+    1,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "nodes_sha256": "912389528a0cebc732bf12e27643371d2722d80f99f11328c75263051eca54dc",
+  "audit_sha256": "d6ab879560fc7434710417c9514378164b1866f079ecd0f75784f415083c907c",
+  "audit": "paper_v3/results/figure1_subsequence_search/audit.json",
+  "exact_counts_recomputed": true,
+  "matching_set_containment_verified": true,
+  "training_performed": false,
+  "model_predictions_adjusted": false,
+  "selection": "Post-hoc illustrative selection for pairwise visual separation; not representative evidence.",
+  "category": "bolt_better",
+  "metrics": {
+    "BOUND": {
+      "mean_q_error": 3.9012113121536958,
+      "mae": 13.872024461627007,
+      "strict_inversions": 3,
+      "tolerant_inversions": 2
+    },
+    "NO_BOUND_MONO": {
+      "mean_q_error": 2.4517593793704124,
+      "mae": 19.582389500386277,
+      "strict_inversions": 2,
+      "tolerant_inversions": 1
+    },
+    "BIMO": {
+      "mean_q_error": 1.7967249999497332,
+      "mae": 3.1994022130966187,
+      "strict_inversions": 1,
+      "tolerant_inversions": 0
+    }
+  },
+  "score": 0.19642680662941198,
+  "gaps_fraction": {
+    "BOUND_NO_BOUND_MONO": 0.4721377167194836,
+    "BOUND_BIMO": 0.13910916646321614,
+    "NO_BOUND_MONO_BIMO": 0.3988038377688444
+  },
+  "renderer_sha256": "ab56568b03b5c69c8cb9be11f2581f729479ef1fcb491f7661e73bfdb67a2348",
+  "plot": {
+    "y_limits": [
+      -10,
+      250
+    ],
+    "y_ticks": [
+      0,
+      50,
+      100,
+      150,
+      200,
+      250
+    ],
+    "scale": "linear"
+  },
+  "selected_from": "paper_v3/results/figure1_ten_chains/candidate_figures.pdf, page 1",
+  "selection_reason": "User selected the first case in PDF1 (chain 5539).",
+  "prediction_markers": "Hollow circles on all predictions; dashed true counts; endpoint supervision described in caption."
+}

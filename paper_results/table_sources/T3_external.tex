@@ -1,0 +1,62 @@
+\begin{table*}[t]
+\centering\small
+\renewcommand{\arraystretch}{1.12}
+\newcommand{\externalcolwidth}{\dimexpr(\textwidth-24\tabcolsep-13\arrayrulewidth)/12\relax}
+\caption{Q-error of all estimators at A100 and A0 (best in bold).}
+\label{tab:external-accuracy}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}|>{\centering\arraybackslash}p{\externalcolwidth}|>{\raggedright\arraybackslash}p{\externalcolwidth}|*{10}{>{\raggedleft\arraybackslash}p{\externalcolwidth}|}}
+\hline
+\multirow{2}{\externalcolwidth}{\centering\paperadd{Setting}} & \multirow{2}{\externalcolwidth}{\raggedright\paperadd{Method}} & \multicolumn{5}{c|}{\paperadd{AUTHOR}} & \multicolumn{5}{c|}{\paperadd{DBLP}} \\
+\cline{3-12}
+ & & Mean & q50 & q95 & q99 & Max & Mean & q50 & q95 & q99 & Max \\
+\hline
+\multirow{5}{*}{\textbf{A100}} & BOLT & \textbf{1.96} & 1.49 & \textbf{4.58} & \textbf{8.55} & \textbf{45.46} & \textbf{1.95} & 1.03 & \textbf{4.48} & \textbf{12.63} & 237.46 \\
+\cline{2-12}
+ & CLIQUE & 2.22 & \textbf{1.45} & 5.78 & 11.79 & 123.51 & 2.05 & \textbf{1.00} & 4.98 & 16.29 & 333.55 \\
+\cline{2-12}
+ & DREAM & 2.33 & 1.54 & 5.92 & 14.03 & 71.34 & 2.48 & 1.05 & 6.98 & 20.85 & \textbf{206.46} \\
+\cline{2-12}
+ & LPLM & 5.34 & 3.28 & 14.98 & 40.11 & 527.79 & 8.43 & 3.70 & 22.59 & 73.57 & 1191.04 \\
+\cline{2-12}
+ & LBS & 24.34 & 1.71 & 87.09 & 440.34 & 3658.00 & 32.60 & \textbf{1.00} & 155.00 & 591.00 & 2394.00 \\
+\hline
+\multirow{5}{*}{\textbf{A0}} & BOLT & \textbf{2.23} & 1.67 & \textbf{4.72} & \textbf{12.98} & \textbf{120.52} & \textbf{2.80} & 1.53 & \textbf{7.64} & \textbf{21.79} & \textbf{209.16} \\
+\cline{2-12}
+ & CLIQUE & 5.91 & 1.97 & 17.41 & 68.86 & 1177.17 & 4.77 & 1.60 & 15.74 & 59.68 & 803.07 \\
+\cline{2-12}
+ & DREAM & 3.80 & \textbf{1.57} & 11.77 & 40.31 & 227.36 & 29.83 & 24.29 & 49.56 & 270.69 & 914.17 \\
+\cline{2-12}
+ & LPLM & 7.31 & 3.60 & 25.07 & 57.34 & 563.38 & 8.31 & \textbf{1.00} & 26.39 & 142.01 & 1142.00 \\
+\cline{2-12}
+ & LBS & 24.34 & 1.71 & 87.09 & 440.34 & 3658.00 & 32.60 & \textbf{1.00} & 155.00 & 591.00 & 2394.00 \\
+\hline
+\end{tabular*}
+\par\smallskip
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}|>{\centering\arraybackslash}p{\externalcolwidth}|>{\raggedright\arraybackslash}p{\externalcolwidth}|*{10}{>{\raggedleft\arraybackslash}p{\externalcolwidth}|}}
+\hline
+\multirow{2}{\externalcolwidth}{\centering\paperadd{Setting}} & \multirow{2}{\externalcolwidth}{\raggedright\paperadd{Method}} & \multicolumn{5}{c|}{\paperadd{IMDB}} & \multicolumn{5}{c|}{\paperadd{WIKI}} \\
+\cline{3-12}
+ & & Mean & q50 & q95 & q99 & Max & Mean & q50 & q95 & q99 & Max \\
+\hline
+\multirow{5}{*}{\textbf{A100}} & BOLT & \textbf{2.55} & \textbf{1.37} & \textbf{6.84} & \textbf{19.47} & \textbf{2058.15} & \textbf{1.64} & 1.05 & \textbf{3.39} & \textbf{10.47} & \textbf{377.00} \\
+\cline{2-12}
+ & CLIQUE & 2.67 & 1.38 & 6.94 & 19.76 & 6833.73 & 1.66 & \textbf{1.01} & 3.53 & 10.54 & 384.00 \\
+\cline{2-12}
+ & DREAM & 3.04 & 1.43 & 7.63 & 22.88 & 10083.61 & 2.40 & 1.05 & 5.19 & 21.71 & 1440.97 \\
+\cline{2-12}
+ & LPLM & 4.15 & 1.90 & 11.37 & 31.06 & 16439.04 & 4.86 & 1.65 & 12.06 & 41.24 & 2571.18 \\
+\cline{2-12}
+ & LBS & 64.95 & 1.64 & 232.39 & 1329.17 & 19547.00 & 208.02 & 1.10 & 708.78 & 4676.55 & 86346.00 \\
+\hline
+\multirow{5}{*}{\textbf{A0}} & BOLT & \textbf{6.22} & 1.88 & \textbf{14.87} & \textbf{84.17} & \textbf{1221.05} & \textbf{3.01} & 1.38 & \textbf{8.88} & \textbf{25.57} & \textbf{895.58} \\
+\cline{2-12}
+ & CLIQUE & 9.20 & 1.78 & 25.94 & 135.79 & 2624.45 & 9.13 & 1.76 & 29.99 & 128.35 & 3852.42 \\
+\cline{2-12}
+ & DREAM & 9.98 & 1.66 & 17.50 & 86.82 & 33641.51 & 159.27 & 1.38 & 116.88 & 1171.26 & 883228.81 \\
+\cline{2-12}
+ & LPLM & 13.31 & 3.40 & 33.21 & 105.14 & 90891.27 & 14.65 & 2.59 & 37.82 & 159.69 & 42842.77 \\
+\cline{2-12}
+ & LBS & 64.95 & \textbf{1.64} & 232.39 & 1329.17 & 19547.00 & 208.02 & \textbf{1.10} & 708.78 & 4676.55 & 86346.00 \\
+\hline
+\end{tabular*}
+\end{table*}

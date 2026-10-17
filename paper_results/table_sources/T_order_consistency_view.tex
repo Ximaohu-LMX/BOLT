@@ -1,0 +1,22 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{3pt}
+\caption{Order-consistency ratio $R_{\mathrm{int}}$ and tie ratio $R_{\mathrm{tie}}$ at A0 (\%).}
+\label{tab:order-consistency-view}
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lrrrrrrrr@{}}
+\toprule
+Method & \multicolumn{2}{c}{AUTHOR} & \multicolumn{2}{c}{DBLP} & \multicolumn{2}{c}{IMDB} & \multicolumn{2}{c}{WIKI} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}\cmidrule(lr){8-9}
+ & $R_{\mathrm{int}}$ & $R_{\mathrm{tie}}$ & $R_{\mathrm{int}}$ & $R_{\mathrm{tie}}$ & $R_{\mathrm{int}}$ & $R_{\mathrm{tie}}$ & $R_{\mathrm{int}}$ & $R_{\mathrm{tie}}$ \\
+\midrule
+UB & 82.70 & 40.10 & 91.30 & 34.81 & 95.57 & 35.56 & 91.24 & 22.51 \\
+UB+LB & 89.48 & 48.92 & 92.49 & 33.00 & 95.62 & 34.59 & 84.58 & 20.82 \\
+UB+Order & 96.25 & 57.35 & 99.59 & 41.01 & 99.33 & 36.46 & 99.65 & 34.41 \\
+LB+Order & 96.92 & 58.54 & 98.59 & 53.05 & 96.90 & 32.55 & 99.70 & 53.77 \\
+NO-BOUND & 88.28 & 44.90 & 86.99 & 34.38 & 91.36 & 40.86 & 92.56 & 52.39 \\
+BOLT & 98.07 & 64.62 & 99.25 & 38.16 & 99.33 & 36.95 & 99.40 & 35.28 \\
+BOLT ($\lambda=0$) & 78.77 & 20.86 & 93.78 & 33.50 & 93.78 & 31.54 & 95.89 & 21.14 \\
+\bottomrule
+\end{tabular*}
+\end{table*}

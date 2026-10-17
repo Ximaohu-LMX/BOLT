@@ -1,0 +1,34 @@
+% Source: results/calibration_controls_seed0.csv (verified seed-0 calibration controls).
+% Display R_int/R_tie corresponds to CSV C_int/C_tie; raw experiment identifiers retain MONO.
+\begin{table}[H]
+\centering
+\small
+\setlength{\tabcolsep}{5pt}
+\caption{Calibration controls: tail error and integer ties (model seed 0, anchor seed 0).}
+\label{tab:C_zero}
+\begin{tabular}{@{}lllrrrr@{}}
+\toprule
+Dataset & Setting & Predictor & Mean Q & q99 Q & $R_{\mathrm{int}}$ (\%) & $R_{\mathrm{tie}}$ (\%) \\
+\midrule
+AUTHOR & ZERO & ZERO-LB & 8.65 & 144.00 & 100.00 & 96.11 \\
+AUTHOR & ZERO & ZERO-MID & 8.09 & 28.78 & 99.90 & 72.53 \\
+AUTHOR & ZERO & ZERO-MID-ORDER & 9.58 & 139.48 & 99.94 & 35.65 \\
+AUTHOR & A0 & ANCHORED-MID-ORDER & 2.22 & 14.31 & 96.95 & 66.25 \\
+\midrule
+DBLP & ZERO & ZERO-LB & 223.49 & 5684.40 & 100.00 & 96.59 \\
+DBLP & ZERO & ZERO-MID & 11.63 & 43.92 & 99.97 & 59.81 \\
+DBLP & ZERO & ZERO-MID-ORDER & 12.02 & 82.60 & 97.75 & 46.76 \\
+DBLP & A0 & ANCHORED-MID-ORDER & 8.31 & 88.17 & 99.34 & 24.74 \\
+\midrule
+IMDB & ZERO & ZERO-LB & 275.88 & 5502.56 & 100.00 & 98.32 \\
+IMDB & ZERO & ZERO-MID & 20.64 & 60.94 & 99.99 & 75.04 \\
+IMDB & ZERO & ZERO-MID-ORDER & 23.86 & 105.12 & 99.98 & 74.54 \\
+IMDB & A0 & ANCHORED-MID-ORDER & 6.88 & 75.90 & 99.46 & 36.64 \\
+\midrule
+WIKI & ZERO & ZERO-LB & 8390.83 & 230389.38 & 100.00 & 97.42 \\
+WIKI & ZERO & ZERO-MID & 31.49 & 270.63 & 99.92 & 51.09 \\
+WIKI & ZERO & ZERO-MID-ORDER & 30.49 & 388.62 & 99.87 & 50.05 \\
+WIKI & A0 & ANCHORED-MID-ORDER & 3.20 & 29.35 & 99.66 & 33.57 \\
+\bottomrule
+\end{tabular}
+\end{table}

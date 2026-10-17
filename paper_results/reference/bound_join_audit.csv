@@ -1,0 +1,5 @@
+dataset,source,n,canonical_mono_sha_verified,coverage_verified,lb_coverage,caveat,evaluation_revision
+AUTHOR,logs/b_route_multiseed/b_route_multi_seed12_20260920_v1/AUTHOR_A0_MONO-LB-CLIP_S0_A0/diagnostics.csv,9355,True,True,0.05291288081239979,Saved bound diagnostics joined by query and truth; original summary fingerprints not recorded in DONE,
+DBLP,logs/b_route_multiseed/b_route_multi_seed12_20260920_v1/DBLP_A0_MONO-LB-CLIP_S0_A0/diagnostics.csv,3596,True,True,0.03726362625139043,Saved bound diagnostics joined by query and truth; original summary fingerprints not recorded in DONE,
+IMDB,logs/b_route_multiseed/b_route_multi_seed12_20260920_v1/IMDB_A0_MONO-LB-CLIP_S0_A0/diagnostics.csv,72423,True,True,0.019482761001339353,Saved bound diagnostics joined by query and truth; original summary fingerprints not recorded in DONE,
+WIKI,logs/b_route_multiseed/b_route_multi_seed12_20260920_v1/WIKI_A0_MONO-LB-CLIP_S0_A0/diagnostics.csv,70043,True,True,0.024542067015975902,Saved bound diagnostics joined by query and truth; original summary fingerprints not recorded in DONE,wiki_exclude_malformed_backslash_test_v1

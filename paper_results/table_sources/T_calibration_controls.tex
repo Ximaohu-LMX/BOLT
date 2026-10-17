@@ -1,0 +1,26 @@
+% Source: results/calibration_controls_seed0.csv (verified seed-0 calibration controls).
+% Display R_int corresponds to CSV C_int; raw experiment identifiers retain MONO.
+\begin{table}[!t]
+\centering
+\small
+\setlength{\tabcolsep}{2pt}
+\caption{Calibration controls. Cells show mean Q-error (top) and $R_{\mathrm{int}}$ (\%, bottom).}
+\label{tab:calibration-controls}
+\begin{tabular*}{\columnwidth}{@{\extracolsep{\fill}}lrrrr@{}}
+\toprule
+{}Method & AUTHOR & DBLP & IMDB & WIKI \\
+\midrule
+\multirow{2}{*}{Lower bound} & 8.65 & 223.49 & 275.88 & 8390.83 \\
+ & 100.00 & 100.00 & 100.00 & 100.00 \\
+\addlinespace[3pt]
+\multirow{2}{*}{Shifted midpoint} & 8.09 & 11.63 & 20.64 & 31.49 \\
+ & 99.90 & 99.97 & 99.99 & 99.92 \\
+\addlinespace[3pt]
+\multirow{2}{*}{Order only} & 9.58 & 12.02 & 23.86 & 30.49 \\
+ & 99.94 & 97.75 & 99.98 & 99.87 \\
+\addlinespace[3pt]
+\multirow{2}{*}{Order + endpoints} & 2.22 & 8.31 & 6.88 & 3.20 \\
+ & 96.95 & 99.34 & 99.46 & 99.66 \\
+\bottomrule
+\end{tabular*}
+\end{table}

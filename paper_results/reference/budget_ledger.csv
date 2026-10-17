@@ -1,0 +1,17 @@
+dataset,budget,train_unique,revealed_unique,rho,interior_retention,validation_labels,test_queries,seed,label_mask_id,protocol,source,evaluation_revision
+AUTHOR,A100,74336,74336,1.0,1,9366,9355,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,
+AUTHOR,A10,74336,21701,0.2919312311665949,0.1,9366,9355,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,
+AUTHOR,A1,74336,16383,0.2203911967283685,0.01,9366,9355,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,
+AUTHOR,A0,74336,15802,0.21257533362031855,0,9366,9355,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,
+DBLP,A100,28270,28270,1.0,1,3587,3596,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,
+DBLP,A10,28270,8434,0.2983374602051645,0.1,3587,3596,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,
+DBLP,A1,28270,6426,0.22730810045985142,0.01,3587,3596,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,
+DBLP,A0,28270,6206,0.21952599929253624,0,3587,3596,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,
+IMDB,A100,508613,508613,1.0,1,67161,72423,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,
+IMDB,A10,508613,147877,0.2907456160184659,0.1,67161,72423,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,
+IMDB,A1,508613,111762,0.21973877977951803,0.01,67161,72423,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,
+IMDB,A0,508613,107691,0.21173465876806138,0,67161,72423,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,
+WIKI,A100,524306,524306,1.0,1,67361,70043,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,wiki_exclude_malformed_backslash_test_v1
+WIKI,A10,524306,154747,0.29514634583621013,0.1,67361,70043,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,wiki_exclude_malformed_backslash_test_v1
+WIKI,A1,524306,117739,0.22456161096764105,0.01,67361,70043,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,wiki_exclude_malformed_backslash_test_v1
+WIKI,A0,524306,113547,0.21656627999679576,0,67361,70043,0,anchor_seed_0,fixed-seed-current,manifests/canonical_results_seed0.csv,wiki_exclude_malformed_backslash_test_v1

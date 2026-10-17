@@ -1,0 +1,21 @@
+\begin{table}[!t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Planning and execution time (seconds) on 59 JOB queries.}
+\label{tab:job-e2e}
+\begin{tabular}{@{}lrrr@{}}
+\toprule
+Configuration & Time & \shortstack{Time relative\\to PostgreSQL} & \shortstack{Plans\\changed} \\
+\midrule
+PostgreSQL   & 53.85 & 1.000 & --  \\
+TrueCard     & 54.63 & 1.014 & 25 \\
+\midrule
+CLIQUE--A100 & 53.54 & 0.994 & 27 \\
+BOLT--A100   & 56.64 & 1.052 & 25 \\
+\midrule
+CLIQUE--A0   & 53.52 & 0.994 & 29 \\
+BOLT--A0     & 53.31 & 0.990 & 27 \\
+\bottomrule
+\end{tabular}
+\end{table}
