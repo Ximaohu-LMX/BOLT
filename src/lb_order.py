@@ -4,8 +4,8 @@ The all-percent semantic lower bound remains N, as in the paired BOLT.
 All other lower bounds use exactly the inherited witness library/rules.
 """
 import torch
-from src.CLIQUE_bound_mono import CLIQUEestimator_bound_mono
-from src.CLIQUE_bound import get_bound_dl_test, _batch2cuda_bound
+from src.BOLT import BOLTEstimator
+from src.UB_LB import get_bound_dl_test, _batch2cuda_bound
 
 
 class ForbiddenUpperTable:
@@ -15,7 +15,7 @@ class ForbiddenUpperTable:
     get = __getitem__
 
 
-class LBOrderEstimator(CLIQUEestimator_bound_mono):
+class LBOrderEstimator(BOLTEstimator):
     def __init__(self):
         super().__init__()
         self.hashtable = ForbiddenUpperTable()
@@ -75,8 +75,8 @@ def make_model(cfg, chars, writer=None, model_path=None):
                      cfg['learning_rate'], cfg['l2'], cfg['n_epoch'], cfg['batch_size'],
                      cfg['patience'], True, writer, None, model_path, False, False,
                      cfg['dynamicPT'], cfg['max_entry_ratio'], cfg['batch_norm'])
-    model.lambda_mono = cfg['lambda_mono']
-    model.mono_tolerance = cfg['mono_tolerance']
+    model.lambda_order = cfg['lambda_order']
+    model.order_tolerance = cfg['order_tolerance']
     for key, value in cfg.items():
         if key.startswith('lb_'):
             setattr(model, key, value)

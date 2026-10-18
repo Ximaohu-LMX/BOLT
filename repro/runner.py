@@ -41,7 +41,7 @@ def contract(task):
     inputs = [ROOT / task["config"], ROOT / f'data/{task["dataset"]}/{task["dataset"]}.txt']
     view = ROOT / f'data/{task["dataset"]}/training/{task["workload"]}'
     inputs += [view / name for name in ("train.txt", "valid.txt", "test.txt")]
-    if task["method"] in ("BOLT", "BOLT_L0", "UB_ORDER", "LB_ORDER", "ZERO_MID_MONO", "ANCHORED_MID_MONO"):
+    if task["method"] in ("BOLT", "BOLT_L0", "UB_ORDER", "LB_ORDER", "ZERO_MID_ORDER", "ANCHORED_MID_ORDER"):
         inputs.append(view / "chain_index.json")
     if task["method"] == "LPLM":
         inputs.append(view / "train_LPLM.txt")
@@ -106,9 +106,9 @@ def run(task, force=False, epochs=None):
             command += ["--epochs", str(epochs)]
         env = dict(os.environ)
         for name in list(env):
-            if name in ("MODE", "EST", "DEBUG", "PYTHONPATH") or name.startswith(("EFFICIENCY_", "BIMO_")):
+            if name in ("MODE", "EST", "DEBUG", "PYTHONPATH") or name.startswith(("EFFICIENCY_", "BOLT_PROFILE", "BOLT_CACHE_CHAIN", "BOLT_VERIFY_CHAIN", "BOLT_EXPECTED_CHAIN")):
                 env.pop(name)
-        env.update(PYTHONHASHSEED=str(task["seed"]), PYTHONUNBUFFERED="1", SKIP_LEGACY_MONO_EVAL="1",
+        env.update(PYTHONHASHSEED=str(task["seed"]), PYTHONUNBUFFERED="1", SKIP_LEGACY_ORDER_EVAL="1",
                    OMP_NUM_THREADS=os.getenv("BOLT_THREADS", "1"), MKL_NUM_THREADS=os.getenv("BOLT_THREADS", "1"),
                    OPENBLAS_NUM_THREADS=os.getenv("BOLT_THREADS", "1"))
         # Inherited CLIQUE may rewrite a cached pickle after checking its

@@ -8,13 +8,13 @@ import yaml
 import torch
 import numpy as np
 
-from src.CLIQUE_bound import CLIQUEestimator_bound
-from src.CLIQUE_bound_mono import CLIQUEestimator_bound_mono
+from src.UB_LB import UBLBEstimator
+from src.BOLT import BOLTEstimator
 from src.util import compute_chain_mono_score, compute_mono_score, load_chain_index
 
 
 MODE_EST = str(os.getenv("MODE")).lower() == "est"
-SKIP_LEGACY_MONO_EVAL = str(os.getenv("SKIP_LEGACY_MONO_EVAL", "")).lower() in {
+SKIP_LEGACY_ORDER_EVAL = str(os.getenv("SKIP_LEGACY_ORDER_EVAL", "")).lower() in {
     "1", "true", "yes", "on",
 }
 
@@ -28,18 +28,18 @@ parser.add_argument(
     "--zero-variant",
     "--zero_variant",
     dest="zero_variant",
-    choices=["LB", "MID", "MID_MONO", "ANCHORED_MID_MONO"],
+    choices=["LB", "MID", "MID_ORDER", "ANCHORED_MID_ORDER"],
     required=True,
     help="True zero-label variant to run",
 )
 parser.add_argument(
     "--selection-policy", "--selection_policy",
-    dest="selection_policy", choices=["train_mono"], default="train_mono",
+    dest="selection_policy", choices=["train_order"], default="train_order",
     help="Checkpoint policy for trained scale-boundary controls",
 )
-parser.add_argument("--lambda_mono", type=float, default=5.0,
+parser.add_argument("--lambda_order", type=float, default=5.0,
                     help="Weight for monotonicity loss")
-parser.add_argument("--mono_tolerance", type=float, default=0.1,
+parser.add_argument("--order_tolerance", type=float, default=0.1,
                     help="Relative tolerance for monotonicity loss dead-zone")
 parser.add_argument("--chain_index", type=str, default=None,
                     help="Path to chain_index.json")
@@ -88,8 +88,8 @@ if args.data_name in rnn_hs_dict:
 
 variant = args.zero_variant
 method = (
-    "ANCHORED_MID_MONO"
-    if variant == "ANCHORED_MID_MONO"
+    "ANCHORED_MID_ORDER"
+    if variant == "ANCHORED_MID_ORDER"
     else f"ZERO_{variant}"
 )
 args.model_name = "CLIQUE"
@@ -134,12 +134,12 @@ char_dict, n_special_char, train_data, valid_data, test_data = ut.get_training_d
     data_name, workload, args.p_train
 )
 labeled_train_rows = sum(1 for _, card in train_data if card >= 0)
-if variant == "MID_MONO" and labeled_train_rows != 0:
+if variant == "MID_ORDER" and labeled_train_rows != 0:
     raise ValueError(
-        f"ZERO MID_MONO requires zero exact training labels; found {labeled_train_rows}"
+        f"ZERO MID_ORDER requires zero exact training labels; found {labeled_train_rows}"
     )
-if variant == "ANCHORED_MID_MONO" and labeled_train_rows == 0:
-    raise ValueError("ANCHORED_MID_MONO requires at least one exact training label")
+if variant == "ANCHORED_MID_ORDER" and labeled_train_rows == 0:
+    raise ValueError("ANCHORED_MID_ORDER requires at least one exact training label")
 
 
 def configure_bound_model(model):
@@ -331,7 +331,7 @@ chain_all_satisfied_t = ""
 chain_all_total_t = ""
 
 if variant in {"LB", "MID"}:
-    model = configure_bound_model(CLIQUEestimator_bound())
+    model = configure_bound_model(UBLBEstimator())
     build_time = build_count_and_lower_bound(model)
     model.record_lower_bound_coverage("train", train_data)
     model.record_lower_bound_coverage("valid", valid_data)
@@ -344,7 +344,7 @@ if variant in {"LB", "MID"}:
     count_size = size_or_zero(model.count_path)
     neural_size = 0
 
-elif variant in {"MID_MONO", "ANCHORED_MID_MONO"}:
+elif variant in {"MID_ORDER", "ANCHORED_MID_ORDER"}:
     chain_index_path = args.chain_index
     if chain_index_path is None:
         chain_index_path = f"data/{data_name}/training/{workload}/chain_index.json"
@@ -354,13 +354,13 @@ elif variant in {"MID_MONO", "ANCHORED_MID_MONO"}:
     chain_index = load_chain_index(chain_index_path)
     print(f"Loaded chain index: {len(chain_index)} chains from {chain_index_path}")
 
-    model = configure_bound_model(CLIQUEestimator_bound_mono())
-    model.lambda_mono = args.lambda_mono
-    model.mono_tolerance = args.mono_tolerance
+    model = configure_bound_model(BOLTEstimator())
+    model.lambda_order = args.lambda_order
+    model.order_tolerance = args.order_tolerance
     model.chain_index = chain_index
     # Both trained B4 rows use exactly the same target-free checkpoint rule.
     # Endpoint labels affect gradients in the anchored row, not model selection.
-    model.label_free_selection = args.selection_policy == "train_mono"
+    model.label_free_selection = args.selection_policy == "train_order"
 
     build_time = build_count_and_lower_bound(model)
     init_to_geometric_midpoint(model, train_data)
@@ -384,7 +384,7 @@ elif variant in {"MID_MONO", "ANCHORED_MID_MONO"}:
     count_size = size_or_zero(model.count_path)
     neural_size = size_or_zero(model.model_path)
 
-    if SKIP_LEGACY_MONO_EVAL:
+    if SKIP_LEGACY_ORDER_EVAL:
         print(
             "Skipping legacy generated-chain MonoM; use unified "
             "held-out-chain postprocessing."
@@ -418,7 +418,7 @@ elif variant in {"MID_MONO", "ANCHORED_MID_MONO"}:
             list(test_estimations),
             degrade_steps=3,
             seed=42,
-            tolerance=args.mono_tolerance,
+            tolerance=args.order_tolerance,
         )
         (
             chain_pair_score_t,
@@ -433,7 +433,7 @@ elif variant in {"MID_MONO", "ANCHORED_MID_MONO"}:
             max_chain_length=20,
             compress_to=10,
             seed=42,
-            tolerance=args.mono_tolerance,
+            tolerance=args.order_tolerance,
         )
         print(f"  T-MonoM score: {t_mono_score:.4f} ({t_mono_satisfied}/{t_mono_total})")
         print(f"  Chain pair MonoM-T: {chain_pair_score_t:.4f} ({chain_pair_satisfied_t}/{chain_pair_total_t})")
@@ -465,7 +465,7 @@ stat_dict.update({
     "b4_variant": method,
     "midpoint_initialization": getattr(model, 'midpoint_initialization', None),
     "best_epoch": getattr(model, 'selection_best_epoch', None),
-    "best_train_mono": getattr(model, 'selection_best_score', None),
+    "best_train_order": getattr(model, 'selection_best_score', None),
     "epochs_completed": getattr(model, 'selection_epochs_completed', None),
     "timing_usable": False,
     "actual_training_pattern_order_sha256": hashlib.sha256(
@@ -475,17 +475,17 @@ stat_dict.update({
     "train_labeled": int(labeled_train_rows),
     "train_unlabeled": int(len(train_data) - labeled_train_rows),
     "initialization_policy": (
-        "geometric_log_midpoint" if "MID_MONO" in variant else "static"
+        "geometric_log_midpoint" if "MID_ORDER" in variant else "static"
     ),
     "checkpoint_selection": (
-        args.selection_policy if "MID_MONO" in variant else "not_applicable"
+        args.selection_policy if "MID_ORDER" in variant else "not_applicable"
     ),
     "exact_validation_targets_used_for_selection": False,
 })
 with open(stat_path, "w") as f:
     yaml.safe_dump(stat_dict, f)
 
-if variant in {"MID_MONO", "ANCHORED_MID_MONO"} and not SKIP_LEGACY_MONO_EVAL:
+if variant in {"MID_ORDER", "ANCHORED_MID_ORDER"} and not SKIP_LEGACY_ORDER_EVAL:
     with open(stat_path) as f:
         stat_dict = yaml.safe_load(f)
     stat_dict["mono_score"] = float(mono_score)
@@ -526,9 +526,9 @@ ut.append_experiment_summary(
     neural_size=neural_size,
     stat_path=stat_path,
     est_path=est_path,
-    lambda_mono=(
-        args.lambda_mono
-        if variant in {"MID_MONO", "ANCHORED_MID_MONO"}
+    lambda_order=(
+        args.lambda_order
+        if variant in {"MID_ORDER", "ANCHORED_MID_ORDER"}
         else ""
     ),
     lb_min_substr_len=args.lb_min_substr_len,

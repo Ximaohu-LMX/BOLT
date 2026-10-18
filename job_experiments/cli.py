@@ -153,13 +153,13 @@ def assemble(args):
             summary[col] = {}
             for budget, view in views.items():
                 summary[col][budget] = {k:view[k] for k in ('label_count','unique_train','realized_rate')}
-                for method in ('CLIQUE', 'BIMO'):
+                for method in ('CLIQUE', 'BOLT'):
                     folder = out/col/(budget+'_'+method); folder.mkdir(parents=True)
                     for name, rows in (('train',view[method]), ('valid',view['valid']), ('test',view['test'])):
                         (folder/(name+'.txt')).write_text(''.join('%s,%d\n' % row for row in rows))
                     write_json(folder/'exact_test.json', dict(patterns=view['exact_test'],
                         reason='empty pattern bypasses encoder; shared exact empty-string summary count'))
-                    if method == 'BIMO': write_json(folder/'chain_index.json', view['chain_index'])
+                    if method == 'BOLT': write_json(folder/'chain_index.json', view['chain_index'])
                     write_json(folder/'sample_info.json', dict(protocol=cfg['protocol'], column=col,
                         budget=budget, model=method, seed=cfg['seed'], **summary[col][budget]))
         seal(out, 'VIEWS.json', dict(status='DATA_READY', prepared_path=str(prepared),

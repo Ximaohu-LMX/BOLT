@@ -1,10 +1,10 @@
 import math
 import unittest
 import torch
-from src.no_bound_mono import chain_batches, objective
+from src.no_bound_order import chain_batches, objective
 
 
-class NoBoundMonoTests(unittest.TestCase):
+class NoBoundOrderTests(unittest.TestCase):
     def test_batches_no_cross_chain_edges_and_no_restored_percent(self):
         rows = [('a', 1), ('a%', -1), ('b', 2), ('%', -1)]
         chains = [dict(patterns=['a', 'a%']), dict(patterns=['b', '%'])]

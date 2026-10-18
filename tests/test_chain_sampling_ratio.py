@@ -1,6 +1,6 @@
 import pytest
 
-from src.CLIQUE_bound_mono import _append_final_chain_batch
+from src.BOLT import _append_final_chain_batch
 from src.util import sample_chain_index_preserve_labeled
 
 

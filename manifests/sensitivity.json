@@ -5,12 +5,12 @@
     "budget": "A1",
     "gamma": 0.0,
     "predictions": "artifacts/sensitivity/AUTHOR_A1_G0p0_S0.csv.gz",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "reference": {
       "q_avg": 2.1785508727821368,
       "q99": 12.075760974551278
     },
-    "source_prediction": "res/AUTHOR/A1_BOUND/estimation/CLIQUE-BOUND/0/estimation.csv",
+    "source_prediction": "res/AUTHOR/A1_UB_LB/estimation/UB_LB/0/estimation.csv",
     "source_sha256": "7d04a1344122ec09fe0d25553ae4832053c20546b862f6ebb30985a0dbf351bc"
   },
   {
@@ -19,12 +19,12 @@
     "budget": "A1",
     "gamma": 0.25,
     "predictions": "artifacts/sensitivity/AUTHOR_A1_G0p25_S0.csv.gz",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "reference": {
       "q_avg": 2.1428657226054773,
       "q99": 11.611142997947889
     },
-    "source_prediction": "res/AUTHOR/A1_BIMO/estimation/RQ3_RATIO_R025_C14e698e/CLIQUE-BOUND-MONO/0/estimation.csv",
+    "source_prediction": "res/AUTHOR/A1_BOLT/estimation/RQ3_RATIO_R025_C14e698e/BOLT/0/estimation.csv",
     "source_sha256": "81b671e745c5b2050359118992d2d41d6c594b12c6656fbbab5f35df93a55d3e"
   },
   {
@@ -33,12 +33,12 @@
     "budget": "A1",
     "gamma": 0.5,
     "predictions": "artifacts/sensitivity/AUTHOR_A1_G0p5_S0.csv.gz",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "reference": {
       "q_avg": 2.1479311030993467,
       "q99": 12.318870436193766
     },
-    "source_prediction": "res/AUTHOR/A1_BIMO/estimation/RQ3_RATIO_R050_C14e698e/CLIQUE-BOUND-MONO/0/estimation.csv",
+    "source_prediction": "res/AUTHOR/A1_BOLT/estimation/RQ3_RATIO_R050_C14e698e/BOLT/0/estimation.csv",
     "source_sha256": "6ce189858d304c66a69cf30f53d5cf0db2d576f1b0bef952e7c0d511c52b1012"
   },
   {
@@ -47,12 +47,12 @@
     "budget": "A1",
     "gamma": 1.0,
     "predictions": "artifacts/sensitivity/AUTHOR_A1_G1p0_S0.csv.gz",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "reference": {
       "q_avg": 2.1637188770975584,
       "q99": 11.425973420259607
     },
-    "source_prediction": "res/AUTHOR/A1_BIMO/estimation/CLIQUE-BOUND-MONO/0/estimation.csv",
+    "source_prediction": "res/AUTHOR/A1_BOLT/estimation/BOLT/0/estimation.csv",
     "source_sha256": "0646badf1f043b13982bbb1a1d1176ecfce413c356e7b9e47ce4d3820bdf4002"
   },
   {
@@ -61,12 +61,12 @@
     "budget": "A1",
     "gamma": 0.0,
     "predictions": "artifacts/sensitivity/DBLP_A1_G0p0_S0.csv.gz",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "reference": {
       "q_avg": 3.150433685457877,
       "q99": 36.95701661987645
     },
-    "source_prediction": "res/DBLP/A1_BOUND/estimation/CLIQUE-BOUND/0/estimation.csv",
+    "source_prediction": "res/DBLP/A1_UB_LB/estimation/UB_LB/0/estimation.csv",
     "source_sha256": "54796e6d8d6bb6f0f75388dd0b16de17a12cca59825bf1743f99b0ccb80ecf84"
   },
   {
@@ -75,12 +75,12 @@
     "budget": "A1",
     "gamma": 0.25,
     "predictions": "artifacts/sensitivity/DBLP_A1_G0p25_S0.csv.gz",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "reference": {
       "q_avg": 2.459534154038737,
       "q99": 17.668512987638874
     },
-    "source_prediction": "res/DBLP/A1_BIMO/estimation/RQ3_RATIO_R025_C14e698e/CLIQUE-BOUND-MONO/0/estimation.csv",
+    "source_prediction": "res/DBLP/A1_BOLT/estimation/RQ3_RATIO_R025_C14e698e/BOLT/0/estimation.csv",
     "source_sha256": "ccb53db41db633ecd619eec47d1e6bc349f01bcbae1e525c2e612ccd4b4754f7"
   },
   {
@@ -89,12 +89,12 @@
     "budget": "A1",
     "gamma": 0.5,
     "predictions": "artifacts/sensitivity/DBLP_A1_G0p5_S0.csv.gz",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "reference": {
       "q_avg": 2.4595899606281884,
       "q99": 20.90491943169742
     },
-    "source_prediction": "res/DBLP/A1_BIMO/estimation/RQ3_RATIO_R050_C14e698e/CLIQUE-BOUND-MONO/0/estimation.csv",
+    "source_prediction": "res/DBLP/A1_BOLT/estimation/RQ3_RATIO_R050_C14e698e/BOLT/0/estimation.csv",
     "source_sha256": "9b81cdd934410433eeac16d30602f53f5a076531cd858ad0dfe69d0fa2a07aa1"
   },
   {
@@ -103,12 +103,12 @@
     "budget": "A1",
     "gamma": 1.0,
     "predictions": "artifacts/sensitivity/DBLP_A1_G1p0_S0.csv.gz",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "reference": {
       "q_avg": 2.4893049865917574,
       "q99": 20.956453117602933
     },
-    "source_prediction": "res/DBLP/A1_BIMO/estimation/CLIQUE-BOUND-MONO/0/estimation.csv",
+    "source_prediction": "res/DBLP/A1_BOLT/estimation/BOLT/0/estimation.csv",
     "source_sha256": "5491e8c0061460a3708d607e11949adc2b06f1243af767abf43d24c4e8f401b5"
   },
   {
@@ -117,12 +117,12 @@
     "budget": "A1",
     "gamma": 0.0,
     "predictions": "artifacts/sensitivity/WIKI_A1_G0p0_S0.csv.gz",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "reference": {
       "q_avg": 2.30462614188003,
       "q99": 22.33958416273199
     },
-    "source_prediction": "res/WIKI/A1_BOUND/estimation/CLIQUE-BOUND/0/estimation.csv",
+    "source_prediction": "res/WIKI/A1_UB_LB/estimation/UB_LB/0/estimation.csv",
     "source_sha256": "6d6238874fe9478b955b169b11f81016695e2749f911518a9c3dc92c5b38466e"
   },
   {
@@ -131,12 +131,12 @@
     "budget": "A1",
     "gamma": 0.25,
     "predictions": "artifacts/sensitivity/WIKI_A1_G0p25_S0.csv.gz",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "reference": {
       "q_avg": 2.1208530565781007,
       "q99": 16.6758228302002
     },
-    "source_prediction": "res/WIKI/A1_BIMO/estimation/RQ3_RATIO_R025_C14e698e/CLIQUE-BOUND-MONO/0/estimation.csv",
+    "source_prediction": "res/WIKI/A1_BOLT/estimation/RQ3_RATIO_R025_C14e698e/BOLT/0/estimation.csv",
     "source_sha256": "c00f23569384ff5c02674741ec9c70ed32b154fa679a7384fa7f4301d7e7a46f"
   },
   {
@@ -145,12 +145,12 @@
     "budget": "A1",
     "gamma": 0.5,
     "predictions": "artifacts/sensitivity/WIKI_A1_G0p5_S0.csv.gz",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "reference": {
       "q_avg": 2.0876439917481715,
       "q99": 17.254052898158346
     },
-    "source_prediction": "res/WIKI/A1_BIMO/estimation/RQ3_RATIO_R050_C14e698e/CLIQUE-BOUND-MONO/0/estimation.csv",
+    "source_prediction": "res/WIKI/A1_BOLT/estimation/RQ3_RATIO_R050_C14e698e/BOLT/0/estimation.csv",
     "source_sha256": "e45fc0de15e7acae7af1f883414371943817fc9a7d65c3ef94e84b2c9904b55b"
   },
   {
@@ -159,12 +159,12 @@
     "budget": "A1",
     "gamma": 1.0,
     "predictions": "artifacts/sensitivity/WIKI_A1_G1p0_S0.csv.gz",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "reference": {
       "q_avg": 2.1433245905896365,
       "q99": 18.16928291396679
     },
-    "source_prediction": "res/WIKI/A1_BIMO/estimation/CLIQUE-BOUND-MONO/0/estimation.csv",
+    "source_prediction": "res/WIKI/A1_BOLT/estimation/BOLT/0/estimation.csv",
     "source_sha256": "74bce1bda74dccb5b55f4d2e7768c717756efadcbf1232ac872fbef942f53bb4"
   }
 ]

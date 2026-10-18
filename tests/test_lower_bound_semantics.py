@@ -1,6 +1,6 @@
 import unittest
 
-from src.CLIQUE_bound import CLIQUEestimator_bound
+from src.UB_LB import UBLBEstimator
 
 
 class _BoundStub:
@@ -16,7 +16,7 @@ class LowerBoundSemanticsTest(unittest.TestCase):
         self.model = _BoundStub()
 
     def effective_lb(self, query, upper_bound=None, raw_lower_bound=None):
-        return CLIQUEestimator_bound.get_effective_lower_bound_for_query(
+        return UBLBEstimator.get_effective_lower_bound_for_query(
             self.model, query, upper_bound, raw_lower_bound
         )
 

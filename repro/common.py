@@ -67,8 +67,8 @@ def tasks():
 
 
 def select_tasks(suite="all", datasets=None, budgets=None, methods=None, seed=None):
-    aliases = {"BIMO": "BOLT", "BOUND": "UB_LB", "MONO": "UB_ORDER", "UB": "CLIQUE"}
-    methods = {aliases.get(m, m) for m in methods} if methods else None
+    from .names import method_id
+    methods = {method_id(m) for m in methods} if methods else None
     return [t for t in tasks()
             if ((suite in ("all", "main") and t["suite"] != "job") or t["suite"] == suite)
             and (not datasets or t["dataset"] in datasets)

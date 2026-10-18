@@ -16,7 +16,7 @@
   "lb_top_k_substrings": 200,
   "learning_rate": 0.0001,
   "max_entry_ratio": 4.35,
-  "model_name": "CLIQUE-BOUND",
+  "model_name": "UB_LB",
   "n_epoch": 400,
   "n_pred_layer": 3,
   "p_test": 0.1,
@@ -31,6 +31,6 @@
   "seed": 0,
   "table_only": false,
   "tag": "",
-  "workload": "A100_BOUND",
+  "workload": "A100_UB_LB",
   "chain_index": null
 }

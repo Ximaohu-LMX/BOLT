@@ -7,8 +7,7 @@ from pathlib import Path
 import numpy as np
 from .common import ROOT, DATASETS, read_json, rows, write_csv, atomic_json, digest
 from .metrics import evaluate, qerrors
-
-ALIASES = {"BOLT": "BIMO", "UB_LB": "BOUND", "UB_ORDER": "MONO", "BOLT_L0": "BIMO-L0"}
+from .names import display_method
 
 
 def collect(selected, source="reference"):
@@ -38,13 +37,13 @@ def collect(selected, source="reference"):
         cfg = read_json(ROOT / task["config"])
         budget = ledger.get((task["dataset"], task["budget"]), {})
         r = dict(run_id=task["id"], dataset=task["dataset"], budget=task["budget"],
-                 method=ALIASES.get(task["method"], task["method"]), seed=str(task["seed"]),
+                 method=task["method"], method_display=display_method(task["method"]), seed=str(task["seed"]),
                  family="control" if task["method"] == "BOLT_L0" else "core",
                  **values, label_mask_id="anchor_seed_0", test_sha256=digest(ROOT / f'data/{task["dataset"]}/training/{task["workload"]}/test.txt'),
                  revealed_unique=budget.get("revealed_unique", budget.get("labels", "")),
-                 output_convention="continuous served counts", checkpoint_selection=("train_mono" if "MID_MONO" in task["method"] else "not_applicable" if task["method"] in ("ZERO_LB","ZERO_MID") else "validation_q_error"),
+                 output_convention="continuous served counts", checkpoint_selection=("train_order" if "MID_ORDER" in task["method"] else "not_applicable" if task["method"] in ("ZERO_LB","ZERO_MID") else "validation_q_error"),
                  chain_ratio=str(cfg.get("chain_sample_ratio", 1)), protocol="fixed-seed-current",
-                 lower_bound_mode="witness-library", lambda_mono=0 if task["method"] == "BOLT_L0" else cfg.get("lambda_mono", 0))
+                 lower_bound_mode="witness-library", lambda_order=0 if task["method"] == "BOLT_L0" else cfg.get("lambda_order", 0))
         records.append(r)
         paths[task["id"]] = path
         scope.append(dict(task=task["id"], prediction_sha256=digest(path)))
@@ -57,9 +56,9 @@ def collect(selected, source="reference"):
     write_csv(out / "results/run_metrics.csv", core)
     write_csv(out / "results/supplement_metrics.csv", intermediate)
     write_csv(out / "all_metrics.csv", records)
-    write_csv(out / "tables/Table05_accuracy.csv", [r for r in records if r["budget"] in ("A0", "A100") and r["method"] in ("CLIQUE", "BIMO", "LPLM", "DREAM", "LBS")])
-    write_csv(out / "tables/Table06_order.csv", [r for r in records if r["budget"] == "A0" and r["method"] in ("CLIQUE", "BOUND", "MONO", "BIMO", "LB_ORDER", "NO_BOUND", "BIMO-L0")])
-    write_csv(out / "tables/Table07_calibration.csv", [r for r in records if r["method"].startswith("ZERO_") or r["method"] == "ANCHORED_MID_MONO"])
+    write_csv(out / "tables/Table05_accuracy.csv", [r for r in records if r["budget"] in ("A0", "A100") and r["method"] in ("CLIQUE", "BOLT", "LPLM", "DREAM", "LBS")])
+    write_csv(out / "tables/Table06_order.csv", [r for r in records if r["budget"] == "A0" and r["method"] in ("CLIQUE", "UB_LB", "UB_ORDER", "BOLT", "LB_ORDER", "NO_BOUND", "BOLT_L0")])
+    write_csv(out / "tables/Table07_calibration.csv", [r for r in records if r["method"].startswith("ZERO_") or r["method"] == "ANCHORED_MID_ORDER"])
     conditional = []
     for task in selected:
         if task["budget"] != "A0" or task["method"] not in ("CLIQUE", "UB_LB", "UB_ORDER", "BOLT", "LB_ORDER"):
@@ -81,19 +80,19 @@ def collect(selected, source="reference"):
         for name, input_name in mapping.items():
             write_csv(out / "tables" / (name + ".csv"), rows(reference / (input_name + ".csv")))
     for i, ds in enumerate(DATASETS, 6):
-        write_csv(out / "tables" / f"S{i:02d}_accuracy.csv", [r for r in core if r["dataset"] == ds and r["method"] in ("NO_BOUND", "CLIQUE", "BOUND", "MONO", "BIMO")])
+        write_csv(out / "tables" / f"S{i:02d}_accuracy.csv", [r for r in core if r["dataset"] == ds and r["method"] in ("NO_BOUND", "CLIQUE", "UB_LB", "UB_ORDER", "BOLT")])
         write_csv(out / "tables" / f"S{i+4:02d}_intermediate.csv", [r for r in intermediate if r["dataset"] == ds and r["seed"] == "0"])
     write_csv(out / "tables/S14_seeds.csv", [r for r in intermediate if r["dataset"] == "IMDB"])
     write_csv(out / "tables/S20_conditional.csv", conditional)
-    write_csv(out / "tables/S22_calibration.csv", [r for r in records if r["method"].startswith("ZERO_") or r["method"] == "ANCHORED_MID_MONO"])
+    write_csv(out / "tables/S22_calibration.csv", [r for r in records if r["method"].startswith("ZERO_") or r["method"] == "ANCHORED_MID_ORDER"])
     # Diagnostics can be recalculated for any newly trained prediction set.
     for i, ds in enumerate(DATASETS, 16):
-        write_csv(out / "tables" / f"S{i:02d}_continuous_order.csv", [r for r in core if r["dataset"] == ds and r["method"] in ("NO_BOUND", "CLIQUE", "BOUND", "MONO", "BIMO")])
+        write_csv(out / "tables" / f"S{i:02d}_continuous_order.csv", [r for r in core if r["dataset"] == ds and r["method"] in ("NO_BOUND", "CLIQUE", "UB_LB", "UB_ORDER", "BOLT")])
     indexed = {(r['dataset'],r['budget'],r['method'],r['seed']):r for r in records}
     degradation = []
     for r in records:
         key=(r['dataset'],'A100',r['method'],r['seed'])
-        if r['method'] in ('CLIQUE','BIMO') and r['budget'] != 'A100' and key in indexed:
+        if r['method'] in ('CLIQUE','BOLT') and r['budget'] != 'A100' and key in indexed:
             full=indexed[key]
             degradation.append(dict(dataset=r['dataset'], method=r['method'], budget=r['budget'], seed=r['seed'], mean_factor=r['q_avg']/full['q_avg'], q99_factor=r['q99']/full['q99']))
     write_csv(out/'tables/S15_degradation.csv',degradation)

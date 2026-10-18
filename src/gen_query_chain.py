@@ -10,7 +10,7 @@ gen_query_chain.py  —  SEMO 链式查询生成器
     python gen_query_chain.py -d AUTHOR --generate --num_chains 10000 --anchor_ratio 0.5
     python calculate_cardinality.py --query_file ... --output_file ...
     python gen_query_chain.py -d AUTHOR --fill_card --dst_workload SEMO
-    python main_CLIQUE_mono.py -d AUTHOR -w SEMO --seed 0 --lambda_mono 1.0
+    python main_UB_ORDER.py -d AUTHOR -w SEMO --seed 0 --lambda_order 1.0
 
   Mode 2: --extend  基于已有 workload 扩展
     从原 workload 的 train.txt 提取查询作为链头，退化生成链数据，
@@ -34,7 +34,7 @@ gen_query_chain.py  —  SEMO 链式查询生成器
     训练时用原始数据 + 单调性约束。
 
     python gen_query_chain.py -d AUTHOR --chain_only --chain_length 3
-    python main_CLIQUE_mono.py -d AUTHOR -w CLIQUE --seed 0 --lambda_mono 1.0
+    python main_UB_ORDER.py -d AUTHOR -w CLIQUE --seed 0 --lambda_order 1.0
 
   回填基数（所有模式共用）：
     python gen_query_chain.py -d AUTHOR --fill_card --dst_workload SEMO
@@ -697,8 +697,8 @@ def generate_chain_only(
     print(f"  Overlap with train: {len(chain_set & train_set)}")
     print(f"  New patterns: {len(chain_set - train_set)} (mono loss only)")
     print(f"  Output: {chain_index_file}")
-    print(f"  Train: python main_CLIQUE_mono.py -d {data_name} -w {src_workload} "
-          f"--seed 0 --lambda_mono 1.0")
+    print(f"  Train: python main_UB_ORDER.py -d {data_name} -w {src_workload} "
+          f"--seed 0 --lambda_order 1.0")
     print(f"{'=' * 60}")
 
 
@@ -794,7 +794,7 @@ def fill_cardinality(data_name, dst_workload="SEMO", card_file=None):
         print(f"  Format verification FAILED: {e}")
 
     print(f"\nReady to train:")
-    print(f"  python main_CLIQUE_mono.py -d {data_name} -w {dst_workload} --seed 0")
+    print(f"  python main_UB_ORDER.py -d {data_name} -w {dst_workload} --seed 0")
 
 
 # =====================================================
@@ -806,7 +806,7 @@ def fill_cardinality_baseline(data_name, dst_workload="SEMO", card_file=None):
     Generate supervised baseline files from the same chain stage.
 
     This writes train.txt with only labeled anchor patterns so main_CLIQUE.py
-    can run on the same anchor sampling stage used by main_CLIQUE_mono.py.
+    can run on the same anchor sampling stage used by main_UB_ORDER.py.
     """
     dst_dir = f"data/{data_name}/training/{dst_workload}"
     if card_file is None:
@@ -973,11 +973,11 @@ def fill_cardinality_sampled_pair(data_name, src_workload="FULL",
       - chain_card.txt: full cardinalities for all chain patterns
 
     Outputs are written to:
-      - data/<data_name>/training/<dst_workload>_MONO/
+      - data/<data_name>/training/<dst_workload>_UB_ORDER/
       - data/<data_name>/training/<dst_workload>_CLIQUE/
     """
     src_dir = f"data/{data_name}/training/{src_workload}"
-    mono_workload = f"{dst_workload}_MONO"
+    mono_workload = f"{dst_workload}_UB_ORDER"
     clique_workload = f"{dst_workload}_CLIQUE"
     mono_dir = f"data/{data_name}/training/{mono_workload}"
     clique_dir = f"data/{data_name}/training/{clique_workload}"
@@ -1031,7 +1031,7 @@ def fill_cardinality_sampled_pair(data_name, src_workload="FULL",
             "is_anchor": mask,
         })
 
-    # MONO: full chains, sampled labels; unsampled chain points get card=-1.
+    # UB_ORDER: full chains, sampled labels; unsampled chain points get card=-1.
     shutil.copy2(card_file, os.path.join(mono_dir, "chain_card.txt"))
     with open(os.path.join(mono_dir, "chain_index.json"), "w", encoding="utf-8") as f:
         json.dump(sampled_chain_index, f, indent=2, ensure_ascii=False)
@@ -1042,7 +1042,7 @@ def fill_cardinality_sampled_pair(data_name, src_workload="FULL",
         for pat, card in all_data:
             f.write(f"{pat},{card}\n")
 
-    # CLIQUE: reuse MONO's labeled rows so both workloads have exactly the
+    # CLIQUE: reuse UB_ORDER's labeled rows so both workloads have exactly the
     # same unique patterns and cardinalities after duplicate aggregation.
     clique_train_path = os.path.join(clique_dir, "train.txt")
     clique_labeled_rows = [(pat, card) for pat, card in all_data if card >= 0]
@@ -1086,7 +1086,7 @@ def fill_cardinality_sampled_pair(data_name, src_workload="FULL",
         print(f"WARNING: skipped {valid_missing} valid and {test_missing} test missing patterns")
 
     print(f"\nReady to train:")
-    print(f"  python main_CLIQUE_mono.py -d {data_name} -w {mono_workload} --seed 0 --lambda_mono 1.0")
+    print(f"  python main_UB_ORDER.py -d {data_name} -w {mono_workload} --seed 0 --lambda_order 1.0")
     print(f"  python main_CLIQUE.py -d {data_name} -w {clique_workload} --seed 0")
 
 
@@ -1129,7 +1129,7 @@ Three generation modes:
     mode_group.add_argument("--fill_card_baseline", action="store_true",
                             help="Fill labeled-only train/valid/test.txt for main_CLIQUE.py baseline")
     mode_group.add_argument("--fill_card_sampled_pair", action="store_true",
-                            help="Fill sampled CLIQUE/MONO workload pair from a full-cardinality chain workload")
+                            help="Fill sampled CLIQUE/UB_ORDER workload pair from a full-cardinality chain workload")
 
     # --generate 参数
     parser.add_argument("--num_chains", type=int, default=20000)

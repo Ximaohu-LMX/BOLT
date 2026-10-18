@@ -10,18 +10,18 @@ def audit(datasets=DATASETS):
     report = []
     for dataset in datasets:
         base = ROOT / f"data/{dataset}/training"
-        pool = dict(labeled_rows(base / "A100_BIMO/train.txt"))
-        valid = dict(labeled_rows(base / "A100_BIMO/valid.txt"))
-        test = dict(labeled_rows(base / "A100_BIMO/test.txt"))
+        pool = dict(labeled_rows(base / "A100_BOLT/train.txt"))
+        valid = dict(labeled_rows(base / "A100_BOLT/valid.txt"))
+        test = dict(labeled_rows(base / "A100_BOLT/test.txt"))
         if set(pool) & set(valid) or set(pool) & set(test) or set(valid) & set(test):
             raise ValueError(f"Overlapping splits in {dataset}")
         if any(c <= 0 for c in test.values()):
             raise ValueError("The final paper test population requires positive counts")
-        chains = read_json(base / "A0_BIMO/chain_index.json")
+        chains = read_json(base / "A0_BOLT/chain_index.json")
         endpoints = {q for c in chains for q in (c["patterns"][0], c["patterns"][-1])}
         previous = set()
         for budget in ("A0", "A1", "A10", "A25", "A50", "A75", "A100"):
-            masked = dict(labeled_rows(base / f"{budget}_BIMO/train.txt"))
+            masked = dict(labeled_rows(base / f"{budget}_BOLT/train.txt"))
             supervised = dict(labeled_rows(base / f"{budget}_CLIQUE/train.txt"))
             revealed = {q: c for q, c in masked.items() if c >= 0}
             if set(masked) != set(pool) or revealed != supervised:

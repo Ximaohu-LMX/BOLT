@@ -27,7 +27,7 @@
     "seed": 0,
     "suite": "job",
     "config": "configs/runs/link_type.link_A100_BOLT_S0.json",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "predictions": "artifacts/job/predictions/link_type.link_A100_BOLT_S0.csv",
     "checkpoint": "artifacts/job/checkpoints/link_type.link_A100_BOLT_S0.pth",
     "reference": {
@@ -67,7 +67,7 @@
     "seed": 0,
     "suite": "job",
     "config": "configs/runs/link_type.link_A0_BOLT_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/job/predictions/link_type.link_A0_BOLT_S0.csv",
     "checkpoint": "artifacts/job/checkpoints/link_type.link_A0_BOLT_S0.pth",
     "reference": {
@@ -107,7 +107,7 @@
     "seed": 0,
     "suite": "job",
     "config": "configs/runs/movie_companies.note_A100_BOLT_S0.json",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "predictions": "artifacts/job/predictions/movie_companies.note_A100_BOLT_S0.csv",
     "checkpoint": "artifacts/job/checkpoints/movie_companies.note_A100_BOLT_S0.pth",
     "reference": {
@@ -147,7 +147,7 @@
     "seed": 0,
     "suite": "job",
     "config": "configs/runs/movie_companies.note_A0_BOLT_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/job/predictions/movie_companies.note_A0_BOLT_S0.csv",
     "checkpoint": "artifacts/job/checkpoints/movie_companies.note_A0_BOLT_S0.pth",
     "reference": {
@@ -187,7 +187,7 @@
     "seed": 0,
     "suite": "job",
     "config": "configs/runs/title.title_A100_BOLT_S0.json",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "predictions": "artifacts/job/predictions/title.title_A100_BOLT_S0.csv",
     "checkpoint": "artifacts/job/checkpoints/title.title_A100_BOLT_S0.pth",
     "reference": {
@@ -227,7 +227,7 @@
     "seed": 0,
     "suite": "job",
     "config": "configs/runs/title.title_A0_BOLT_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/job/predictions/title.title_A0_BOLT_S0.csv",
     "checkpoint": "artifacts/job/checkpoints/title.title_A0_BOLT_S0.pth",
     "reference": {
@@ -267,7 +267,7 @@
     "seed": 0,
     "suite": "job",
     "config": "configs/runs/name.name_A100_BOLT_S0.json",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "predictions": "artifacts/job/predictions/name.name_A100_BOLT_S0.csv",
     "checkpoint": "artifacts/job/checkpoints/name.name_A100_BOLT_S0.pth",
     "reference": {
@@ -307,7 +307,7 @@
     "seed": 0,
     "suite": "job",
     "config": "configs/runs/name.name_A0_BOLT_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/job/predictions/name.name_A0_BOLT_S0.csv",
     "checkpoint": "artifacts/job/checkpoints/name.name_A0_BOLT_S0.pth",
     "reference": {

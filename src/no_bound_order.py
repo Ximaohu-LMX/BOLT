@@ -52,13 +52,13 @@ def encode(queries, char_dict, device):
     return torch.as_tensor(padded, dtype=torch.long, device=device), lengths
 
 
-def objective(z, targets, tight, loose, supervised_weight=1., lambda_mono=5., tolerance=.1):
+def objective(z, targets, tight, loose, supervised_weight=1., lambda_order=5., tolerance=.1):
     """One forward pass; supervision uses visible targets only.
 
     log1p(served_count) == max(z, log(2)) for the inherited NO-BOUND head.
     Compute this stably without exponentiating during the monotonic loss.
     """
-    if supervised_weight < 0 or lambda_mono < 0 or tolerance < 0:
+    if supervised_weight < 0 or lambda_order < 0 or tolerance < 0:
         raise ValueError('Loss weights and tolerance must be nonnegative')
     zero = z.sum() * 0
     mask = targets >= 0
@@ -68,7 +68,7 @@ def objective(z, targets, tight, loose, supervised_weight=1., lambda_mono=5., to
         mono = F.relu(log_counts[tight] - log_counts[loose] - math.log1p(tolerance)).mean()
     else:
         mono = zero
-    return supervised_weight * sup + lambda_mono * mono, sup, mono
+    return supervised_weight * sup + lambda_order * mono, sup, mono
 
 
 def make_model(cfg, char_dict):

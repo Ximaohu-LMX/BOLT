@@ -12,7 +12,7 @@ from src.phase_timing import timer as efficiency_timer
 
 MODE_EST = str(os.getenv("MODE")).lower() == "est"
 MODE_SIZE = str(os.getenv("MODE")).lower() == "size"
-SKIP_LEGACY_MONO_EVAL = str(os.getenv("SKIP_LEGACY_MONO_EVAL", "")).lower() in {
+SKIP_LEGACY_ORDER_EVAL = str(os.getenv("SKIP_LEGACY_ORDER_EVAL", "")).lower() in {
     "1", "true", "yes", "y", "on",
 }
 
@@ -287,7 +287,7 @@ ut.save_estimator_stat(stat_path, q_errs, build_time,
 mono_score = ""
 satisfied = ""
 total = ""
-if not SKIP_LEGACY_MONO_EVAL:
+if not SKIP_LEGACY_ORDER_EVAL:
     print(f"\nComputing MonoM score...")
     model.eval()
     from src.util import compute_mono_score

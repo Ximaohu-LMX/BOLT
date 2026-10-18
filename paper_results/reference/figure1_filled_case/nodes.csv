@@ -1,4 +1,4 @@
-node,query,original_chain_position,true_count,is_training_anchor,training_target,lower_bound,upper_bound,exact_summary_hit,BOUND,NO_BOUND_MONO,BIMO
+node,query,original_chain_position,true_count,is_training_anchor,training_target,lower_bound,upper_bound,exact_summary_hit,UB_LB,NO_BOUND_ORDER,BOLT
 p1,%S%bastien Praud,0,1,True,1,0.0,97.0,False,2.2713706493377686,1.8373716574783505,1.809002161026001
 p2,%astien Praud,1,1,False,-1,0.0,97.0,False,2.1652941703796387,1.770209763437101,1.721928596496582
 p3,%t_en Prau_,4,1,False,-1,0.0,166.0,False,3.315613269805908,1.2329640761152978,1.7318981885910034

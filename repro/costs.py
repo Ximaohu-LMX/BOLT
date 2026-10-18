@@ -38,11 +38,11 @@ def load_model(task):
     import torch
     import src.util as ut
     from src.CLIQUE import CLIQUEestimator
-    from src.CLIQUE_bound_mono import CLIQUEestimator_bound_mono
+    from src.BOLT import BOLTEstimator
     c = read_json(ROOT / task["config"])
     db = ut.read_strings(str(ROOT / f'data/{task["dataset"]}/{task["dataset"]}.txt'))
     char_dict, _ = ut.gen_char_dict(db)
-    cls = CLIQUEestimator if task["method"] == "CLIQUE" else CLIQUEestimator_bound_mono
+    cls = CLIQUEestimator if task["method"] == "CLIQUE" else BOLTEstimator
     model = cls()
     count = ROOT / f'res/{task["dataset"]}/Ntable/count_N{c["N"]}_ME{c["max_entry_ratio"]}.pkl'
     checkpoint = ROOT / task["checkpoint"]
@@ -141,10 +141,10 @@ def construction(datasets, force=False, sensitivity=False):
             command = command_for(task, tag, overrides={'chain_sample_ratio': gamma})
             env = dict(os.environ)
             for key in list(env):
-                if key in ('MODE','EST','DEBUG','PYTHONPATH') or key.startswith(('EFFICIENCY_','BIMO_')):
+                if key in ('MODE','EST','DEBUG','PYTHONPATH') or key.startswith(('EFFICIENCY_','BOLT_PROFILE','BOLT_CACHE_CHAIN','BOLT_VERIFY_CHAIN','BOLT_EXPECTED_CHAIN')):
                     env.pop(key)
             phase = out / 'phases.jsonl'
-            env.update(PYTHONHASHSEED='0', PYTHONUNBUFFERED='1', SKIP_LEGACY_MONO_EVAL='1', EFFICIENCY_PROFILE='1', EFFICIENCY_TIMING_FILE=str(phase), EFFICIENCY_CACHE_ROOT=str(cache_root), OMP_NUM_THREADS='1', MKL_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1')
+            env.update(PYTHONHASHSEED='0', PYTHONUNBUFFERED='1', SKIP_LEGACY_ORDER_EVAL='1', EFFICIENCY_PROFILE='1', EFFICIENCY_TIMING_FILE=str(phase), EFFICIENCY_CACHE_ROOT=str(cache_root), OMP_NUM_THREADS='1', MKL_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1')
             atomic_json(out / 'command.json', dict(argv=command, cache_protocol=cache, gamma=gamma))
             before = time.perf_counter()
             with (out / 'train.log').open('w') as log:

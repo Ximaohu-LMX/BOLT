@@ -106,3 +106,14 @@ python -m repro.postgres stop
 ```
 
 Use a quiet machine for timing. The inherited JOB timing preflight refuses to start while a GPU experiment is active. A failed JOB timing attempt restarts as a new whole attempt; successful model training and database setup are reused.
+
+## Method labels
+
+Paper labels can be used directly in filters:
+
+```bash
+bash scripts/run_ablations.sh --dataset AUTHOR --budget A0 --method "UB+Order" "UB+LB"
+bash scripts/run_calibration.sh --dataset AUTHOR --method "Order only" "Order + endpoints"
+```
+
+Configurations and directories use `UB_ORDER`, `UB_LB`, `ZERO_MID_ORDER`, and `ANCHORED_MID_ORDER`. The BOLT implementation is `main_BOLT.py` / `src/BOLT.py`. See [all method names](docs/PROTOCOLS.md#method-names). Existing versioned archives are reused through verified extraction into these current names.

@@ -4,14 +4,14 @@ from unittest.mock import patch
 import numpy as np
 import torch
 from src.lb_order import make_model, ForbiddenUpperTable
-from src.CLIQUE_bound import CLIQUEestimator_bound
-from src.CLIQUE_bound_mono import CLIQUEestimator_bound_mono
+from src.UB_LB import UBLBEstimator
+from src.BOLT import BOLTEstimator
 from src.model import msle_loss
 from src.util import hinge_monotonicity_loss
 
 CFG=dict(N=5,PT=20,seed=0,ch_es=4,rnn_hs=8,pred_hs=4,n_pred_layer=2,
  learning_rate=.001,l2=.000001,n_epoch=1,batch_size=8,patience=2,dynamicPT=True,
- max_entry_ratio=4.8,batch_norm=False,lambda_mono=5.,mono_tolerance=.1)
+ max_entry_ratio=4.8,batch_norm=False,lambda_order=5.,order_tolerance=.1)
 CHARS={'<pad>':0,'a':1,'b':2,'%':3,'_':4}
 
 def model():
@@ -32,7 +32,7 @@ class LBOrderTests(unittest.TestCase):
   x=(torch.tensor([[1,2],[2,1]]),[2,2],torch.tensor([1.,2.]),torch.tensor([4.,12.]))
   torch.testing.assert_close(m(x),torch.tensor([52.,56.]))
  def test_lower_bounds_identical_to_paired_rules(self):
-  m=model();b=CLIQUEestimator_bound();b.n_db=100;b.substr_library=m.substr_library
+  m=model();b=UBLBEstimator();b.n_db=100;b.substr_library=m.substr_library
   for q in ['aba','aba%','%aba','%aba%','%aba%_','%','%%','%b%','xyz']:
    self.assertEqual(m.get_lower_bound_for_query(q),b.get_lower_bound_for_query(q))
    self.assertEqual(m.get_effective_lower_bound_for_query(q,1),b.get_effective_lower_bound_for_query(q,100))
@@ -45,7 +45,7 @@ class LBOrderTests(unittest.TestCase):
   self.assertEqual(batch['cards'],[4.,-1.,100.]);self.assertEqual(batch['pair_tight_idx'],[0,1])
   self.assertEqual(batch['pair_loose_idx'],[1,2]);self.assertEqual(batch['upper_bounds'],[100]*3)
   # Exact same chain assembly as paired BOLT with an injected constant interval.
-  b=CLIQUEestimator_bound_mono();b.n_db=100;b.chain_pattern_bounds_cache=m.chain_pattern_bounds_cache
+  b=BOLTEstimator();b.n_db=100;b.chain_pattern_bounds_cache=m.chain_pattern_bounds_cache
   self.assertEqual(batch,b._prepare_chain_batches(data,m.chain_index,CHARS,8)[0])
  def test_reload_and_no_exact_hit_shortcut(self):
   m=model().eval()

@@ -24,7 +24,7 @@ def prepare_inputs(folder, source):
                 raise ValueError("Missing completed JOB training: " + t["id"])
             receipt = read_json(ROOT / "res/runs" / t["id"] / "DONE.json")
             values = {r["query"]: float(r["est"]) for r in rows(ROOT / receipt["result"]["prediction"])}
-            arm = ("BIMO" if t["method"] == "BOLT" else t["method"]) + "_" + t["budget"]
+            arm = t["method"] + "_" + t["budget"]
             predictions.setdefault(arm, {})[t["dataset"]] = positive_predictions(w["test_patterns"][t["dataset"]], values, metadata[t["dataset"]])
     folder.mkdir(parents=True, exist_ok=True)
     (folder / "plan").mkdir(exist_ok=True)

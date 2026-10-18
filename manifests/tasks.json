@@ -49,7 +49,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/AUTHOR_A100_UB_ORDER_S0.json",
-    "workload": "A100_MONO",
+    "workload": "A100_UB_ORDER",
     "predictions": "artifacts/predictions/AUTHOR_A100_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A100_UB_ORDER_S0/model.pth",
     "reference": {
@@ -70,7 +70,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/AUTHOR_A100_UB_LB_S0.json",
-    "workload": "A100_BOUND",
+    "workload": "A100_UB_LB",
     "predictions": "artifacts/predictions/AUTHOR_A100_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A100_UB_LB_S0/model.pth",
     "reference": {
@@ -91,7 +91,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/AUTHOR_A100_BOLT_S0.json",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_A100_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A100_BOLT_S0/model.pth",
     "reference": {
@@ -154,7 +154,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/AUTHOR_A10_UB_ORDER_S0.json",
-    "workload": "A10_MONO",
+    "workload": "A10_UB_ORDER",
     "predictions": "artifacts/predictions/AUTHOR_A10_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A10_UB_ORDER_S0/model.pth",
     "reference": {
@@ -175,7 +175,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/AUTHOR_A10_UB_LB_S0.json",
-    "workload": "A10_BOUND",
+    "workload": "A10_UB_LB",
     "predictions": "artifacts/predictions/AUTHOR_A10_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A10_UB_LB_S0/model.pth",
     "reference": {
@@ -196,7 +196,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/AUTHOR_A10_BOLT_S0.json",
-    "workload": "A10_BIMO",
+    "workload": "A10_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_A10_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A10_BOLT_S0/model.pth",
     "reference": {
@@ -259,7 +259,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/AUTHOR_A1_UB_ORDER_S0.json",
-    "workload": "A1_MONO",
+    "workload": "A1_UB_ORDER",
     "predictions": "artifacts/predictions/AUTHOR_A1_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A1_UB_ORDER_S0/model.pth",
     "reference": {
@@ -280,7 +280,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/AUTHOR_A1_UB_LB_S0.json",
-    "workload": "A1_BOUND",
+    "workload": "A1_UB_LB",
     "predictions": "artifacts/predictions/AUTHOR_A1_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A1_UB_LB_S0/model.pth",
     "reference": {
@@ -301,7 +301,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/AUTHOR_A1_BOLT_S0.json",
-    "workload": "A1_BIMO",
+    "workload": "A1_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_A1_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A1_BOLT_S0/model.pth",
     "reference": {
@@ -364,7 +364,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/AUTHOR_A0_UB_ORDER_S0.json",
-    "workload": "A0_MONO",
+    "workload": "A0_UB_ORDER",
     "predictions": "artifacts/predictions/AUTHOR_A0_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A0_UB_ORDER_S0/model.pth",
     "reference": {
@@ -385,7 +385,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/AUTHOR_A0_UB_LB_S0.json",
-    "workload": "A0_BOUND",
+    "workload": "A0_UB_LB",
     "predictions": "artifacts/predictions/AUTHOR_A0_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A0_UB_LB_S0/model.pth",
     "reference": {
@@ -406,7 +406,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/AUTHOR_A0_BOLT_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_A0_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A0_BOLT_S0/model.pth",
     "reference": {
@@ -469,7 +469,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/DBLP_A100_UB_ORDER_S0.json",
-    "workload": "A100_MONO",
+    "workload": "A100_UB_ORDER",
     "predictions": "artifacts/predictions/DBLP_A100_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A100_UB_ORDER_S0/model.pth",
     "reference": {
@@ -490,7 +490,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/DBLP_A100_UB_LB_S0.json",
-    "workload": "A100_BOUND",
+    "workload": "A100_UB_LB",
     "predictions": "artifacts/predictions/DBLP_A100_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A100_UB_LB_S0/model.pth",
     "reference": {
@@ -511,7 +511,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/DBLP_A100_BOLT_S0.json",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "predictions": "artifacts/predictions/DBLP_A100_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A100_BOLT_S0/model.pth",
     "reference": {
@@ -574,7 +574,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/DBLP_A10_UB_ORDER_S0.json",
-    "workload": "A10_MONO",
+    "workload": "A10_UB_ORDER",
     "predictions": "artifacts/predictions/DBLP_A10_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A10_UB_ORDER_S0/model.pth",
     "reference": {
@@ -595,7 +595,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/DBLP_A10_UB_LB_S0.json",
-    "workload": "A10_BOUND",
+    "workload": "A10_UB_LB",
     "predictions": "artifacts/predictions/DBLP_A10_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A10_UB_LB_S0/model.pth",
     "reference": {
@@ -616,7 +616,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/DBLP_A10_BOLT_S0.json",
-    "workload": "A10_BIMO",
+    "workload": "A10_BOLT",
     "predictions": "artifacts/predictions/DBLP_A10_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A10_BOLT_S0/model.pth",
     "reference": {
@@ -679,7 +679,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/DBLP_A1_UB_ORDER_S0.json",
-    "workload": "A1_MONO",
+    "workload": "A1_UB_ORDER",
     "predictions": "artifacts/predictions/DBLP_A1_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A1_UB_ORDER_S0/model.pth",
     "reference": {
@@ -700,7 +700,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/DBLP_A1_UB_LB_S0.json",
-    "workload": "A1_BOUND",
+    "workload": "A1_UB_LB",
     "predictions": "artifacts/predictions/DBLP_A1_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A1_UB_LB_S0/model.pth",
     "reference": {
@@ -721,7 +721,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/DBLP_A1_BOLT_S0.json",
-    "workload": "A1_BIMO",
+    "workload": "A1_BOLT",
     "predictions": "artifacts/predictions/DBLP_A1_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A1_BOLT_S0/model.pth",
     "reference": {
@@ -784,7 +784,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/DBLP_A0_UB_ORDER_S0.json",
-    "workload": "A0_MONO",
+    "workload": "A0_UB_ORDER",
     "predictions": "artifacts/predictions/DBLP_A0_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A0_UB_ORDER_S0/model.pth",
     "reference": {
@@ -805,7 +805,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/DBLP_A0_UB_LB_S0.json",
-    "workload": "A0_BOUND",
+    "workload": "A0_UB_LB",
     "predictions": "artifacts/predictions/DBLP_A0_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A0_UB_LB_S0/model.pth",
     "reference": {
@@ -826,7 +826,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/DBLP_A0_BOLT_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/predictions/DBLP_A0_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A0_BOLT_S0/model.pth",
     "reference": {
@@ -889,7 +889,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/IMDB_A100_UB_ORDER_S0.json",
-    "workload": "A100_MONO",
+    "workload": "A100_UB_ORDER",
     "predictions": "artifacts/predictions/IMDB_A100_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A100_UB_ORDER_S0/model.pth",
     "reference": {
@@ -910,7 +910,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/IMDB_A100_UB_LB_S0.json",
-    "workload": "A100_BOUND",
+    "workload": "A100_UB_LB",
     "predictions": "artifacts/predictions/IMDB_A100_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A100_UB_LB_S0/model.pth",
     "reference": {
@@ -931,7 +931,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/IMDB_A100_BOLT_S0.json",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "predictions": "artifacts/predictions/IMDB_A100_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A100_BOLT_S0/model.pth",
     "reference": {
@@ -994,7 +994,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/IMDB_A10_UB_ORDER_S0.json",
-    "workload": "A10_MONO",
+    "workload": "A10_UB_ORDER",
     "predictions": "artifacts/predictions/IMDB_A10_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A10_UB_ORDER_S0/model.pth",
     "reference": {
@@ -1015,7 +1015,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/IMDB_A10_UB_LB_S0.json",
-    "workload": "A10_BOUND",
+    "workload": "A10_UB_LB",
     "predictions": "artifacts/predictions/IMDB_A10_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A10_UB_LB_S0/model.pth",
     "reference": {
@@ -1036,7 +1036,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/IMDB_A10_BOLT_S0.json",
-    "workload": "A10_BIMO",
+    "workload": "A10_BOLT",
     "predictions": "artifacts/predictions/IMDB_A10_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A10_BOLT_S0/model.pth",
     "reference": {
@@ -1099,7 +1099,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/IMDB_A1_UB_ORDER_S0.json",
-    "workload": "A1_MONO",
+    "workload": "A1_UB_ORDER",
     "predictions": "artifacts/predictions/IMDB_A1_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A1_UB_ORDER_S0/model.pth",
     "reference": {
@@ -1120,7 +1120,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/IMDB_A1_UB_LB_S0.json",
-    "workload": "A1_BOUND",
+    "workload": "A1_UB_LB",
     "predictions": "artifacts/predictions/IMDB_A1_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A1_UB_LB_S0/model.pth",
     "reference": {
@@ -1141,7 +1141,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/IMDB_A1_BOLT_S0.json",
-    "workload": "A1_BIMO",
+    "workload": "A1_BOLT",
     "predictions": "artifacts/predictions/IMDB_A1_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A1_BOLT_S0/model.pth",
     "reference": {
@@ -1204,7 +1204,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/IMDB_A0_UB_ORDER_S0.json",
-    "workload": "A0_MONO",
+    "workload": "A0_UB_ORDER",
     "predictions": "artifacts/predictions/IMDB_A0_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A0_UB_ORDER_S0/model.pth",
     "reference": {
@@ -1225,7 +1225,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/IMDB_A0_UB_LB_S0.json",
-    "workload": "A0_BOUND",
+    "workload": "A0_UB_LB",
     "predictions": "artifacts/predictions/IMDB_A0_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A0_UB_LB_S0/model.pth",
     "reference": {
@@ -1246,7 +1246,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/IMDB_A0_BOLT_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/predictions/IMDB_A0_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A0_BOLT_S0/model.pth",
     "reference": {
@@ -1309,7 +1309,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/WIKI_A100_UB_ORDER_S0.json",
-    "workload": "A100_MONO",
+    "workload": "A100_UB_ORDER",
     "predictions": "artifacts/predictions/WIKI_A100_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A100_UB_ORDER_S0/model.pth",
     "reference": {
@@ -1330,7 +1330,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/WIKI_A100_UB_LB_S0.json",
-    "workload": "A100_BOUND",
+    "workload": "A100_UB_LB",
     "predictions": "artifacts/predictions/WIKI_A100_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A100_UB_LB_S0/model.pth",
     "reference": {
@@ -1351,7 +1351,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/WIKI_A100_BOLT_S0.json",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "predictions": "artifacts/predictions/WIKI_A100_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A100_BOLT_S0/model.pth",
     "reference": {
@@ -1414,7 +1414,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/WIKI_A10_UB_ORDER_S0.json",
-    "workload": "A10_MONO",
+    "workload": "A10_UB_ORDER",
     "predictions": "artifacts/predictions/WIKI_A10_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A10_UB_ORDER_S0/model.pth",
     "reference": {
@@ -1435,7 +1435,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/WIKI_A10_UB_LB_S0.json",
-    "workload": "A10_BOUND",
+    "workload": "A10_UB_LB",
     "predictions": "artifacts/predictions/WIKI_A10_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A10_UB_LB_S0/model.pth",
     "reference": {
@@ -1456,7 +1456,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/WIKI_A10_BOLT_S0.json",
-    "workload": "A10_BIMO",
+    "workload": "A10_BOLT",
     "predictions": "artifacts/predictions/WIKI_A10_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A10_BOLT_S0/model.pth",
     "reference": {
@@ -1519,7 +1519,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/WIKI_A1_UB_ORDER_S0.json",
-    "workload": "A1_MONO",
+    "workload": "A1_UB_ORDER",
     "predictions": "artifacts/predictions/WIKI_A1_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A1_UB_ORDER_S0/model.pth",
     "reference": {
@@ -1540,7 +1540,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/WIKI_A1_UB_LB_S0.json",
-    "workload": "A1_BOUND",
+    "workload": "A1_UB_LB",
     "predictions": "artifacts/predictions/WIKI_A1_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A1_UB_LB_S0/model.pth",
     "reference": {
@@ -1561,7 +1561,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/WIKI_A1_BOLT_S0.json",
-    "workload": "A1_BIMO",
+    "workload": "A1_BOLT",
     "predictions": "artifacts/predictions/WIKI_A1_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A1_BOLT_S0/model.pth",
     "reference": {
@@ -1624,7 +1624,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/WIKI_A0_UB_ORDER_S0.json",
-    "workload": "A0_MONO",
+    "workload": "A0_UB_ORDER",
     "predictions": "artifacts/predictions/WIKI_A0_UB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A0_UB_ORDER_S0/model.pth",
     "reference": {
@@ -1645,7 +1645,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/WIKI_A0_UB_LB_S0.json",
-    "workload": "A0_BOUND",
+    "workload": "A0_UB_LB",
     "predictions": "artifacts/predictions/WIKI_A0_UB_LB_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A0_UB_LB_S0/model.pth",
     "reference": {
@@ -1666,7 +1666,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/WIKI_A0_BOLT_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/predictions/WIKI_A0_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A0_BOLT_S0/model.pth",
     "reference": {
@@ -1708,7 +1708,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/AUTHOR_A25_BOLT_S0.json",
-    "workload": "A25_BIMO",
+    "workload": "A25_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_A25_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A25_BOLT_S0/model.pth",
     "reference": {
@@ -1750,7 +1750,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/AUTHOR_A50_BOLT_S0.json",
-    "workload": "A50_BIMO",
+    "workload": "A50_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_A50_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A50_BOLT_S0/model.pth",
     "reference": {
@@ -1792,7 +1792,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/AUTHOR_A75_BOLT_S0.json",
-    "workload": "A75_BIMO",
+    "workload": "A75_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_A75_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A75_BOLT_S0/model.pth",
     "reference": {
@@ -1834,7 +1834,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/WIKI_A25_BOLT_S0.json",
-    "workload": "A25_BIMO",
+    "workload": "A25_BOLT",
     "predictions": "artifacts/predictions/WIKI_A25_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A25_BOLT_S0/model.pth",
     "reference": {
@@ -1876,7 +1876,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/WIKI_A50_BOLT_S0.json",
-    "workload": "A50_BIMO",
+    "workload": "A50_BOLT",
     "predictions": "artifacts/predictions/WIKI_A50_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A50_BOLT_S0/model.pth",
     "reference": {
@@ -1918,7 +1918,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/WIKI_A75_BOLT_S0.json",
-    "workload": "A75_BIMO",
+    "workload": "A75_BOLT",
     "predictions": "artifacts/predictions/WIKI_A75_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A75_BOLT_S0/model.pth",
     "reference": {
@@ -1960,7 +1960,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/DBLP_A25_BOLT_S0.json",
-    "workload": "A25_BIMO",
+    "workload": "A25_BOLT",
     "predictions": "artifacts/predictions/DBLP_A25_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A25_BOLT_S0/model.pth",
     "reference": {
@@ -2002,7 +2002,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/DBLP_A50_BOLT_S0.json",
-    "workload": "A50_BIMO",
+    "workload": "A50_BOLT",
     "predictions": "artifacts/predictions/DBLP_A50_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A50_BOLT_S0/model.pth",
     "reference": {
@@ -2044,7 +2044,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/DBLP_A75_BOLT_S0.json",
-    "workload": "A75_BIMO",
+    "workload": "A75_BOLT",
     "predictions": "artifacts/predictions/DBLP_A75_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A75_BOLT_S0/model.pth",
     "reference": {
@@ -2086,7 +2086,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/IMDB_A25_BOLT_S0.json",
-    "workload": "A25_BIMO",
+    "workload": "A25_BOLT",
     "predictions": "artifacts/predictions/IMDB_A25_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A25_BOLT_S0/model.pth",
     "reference": {
@@ -2128,7 +2128,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/IMDB_A50_BOLT_S0.json",
-    "workload": "A50_BIMO",
+    "workload": "A50_BOLT",
     "predictions": "artifacts/predictions/IMDB_A50_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A50_BOLT_S0/model.pth",
     "reference": {
@@ -2170,7 +2170,7 @@
     "seed": 0,
     "suite": "accuracy",
     "config": "configs/runs/IMDB_A75_BOLT_S0.json",
-    "workload": "A75_BIMO",
+    "workload": "A75_BOLT",
     "predictions": "artifacts/predictions/IMDB_A75_BOLT_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A75_BOLT_S0/model.pth",
     "reference": {
@@ -2212,7 +2212,7 @@
     "seed": 1,
     "suite": "supplement",
     "config": "configs/runs/IMDB_A25_BOLT_S1.json",
-    "workload": "A25_BIMO",
+    "workload": "A25_BOLT",
     "predictions": "artifacts/predictions/IMDB_A25_BOLT_S1.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A25_BOLT_S1/model.pth",
     "reference": {
@@ -2254,7 +2254,7 @@
     "seed": 1,
     "suite": "supplement",
     "config": "configs/runs/IMDB_A50_BOLT_S1.json",
-    "workload": "A50_BIMO",
+    "workload": "A50_BOLT",
     "predictions": "artifacts/predictions/IMDB_A50_BOLT_S1.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A50_BOLT_S1/model.pth",
     "reference": {
@@ -2296,7 +2296,7 @@
     "seed": 1,
     "suite": "supplement",
     "config": "configs/runs/IMDB_A75_BOLT_S1.json",
-    "workload": "A75_BIMO",
+    "workload": "A75_BOLT",
     "predictions": "artifacts/predictions/IMDB_A75_BOLT_S1.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A75_BOLT_S1/model.pth",
     "reference": {
@@ -2317,7 +2317,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/AUTHOR_A0_BOLT_L0_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_A0_BOLT_L0_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A0_BOLT_L0_S0/model.pth",
     "reference": {
@@ -2338,7 +2338,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/DBLP_A0_BOLT_L0_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/predictions/DBLP_A0_BOLT_L0_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A0_BOLT_L0_S0/model.pth",
     "reference": {
@@ -2359,7 +2359,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/IMDB_A0_BOLT_L0_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/predictions/IMDB_A0_BOLT_L0_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A0_BOLT_L0_S0/model.pth",
     "reference": {
@@ -2380,7 +2380,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/WIKI_A0_BOLT_L0_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/predictions/WIKI_A0_BOLT_L0_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A0_BOLT_L0_S0/model.pth",
     "reference": {
@@ -2821,7 +2821,7 @@
     "seed": 0,
     "suite": "calibration",
     "config": "configs/runs/AUTHOR_ZERO_ZERO_LB_S0.json",
-    "workload": "ZERO_BIMO",
+    "workload": "ZERO_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_ZERO_ZERO_LB_S0.csv.gz",
     "checkpoint": null,
     "reference": {
@@ -2842,7 +2842,7 @@
     "seed": 0,
     "suite": "calibration",
     "config": "configs/runs/AUTHOR_ZERO_ZERO_MID_S0.json",
-    "workload": "ZERO_BIMO",
+    "workload": "ZERO_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_ZERO_ZERO_MID_S0.csv.gz",
     "checkpoint": null,
     "reference": {
@@ -2856,16 +2856,16 @@
     "source_prediction_sha256": "9746c842b4fb90bc456d5d73aef860c97a0578f275797b554d8c5fc362e53cce"
   },
   {
-    "id": "AUTHOR_ZERO_ZERO_MID_MONO_S0",
+    "id": "AUTHOR_ZERO_ZERO_MID_ORDER_S0",
     "dataset": "AUTHOR",
     "budget": "ZERO",
-    "method": "ZERO_MID_MONO",
+    "method": "ZERO_MID_ORDER",
     "seed": 0,
     "suite": "calibration",
-    "config": "configs/runs/AUTHOR_ZERO_ZERO_MID_MONO_S0.json",
-    "workload": "ZERO_BIMO",
-    "predictions": "artifacts/predictions/AUTHOR_ZERO_ZERO_MID_MONO_S0.csv.gz",
-    "checkpoint": "artifacts/checkpoints/AUTHOR_ZERO_ZERO_MID_MONO_S0/model.pth",
+    "config": "configs/runs/AUTHOR_ZERO_ZERO_MID_ORDER_S0.json",
+    "workload": "ZERO_BOLT",
+    "predictions": "artifacts/predictions/AUTHOR_ZERO_ZERO_MID_ORDER_S0.csv.gz",
+    "checkpoint": "artifacts/checkpoints/AUTHOR_ZERO_ZERO_MID_ORDER_S0/model.pth",
     "reference": {
       "q_avg": 9.584799480344863,
       "q50": 2.0,
@@ -2877,16 +2877,16 @@
     "source_prediction_sha256": "f6dd377ddc0a96531cd19e8a9e019ccc80a4a12e51f28e0550d72a9f5a161566"
   },
   {
-    "id": "AUTHOR_A0_ANCHORED_MID_MONO_S0",
+    "id": "AUTHOR_A0_ANCHORED_MID_ORDER_S0",
     "dataset": "AUTHOR",
     "budget": "A0",
-    "method": "ANCHORED_MID_MONO",
+    "method": "ANCHORED_MID_ORDER",
     "seed": 0,
     "suite": "calibration",
-    "config": "configs/runs/AUTHOR_A0_ANCHORED_MID_MONO_S0.json",
-    "workload": "A0_BIMO",
-    "predictions": "artifacts/predictions/AUTHOR_A0_ANCHORED_MID_MONO_S0.csv.gz",
-    "checkpoint": "artifacts/checkpoints/AUTHOR_A0_ANCHORED_MID_MONO_S0/model.pth",
+    "config": "configs/runs/AUTHOR_A0_ANCHORED_MID_ORDER_S0.json",
+    "workload": "A0_BOLT",
+    "predictions": "artifacts/predictions/AUTHOR_A0_ANCHORED_MID_ORDER_S0.csv.gz",
+    "checkpoint": "artifacts/checkpoints/AUTHOR_A0_ANCHORED_MID_ORDER_S0/model.pth",
     "reference": {
       "q_avg": 2.2248139961485967,
       "q50": 1.5579903529721602,
@@ -2905,7 +2905,7 @@
     "seed": 0,
     "suite": "calibration",
     "config": "configs/runs/DBLP_ZERO_ZERO_LB_S0.json",
-    "workload": "ZERO_BIMO",
+    "workload": "ZERO_BOLT",
     "predictions": "artifacts/predictions/DBLP_ZERO_ZERO_LB_S0.csv.gz",
     "checkpoint": null,
     "reference": {
@@ -2926,7 +2926,7 @@
     "seed": 0,
     "suite": "calibration",
     "config": "configs/runs/DBLP_ZERO_ZERO_MID_S0.json",
-    "workload": "ZERO_BIMO",
+    "workload": "ZERO_BOLT",
     "predictions": "artifacts/predictions/DBLP_ZERO_ZERO_MID_S0.csv.gz",
     "checkpoint": null,
     "reference": {
@@ -2940,16 +2940,16 @@
     "source_prediction_sha256": "f8f845270c9e8e22aa5a88aa4c7cdddfe98dfd4200e9887c36e3f7d4fdafd227"
   },
   {
-    "id": "DBLP_ZERO_ZERO_MID_MONO_S0",
+    "id": "DBLP_ZERO_ZERO_MID_ORDER_S0",
     "dataset": "DBLP",
     "budget": "ZERO",
-    "method": "ZERO_MID_MONO",
+    "method": "ZERO_MID_ORDER",
     "seed": 0,
     "suite": "calibration",
-    "config": "configs/runs/DBLP_ZERO_ZERO_MID_MONO_S0.json",
-    "workload": "ZERO_BIMO",
-    "predictions": "artifacts/predictions/DBLP_ZERO_ZERO_MID_MONO_S0.csv.gz",
-    "checkpoint": "artifacts/checkpoints/DBLP_ZERO_ZERO_MID_MONO_S0/model.pth",
+    "config": "configs/runs/DBLP_ZERO_ZERO_MID_ORDER_S0.json",
+    "workload": "ZERO_BOLT",
+    "predictions": "artifacts/predictions/DBLP_ZERO_ZERO_MID_ORDER_S0.csv.gz",
+    "checkpoint": "artifacts/checkpoints/DBLP_ZERO_ZERO_MID_ORDER_S0/model.pth",
     "reference": {
       "q_avg": 12.022927768160303,
       "q50": 5.518108563095146,
@@ -2961,16 +2961,16 @@
     "source_prediction_sha256": "2fa8acc4556bf5e64a57682ff231a49bee3e36f6a1f482e50242ccf243240593"
   },
   {
-    "id": "DBLP_A0_ANCHORED_MID_MONO_S0",
+    "id": "DBLP_A0_ANCHORED_MID_ORDER_S0",
     "dataset": "DBLP",
     "budget": "A0",
-    "method": "ANCHORED_MID_MONO",
+    "method": "ANCHORED_MID_ORDER",
     "seed": 0,
     "suite": "calibration",
-    "config": "configs/runs/DBLP_A0_ANCHORED_MID_MONO_S0.json",
-    "workload": "A0_BIMO",
-    "predictions": "artifacts/predictions/DBLP_A0_ANCHORED_MID_MONO_S0.csv.gz",
-    "checkpoint": "artifacts/checkpoints/DBLP_A0_ANCHORED_MID_MONO_S0/model.pth",
+    "config": "configs/runs/DBLP_A0_ANCHORED_MID_ORDER_S0.json",
+    "workload": "A0_BOLT",
+    "predictions": "artifacts/predictions/DBLP_A0_ANCHORED_MID_ORDER_S0.csv.gz",
+    "checkpoint": "artifacts/checkpoints/DBLP_A0_ANCHORED_MID_ORDER_S0/model.pth",
     "reference": {
       "q_avg": 8.314278603315518,
       "q50": 1.99610036611557,
@@ -2989,7 +2989,7 @@
     "seed": 0,
     "suite": "calibration",
     "config": "configs/runs/IMDB_ZERO_ZERO_LB_S0.json",
-    "workload": "ZERO_BIMO",
+    "workload": "ZERO_BOLT",
     "predictions": "artifacts/predictions/IMDB_ZERO_ZERO_LB_S0.csv.gz",
     "checkpoint": null,
     "reference": {
@@ -3010,7 +3010,7 @@
     "seed": 0,
     "suite": "calibration",
     "config": "configs/runs/IMDB_ZERO_ZERO_MID_S0.json",
-    "workload": "ZERO_BIMO",
+    "workload": "ZERO_BOLT",
     "predictions": "artifacts/predictions/IMDB_ZERO_ZERO_MID_S0.csv.gz",
     "checkpoint": null,
     "reference": {
@@ -3024,16 +3024,16 @@
     "source_prediction_sha256": "8fbeae5b3eb90f22ef94d79e2547f0852eedf02267a740e5c2c7f6dad5b28e56"
   },
   {
-    "id": "IMDB_ZERO_ZERO_MID_MONO_S0",
+    "id": "IMDB_ZERO_ZERO_MID_ORDER_S0",
     "dataset": "IMDB",
     "budget": "ZERO",
-    "method": "ZERO_MID_MONO",
+    "method": "ZERO_MID_ORDER",
     "seed": 0,
     "suite": "calibration",
-    "config": "configs/runs/IMDB_ZERO_ZERO_MID_MONO_S0.json",
-    "workload": "ZERO_BIMO",
-    "predictions": "artifacts/predictions/IMDB_ZERO_ZERO_MID_MONO_S0.csv.gz",
-    "checkpoint": "artifacts/checkpoints/IMDB_ZERO_ZERO_MID_MONO_S0/model.pth",
+    "config": "configs/runs/IMDB_ZERO_ZERO_MID_ORDER_S0.json",
+    "workload": "ZERO_BOLT",
+    "predictions": "artifacts/predictions/IMDB_ZERO_ZERO_MID_ORDER_S0.csv.gz",
+    "checkpoint": "artifacts/checkpoints/IMDB_ZERO_ZERO_MID_ORDER_S0/model.pth",
     "reference": {
       "q_avg": 23.85832002337949,
       "q50": 12.283493041992188,
@@ -3045,16 +3045,16 @@
     "source_prediction_sha256": "52d0d257322386057d405a3c06900a2fd4c88401cea00e0aec3b3ea91f1ba127"
   },
   {
-    "id": "IMDB_A0_ANCHORED_MID_MONO_S0",
+    "id": "IMDB_A0_ANCHORED_MID_ORDER_S0",
     "dataset": "IMDB",
     "budget": "A0",
-    "method": "ANCHORED_MID_MONO",
+    "method": "ANCHORED_MID_ORDER",
     "seed": 0,
     "suite": "calibration",
-    "config": "configs/runs/IMDB_A0_ANCHORED_MID_MONO_S0.json",
-    "workload": "A0_BIMO",
-    "predictions": "artifacts/predictions/IMDB_A0_ANCHORED_MID_MONO_S0.csv.gz",
-    "checkpoint": "artifacts/checkpoints/IMDB_A0_ANCHORED_MID_MONO_S0/model.pth",
+    "config": "configs/runs/IMDB_A0_ANCHORED_MID_ORDER_S0.json",
+    "workload": "A0_BOLT",
+    "predictions": "artifacts/predictions/IMDB_A0_ANCHORED_MID_ORDER_S0.csv.gz",
+    "checkpoint": "artifacts/checkpoints/IMDB_A0_ANCHORED_MID_ORDER_S0/model.pth",
     "reference": {
       "q_avg": 6.875926661272589,
       "q50": 1.7383896112442017,
@@ -3073,7 +3073,7 @@
     "seed": 0,
     "suite": "calibration",
     "config": "configs/runs/WIKI_ZERO_ZERO_LB_S0.json",
-    "workload": "ZERO_BIMO",
+    "workload": "ZERO_BOLT",
     "predictions": "artifacts/predictions/WIKI_ZERO_ZERO_LB_S0.csv.gz",
     "checkpoint": null,
     "reference": {
@@ -3094,7 +3094,7 @@
     "seed": 0,
     "suite": "calibration",
     "config": "configs/runs/WIKI_ZERO_ZERO_MID_S0.json",
-    "workload": "ZERO_BIMO",
+    "workload": "ZERO_BOLT",
     "predictions": "artifacts/predictions/WIKI_ZERO_ZERO_MID_S0.csv.gz",
     "checkpoint": null,
     "reference": {
@@ -3108,16 +3108,16 @@
     "source_prediction_sha256": "0b48f46b24ece603a3eb9c18b1b87b975ae6fee5a79757da685b5910a2aa852b"
   },
   {
-    "id": "WIKI_ZERO_ZERO_MID_MONO_S0",
+    "id": "WIKI_ZERO_ZERO_MID_ORDER_S0",
     "dataset": "WIKI",
     "budget": "ZERO",
-    "method": "ZERO_MID_MONO",
+    "method": "ZERO_MID_ORDER",
     "seed": 0,
     "suite": "calibration",
-    "config": "configs/runs/WIKI_ZERO_ZERO_MID_MONO_S0.json",
-    "workload": "ZERO_BIMO",
-    "predictions": "artifacts/predictions/WIKI_ZERO_ZERO_MID_MONO_S0.csv.gz",
-    "checkpoint": "artifacts/checkpoints/WIKI_ZERO_ZERO_MID_MONO_S0/model.pth",
+    "config": "configs/runs/WIKI_ZERO_ZERO_MID_ORDER_S0.json",
+    "workload": "ZERO_BOLT",
+    "predictions": "artifacts/predictions/WIKI_ZERO_ZERO_MID_ORDER_S0.csv.gz",
+    "checkpoint": "artifacts/checkpoints/WIKI_ZERO_ZERO_MID_ORDER_S0/model.pth",
     "reference": {
       "q_avg": 30.490506744670345,
       "q50": 7.0535197257995605,
@@ -3129,16 +3129,16 @@
     "source_prediction_sha256": "b994d872b084fbbd24bf382ef9a9fb6cc4a25cdd28073b7cd21f7158a13c3d60"
   },
   {
-    "id": "WIKI_A0_ANCHORED_MID_MONO_S0",
+    "id": "WIKI_A0_ANCHORED_MID_ORDER_S0",
     "dataset": "WIKI",
     "budget": "A0",
-    "method": "ANCHORED_MID_MONO",
+    "method": "ANCHORED_MID_ORDER",
     "seed": 0,
     "suite": "calibration",
-    "config": "configs/runs/WIKI_A0_ANCHORED_MID_MONO_S0.json",
-    "workload": "A0_BIMO",
-    "predictions": "artifacts/predictions/WIKI_A0_ANCHORED_MID_MONO_S0.csv.gz",
-    "checkpoint": "artifacts/checkpoints/WIKI_A0_ANCHORED_MID_MONO_S0/model.pth",
+    "config": "configs/runs/WIKI_A0_ANCHORED_MID_ORDER_S0.json",
+    "workload": "A0_BOLT",
+    "predictions": "artifacts/predictions/WIKI_A0_ANCHORED_MID_ORDER_S0.csv.gz",
+    "checkpoint": "artifacts/checkpoints/WIKI_A0_ANCHORED_MID_ORDER_S0/model.pth",
     "reference": {
       "q_avg": 3.2015166159088806,
       "q50": 1.4970880086663696,
@@ -3157,7 +3157,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/AUTHOR_A0_LB_ORDER_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_A0_LB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A0_LB_ORDER_S0/model.pth",
     "reference": {
@@ -3178,7 +3178,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/AUTHOR_A10_LB_ORDER_S0.json",
-    "workload": "A10_BIMO",
+    "workload": "A10_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_A10_LB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A10_LB_ORDER_S0/model.pth",
     "reference": {
@@ -3199,7 +3199,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/AUTHOR_A100_LB_ORDER_S0.json",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "predictions": "artifacts/predictions/AUTHOR_A100_LB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/AUTHOR_A100_LB_ORDER_S0/model.pth",
     "reference": {
@@ -3220,7 +3220,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/DBLP_A0_LB_ORDER_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/predictions/DBLP_A0_LB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A0_LB_ORDER_S0/model.pth",
     "reference": {
@@ -3241,7 +3241,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/DBLP_A10_LB_ORDER_S0.json",
-    "workload": "A10_BIMO",
+    "workload": "A10_BOLT",
     "predictions": "artifacts/predictions/DBLP_A10_LB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A10_LB_ORDER_S0/model.pth",
     "reference": {
@@ -3262,7 +3262,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/DBLP_A100_LB_ORDER_S0.json",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "predictions": "artifacts/predictions/DBLP_A100_LB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/DBLP_A100_LB_ORDER_S0/model.pth",
     "reference": {
@@ -3283,7 +3283,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/IMDB_A0_LB_ORDER_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/predictions/IMDB_A0_LB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A0_LB_ORDER_S0/model.pth",
     "reference": {
@@ -3304,7 +3304,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/IMDB_A10_LB_ORDER_S0.json",
-    "workload": "A10_BIMO",
+    "workload": "A10_BOLT",
     "predictions": "artifacts/predictions/IMDB_A10_LB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A10_LB_ORDER_S0/model.pth",
     "reference": {
@@ -3325,7 +3325,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/IMDB_A100_LB_ORDER_S0.json",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "predictions": "artifacts/predictions/IMDB_A100_LB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/IMDB_A100_LB_ORDER_S0/model.pth",
     "reference": {
@@ -3346,7 +3346,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/WIKI_A0_LB_ORDER_S0.json",
-    "workload": "A0_BIMO",
+    "workload": "A0_BOLT",
     "predictions": "artifacts/predictions/WIKI_A0_LB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A0_LB_ORDER_S0/model.pth",
     "reference": {
@@ -3367,7 +3367,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/WIKI_A10_LB_ORDER_S0.json",
-    "workload": "A10_BIMO",
+    "workload": "A10_BOLT",
     "predictions": "artifacts/predictions/WIKI_A10_LB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A10_LB_ORDER_S0/model.pth",
     "reference": {
@@ -3388,7 +3388,7 @@
     "seed": 0,
     "suite": "ablations",
     "config": "configs/runs/WIKI_A100_LB_ORDER_S0.json",
-    "workload": "A100_BIMO",
+    "workload": "A100_BOLT",
     "predictions": "artifacts/predictions/WIKI_A100_LB_ORDER_S0.csv.gz",
     "checkpoint": "artifacts/checkpoints/WIKI_A100_LB_ORDER_S0/model.pth",
     "reference": {

@@ -19,7 +19,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parent
-METHODS = ("NO_BOUND", "CLIQUE", "MONO", "BOUND", "BIMO")
+METHODS = ("NO_BOUND", "CLIQUE", "UB_ORDER", "UB_LB", "BOLT")
 BUDGETS = ("A100", "A10", "A1", "A0")
 
 
@@ -209,7 +209,7 @@ def build_report(
         "- `whole-chain score`：一条链的所有相邻边都满足时才计为通过；",
         "- 主文优先使用 `pair score`；whole-chain 对链长更敏感，放附录。",
         "",
-        "这套口径补齐了 NO_BOUND、CLIQUE、BOUND 原 summary 中缺失的 `t_mono`。原 summary 的 point-generated MonoM 仍保留为历史辅助指标，不与本表混用，也不回写 append-only summary。",
+        "这套口径补齐了 NO_BOUND、CLIQUE、UB_LB 原 summary 中缺失的 `t_mono`。原 summary 的 point-generated MonoM 仍保留为历史辅助指标，不与本表混用，也不回写 append-only summary。",
         "",
         "## 2. 四数据集宏平均",
         "",

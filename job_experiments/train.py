@@ -15,11 +15,11 @@ def commands(python=sys.executable):
     # Smallest column first is an engineering gate, not selection by test error.
     for column in ('link_type.link','movie_companies.note','title.title','name.name'):
         for budget in ('A100','A0'):
-            for method in ('CLIQUE','BIMO'):
+            for method in ('CLIQUE','BOLT'):
                 task=column+'_'+budget+'_'+method+'_S0'
-                entry='main_CLIQUE.py' if method=='CLIQUE' else 'main_CLIQUE_bound_mono.py'
+                entry='main_CLIQUE.py' if method=='CLIQUE' else 'main_BOLT.py'
                 command=[python,entry,'-d',column,'-w',budget+'_'+method,'--seed','0','--tag','JOB/'+task]
-                if method=='BIMO': command+=['--lambda_mono','1.0','--mono_tolerance','0.1','--chain_sample_ratio','1.0']
+                if method=='BOLT': command+=['--lambda_order','1.0','--order_tolerance','0.1','--chain_sample_ratio','1.0']
                 result.append(dict(id=task,column=column,budget=budget,method=method,command=command))
     return result
 
@@ -35,7 +35,7 @@ def freeze(prepared,views,output):
         work=out/'workspace';work.mkdir()
         for folder in ('src','configs','a_route'):
             shutil.copytree(ROOT/folder,work/folder,ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
-        for name in ('main_CLIQUE.py','main_CLIQUE_bound_mono.py'):
+        for name in ('main_CLIQUE.py','main_BOLT.py'):
             shutil.copyfile(ROOT/name,work/name)
         for name in FILES:
             path=work/name;path.write_text(transform(path.read_text()))
@@ -44,7 +44,7 @@ def freeze(prepared,views,output):
             (data/(col+'.txt')).symlink_to(prepared/col/'column.txt')
             (data/'training').mkdir()
             for budget in ('A100','A0'):
-                for method in ('CLIQUE','BIMO'):
+                for method in ('CLIQUE','BOLT'):
                     source=views/col/(budget+'_'+method)
                     shutil.copytree(source,data/'training'/source.name)
         tasks=commands()
@@ -63,7 +63,7 @@ def freeze(prepared,views,output):
         manifest=dict(tasks=tasks,batch_sizes=batch_sizes,prepared=str(prepared),prepared_sha256=sha(prepared/'PREPARED.json'),
             views=str(views),views_sha256=sha(views/'VIEWS.json'),columns=pinfo['columns'],
             evaluation_mode='validation_only_preserve_loader_rng',timing_usable=False,
-            hyperparameters='inherited CLIQUE defaults and four-column overrides; BIMO lambda=1,tau=.1,r=1')
+            hyperparameters='inherited CLIQUE defaults and four-column overrides; BOLT lambda=1,tau=.1,r=1')
         seal(out,'TRAIN_READY.json',manifest)
         return manifest
     return staged(output,action)
@@ -137,8 +137,8 @@ def run(folder, resume=False):
                     continue
                 target.mkdir(parents=True);write_json(target/'command.json',task)
                 status['current']=task['id'];write_json(folder/'status.json',status)
-                env={k:v for k,v in os.environ.items() if k not in {'MODE','EST','DEBUG','PYTHONPATH','EXPERIMENT_PROTOCOL_ID','FORMAL_RUN_ID'} and not k.startswith(('EFFICIENCY_','BIMO_'))}
-                env.update(CUDA_VISIBLE_DEVICES='0',SKIP_LEGACY_MONO_EVAL='1',PYTHONUNBUFFERED='1',
+                env={k:v for k,v in os.environ.items() if k not in {'MODE','EST','DEBUG','PYTHONPATH','EXPERIMENT_PROTOCOL_ID','FORMAL_RUN_ID'} and not k.startswith(('EFFICIENCY_','BOLT_PROFILE','BOLT_CACHE_CHAIN','BOLT_VERIFY_CHAIN','BOLT_EXPECTED_CHAIN'))}
+                env.update(CUDA_VISIBLE_DEVICES='0',SKIP_LEGACY_ORDER_EVAL='1',PYTHONUNBUFFERED='1',
                            PYTHONDONTWRITEBYTECODE='1',OMP_NUM_THREADS='1',MKL_NUM_THREADS='1',OPENBLAS_NUM_THREADS='1')
                 with (target/'stdout.log').open('w') as log:
                     proc=subprocess.Popen(task['command'],cwd=work,env=env,stdout=log,stderr=subprocess.STDOUT)

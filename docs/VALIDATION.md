@@ -1,5 +1,20 @@
 # Release validation
 
+## Paper-name update
+
+The current code uses BOLT, UB+Order, UB+LB, and the paper's Order control names throughout its entry points, configurations, workloads, reports, and JOB arms. Validation for this naming update:
+
+- 51 tests passed, including migration, checksum failure, query preservation, paper-label filters, and checkpoint-path regression cases.
+- All 935 installed artifact files passed their current manifest hashes; the 10 downloaded archives retain their original release checksums. Only nine metadata files required content conversion.
+- All 312,186 numerical cells in the tracked reference CSVs were compared with `paper-v1.0` and are unchanged.
+- All 166 generated CLI training commands passed the actual parsers; the other 12 LB+Order cells use their dedicated Python runner.
+- The native `main_BOLT.py` completed two synthetic CUDA epochs, checkpoint reload, and held-out prediction. Published AUTHOR CLIQUE/BOLT checkpoints reproduced sampled non-exact predictions through the current classes.
+- The full saved-result collection, 16 JOB model checks, and 3,540 measured JOB samples passed; Figures 1–5 were regenerated with current names.
+
+The original first-release validation record follows.
+
+## Initial release
+
 The following checks were executed on the prepared standalone BOLT tree before the first release:
 
 - A fresh temporary Git clone passed the CPU tests, downloaded/extracted the AUTHOR inputs, and verified the saved AUTHOR experiment matrix using only the published-format release files.

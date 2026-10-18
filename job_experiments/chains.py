@@ -85,7 +85,7 @@ def make_views(split, cards, n_nonnull, budgets, seed):
         for c in idx:
             c['is_anchor'] = [p in labeled for p in c['patterns']]
         cli = [(p, c) for p, c in rows if c >= 0]
-        output[budget] = dict(BIMO=rows, CLIQUE=cli, chain_index=idx,
+        output[budget] = dict(BOLT=rows, CLIQUE=cli, chain_index=idx,
                               valid=[(p, cards[p]) for p in valid],
                               test=[(p, cards[p]) for p in split['test'] if p != ''],
                               exact_test={p: cards[p] for p in split['test'] if p == ''},

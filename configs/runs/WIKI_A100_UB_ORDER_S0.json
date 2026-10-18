@@ -10,11 +10,11 @@
   "data_name": "WIKI",
   "dynamicPT": true,
   "l2": 1e-06,
-  "lambda_mono": 5.0,
+  "lambda_order": 5.0,
   "learning_rate": 0.0001,
   "max_entry_ratio": 4.35,
-  "model_name": "CLIQUE-MONO",
-  "mono_tolerance": 0.1,
+  "model_name": "UB_ORDER",
+  "order_tolerance": 0.1,
   "n_epoch": 400,
   "n_pred_layer": 3,
   "p_test": 0.1,
@@ -29,5 +29,5 @@
   "seed": 0,
   "table_only": false,
   "tag": "",
-  "workload": "A100_MONO"
+  "workload": "A100_UB_ORDER"
 }

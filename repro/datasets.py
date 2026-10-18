@@ -8,6 +8,7 @@ import tarfile
 import urllib.request
 from pathlib import Path, PurePosixPath
 from .common import ROOT, DATASETS, digest, read_json, verify_files
+from .archive_compat import paper_names, materialized_bytes
 
 
 def safe_members(archive):
@@ -37,6 +38,22 @@ def download_file(url, target, expected=None, local=None):
 
 
 def install_bundle(bundle, local=None):
+    archive_bundle = bundle
+    migrate = "archive_manifest" in bundle
+    if migrate:
+        archive_bundle = next(b for b in read_json(ROOT / bundle["archive_manifest"])["bundles"] if b["name"] == bundle["name"])
+        if archive_bundle["sha256"] != bundle["sha256"]:
+            raise ValueError("Archive identity differs from its frozen manifest")
+        renamed = {paper_names(p) for p in archive_bundle["files"]}
+        if len(renamed) != len(archive_bundle["files"]) or renamed != set(bundle["files"]):
+            raise ValueError("Invalid paper-name archive mapping")
+        expected_copies = {paper_names(k): paper_names(v) for k, v in archive_bundle.get("copies", {}).items()}
+        if bundle.get("copies", {}) != expected_copies:
+            raise ValueError("Invalid paper-name copy mapping")
+    for name in bundle["files"]:
+        path = PurePosixPath(name)
+        if path.is_absolute() or ".." in path.parts:
+            raise ValueError("Unsafe artifact destination")
     copies = bundle.get("copies", {})
     for target, source in copies.items():
         names = (PurePosixPath(target), PurePosixPath(source))
@@ -57,20 +74,28 @@ def install_bundle(bundle, local=None):
     with tarfile.open(archive, "r:gz") as tar:
         members = list(safe_members(tar))
         actual = {m.name for m in members if m.isfile()}
-        if actual != set(bundle["files"]) - set(copies):
+        if actual != set(archive_bundle["files"]) - set(archive_bundle.get("copies", {})):
             raise ValueError("Archive manifest does not match its member list")
         for member in members:
             if not member.isfile():
                 continue
-            destination = ROOT / member.name
+            current_name = paper_names(member.name) if migrate else member.name
+            destination = ROOT / current_name
             destination.parent.mkdir(parents=True, exist_ok=True)
             if destination.is_symlink() or any(p.is_symlink() for p in destination.parents if p != ROOT.parent):
                 raise ValueError(f"Refusing symlink destination: {destination}")
             temporary = destination.with_name(destination.name + ".extracting")
             with tar.extractfile(member) as inp, temporary.open("wb") as out:
                 shutil.copyfileobj(inp, out)
-            if digest(temporary) != bundle["files"][member.name]:
-                raise ValueError(f"Extracted checksum mismatch: {member.name}")
+            if digest(temporary) != archive_bundle["files"][member.name]:
+                raise ValueError(f"Extracted source checksum mismatch: {member.name}")
+            if migrate and current_name.startswith(("artifacts/checkpoints/", "artifacts/timing/", "artifacts/job/")) and destination.suffix in (".json", ".jsonl", ".yaml", ".yml", ".csv"):
+                before = temporary.read_bytes()
+                after = materialized_bytes(member.name, before)
+                if after != before:
+                    temporary.write_bytes(after)
+            if digest(temporary) != bundle["files"][current_name]:
+                raise ValueError(f"Materialized checksum mismatch: {current_name}")
             os.replace(temporary, destination)
     for target, source in copies.items():
         destination = ROOT / target

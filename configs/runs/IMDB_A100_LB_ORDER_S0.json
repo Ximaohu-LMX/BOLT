@@ -11,7 +11,7 @@
   "data_name": "IMDB",
   "dynamicPT": true,
   "l2": 1e-06,
-  "lambda_mono": 5.0,
+  "lambda_order": 5.0,
   "lb_max_substr_len": 15,
   "lb_min_freq_ratio": 0.0001,
   "lb_min_substr_len": 5,
@@ -19,8 +19,8 @@
   "lb_top_k_substrings": 200,
   "learning_rate": 0.0001,
   "max_entry_ratio": 1.675,
-  "model_name": "CLIQUE-BOUND-MONO",
-  "mono_tolerance": 0.1,
+  "model_name": "BOLT",
+  "order_tolerance": 0.1,
   "n_epoch": 400,
   "n_pred_layer": 3,
   "p_test": 0.1,
@@ -35,5 +35,5 @@
   "seed": 0,
   "table_only": false,
   "tag": "",
-  "workload": "A100_BIMO"
+  "workload": "A100_BOLT"
 }

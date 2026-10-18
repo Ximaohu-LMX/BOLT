@@ -2,21 +2,24 @@
 
 ## Method names
 
-| Public name / CLI filter | Internal implementation | Interpretation |
+| Paper name | CLI/config identifier | Implementation |
 |---|---|---|
-| BOLT | `CLIQUE_bound_mono`, old name `BIMO` | Lower/upper bounded output and chain order loss |
-| CLIQUE / UB | `CLIQUE` | Original upper-bound estimator |
-| UB_LB | `CLIQUE_bound`, old `BOUND` | Bounds without order loss |
-| UB_ORDER | `CLIQUE_mono`, old `MONO` | Upper bound and order loss |
-| LB_ORDER | `lb_order` | Same lower-bound/chain rules, database size as upper endpoint, no UB summary or UB feature |
-| NO_BOUND | `no_bound` | Neural estimator without bound/order mechanisms |
-| BOLT_L0 | strict λ=0 path in `CLIQUE_bound_mono` | Same chain-aware path as BOLT, zero order-loss weight |
-| ZERO_LB / ZERO_MID | `main_zero_label` | Static lower bound / shifted midpoint |
-| ZERO_MID_MONO | `main_zero_label` | Order-only optimization without exact training labels |
-| ANCHORED_MID_MONO | `main_zero_label` | Order-only initialization plus endpoint supervision |
-| DREAM / LPLM / LBS | original model-specific entry points | External baselines |
+| BOLT | `BOLT` | `main_BOLT.py`, `src/BOLT.py` |
+| CLIQUE / UB (component comparison) | `CLIQUE` / `UB` | `main_CLIQUE.py` |
+| UB+LB | `UB_LB` | `main_UB_LB.py`, `src/UB_LB.py` |
+| UB+Order | `UB_ORDER` | `main_UB_ORDER.py`, `src/UB_ORDER.py` |
+| LB+Order | `LB_ORDER` | `src/lb_order.py`; no UB summary or UB feature |
+| NO-BOUND | `NO_BOUND` | `main_no_bound.py` |
+| BOLT (λ=0) | `BOLT_L0` | `main_BOLT.py --force-chain-training --lambda_order 0` |
+| Lower bound / ZERO-LB | `ZERO_LB` | `main_zero_label.py` |
+| Shifted midpoint / ZERO-MID | `ZERO_MID` | `main_zero_label.py` |
+| Order only / ZERO-MID-ORDER | `ZERO_MID_ORDER` | `main_zero_label.py` |
+| Order + endpoints / ANCHORED-MID-ORDER | `ANCHORED_MID_ORDER` | `main_zero_label.py` |
+| DREAM / LPLM / LBS | same as paper | model-specific entry points |
 
-Legacy names remain in saved filenames and manifests to preserve their provenance. Bash entry points use the public names above. `main_BOLT.py` is an alias for the BOLT implementation, but the task runner is preferred because it selects every paper parameter explicitly.
+Filters accept paper labels, including `--method "UB+Order"`, `--method "UB+LB"`, and `--method "Order + endpoints"`. JSON configurations and output paths use the portable identifiers. Training uses `--lambda_order` and `--order_tolerance` for λ and τ. `main_BOLT.py` contains the implementation itself; the task runner selects every paper parameter explicitly.
+
+Current workload directories, configurations, CSV method columns, JOB arms, and plot legends all use these names. The immutable `paper-v1.0` download bytes are verified against their archived manifest before the downloader materializes current names and checks the resulting file hashes. Only paths and method metadata are converted; query data, numerical predictions, and checkpoint tensors are preserved. Original naming and source paths are confined to `repro/archive_compat.py` and `manifests/archive/paper-v1.0/` for this compatibility check.
 
 ## Supervision and splits
 

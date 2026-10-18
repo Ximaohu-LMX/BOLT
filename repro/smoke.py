@@ -20,7 +20,7 @@ def toy_train():
         root = Path(tmp)
         for name in ('src','configs','a_route'):
             shutil.copytree(ROOT / name, root / name, ignore=shutil.ignore_patterns('__pycache__'))
-        shutil.copy2(ROOT / 'main_CLIQUE_bound_mono.py', root / 'main_CLIQUE_bound_mono.py')
+        shutil.copy2(ROOT / 'main_BOLT.py', root / 'main_BOLT.py')
         data = root / 'data/TOY'
         view = data / 'training/smoke'
         view.mkdir(parents=True)
@@ -34,12 +34,12 @@ def toy_train():
         for name, values in [('train',list(targets.items())), ('valid', [(q,cardinality(q)) for q in ['%a%','%b%','%c%']]), ('test', [(q,cardinality(q)) for q in ['%ca','%bc','a_c%']])]:
             (view / (name+'.txt')).write_text(''.join(f'{q},{n}\n' for q,n in values))
         (view / 'chain_index.json').write_text(json.dumps([dict(chain_id=i, patterns=c, is_anchor=[j in (0,len(c)-1) for j in range(len(c))]) for i,c in enumerate(chains)]))
-        env = dict(os.environ, SKIP_LEGACY_MONO_EVAL='1', OMP_NUM_THREADS='1', MKL_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1')
+        env = dict(os.environ, SKIP_LEGACY_ORDER_EVAL='1', OMP_NUM_THREADS='1', MKL_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1')
         env.pop('PYTHONPATH', None)
         for k in list(env):
-            if k in ('MODE','EST','DEBUG') or k.startswith(('BIMO_','EFFICIENCY_')):
+            if k in ('MODE','EST','DEBUG') or k.startswith(('EFFICIENCY_','BOLT_PROFILE','BOLT_CACHE_CHAIN','BOLT_VERIFY_CHAIN','BOLT_EXPECTED_CHAIN')):
                 env.pop(k)
-        command = [sys.executable, 'main_CLIQUE_bound_mono.py', '--data-name','TOY','--workload','smoke', '--n-epoch','2', '--ch-es','4', '--rnn-hs','8', '--pred-hs','8', '--n-pred-layer','2', '--batch-size','8', '--N','2', '--no-batch-norm', '--lambda_mono','5', '--mono_tolerance','.1', '--lb_min_substr_len','2', '--lb_max_substr_len','3', '--lb_top_k_strings','5', '--lb_top_k_substrings','5', '--lb_min_freq_ratio','.0001']
+        command = [sys.executable, 'main_BOLT.py', '--data-name','TOY','--workload','smoke', '--n-epoch','2', '--ch-es','4', '--rnn-hs','8', '--pred-hs','8', '--n-pred-layer','2', '--batch-size','8', '--N','2', '--no-batch-norm', '--lambda_order','5', '--order_tolerance','.1', '--lb_min_substr_len','2', '--lb_max_substr_len','3', '--lb_top_k_strings','5', '--lb_top_k_substrings','5', '--lb_min_freq_ratio','.0001']
         log = ROOT / 'res/smoke_train.log'
         log.parent.mkdir(exist_ok=True)
         with log.open('w') as f:

@@ -20,7 +20,7 @@ def generate(datasets=DATASETS):
         base = ROOT/f'data/{ds}/training'
         info = read_json(base/'FULL_DISJOINT_V1/split_info.json')
         for split in ('train','valid','test'):
-            values = list(labeled_rows(base/f'A100_BIMO/{split}.txt'))
+            values = list(labeled_rows(base/f'A100_BOLT/{split}.txt'))
             chains = read_json(base/'FULL_DISJOINT_V1/chain_index.json') if split == 'train' else info[split+'_chain_index']
             patterns = [q for q,c in values]
             # Final WIKI exclusion is already reflected in the public test file.

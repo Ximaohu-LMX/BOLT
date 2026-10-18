@@ -399,7 +399,7 @@ def get_lower_bound(query: str, substr_library: dict, min_literal_len: int = 3) 
       - infix 库 count(S) = "行包含 S 的数量"
         → 仅当查询是纯子串型（首尾都是 %）时才是下界
 
-    LB > UB 的情况不应出现——如果出现，在 CLIQUE_bound 的 append_bound 中会 min(lb, ub)。
+    LB > UB 的情况不应出现——如果出现，在 UB_LB 的 append_bound 中会 min(lb, ub)。
 
     对短查询（literal 字符数 < min_literal_len）跳过。
     """

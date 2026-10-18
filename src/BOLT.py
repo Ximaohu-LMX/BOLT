@@ -1,20 +1,7 @@
-"""
-CLIQUE_bound_mono.py  —  上下界 + 单调性约束的 CLIQUE 模型
+"""BOLT: bounded cardinality prediction with order-guided chain training.
 
-合并两个改进：
-  1. 下界约束 (from CLIQUE_bound):
-     pred = LB + (UB - LB) * sigmoid(logit)
-  2. 单调性约束 (from CLIQUE_mono):
-     chain-aware batching + hinge monotonicity loss
-
-继承关系: CLIQUEestimator_bound_mono -> CLIQUEestimator_bound -> CLIQUEestimator
-  - logit / forward / estimate / append_bound / build_lower_bound_table: 来自 CLIQUE_bound
-  - build_model: 重写为 chain-aware 训练 + 双 loss（来自 CLIQUE_mono 的逻辑）
-
-放置位置: src/CLIQUE_bound_mono.py
-
-用法:
-  python main_CLIQUE_bound_mono.py -d AUTHOR -w SEMO --seed 0 --lambda_mono 1.0
+The UB+LB predictor supplies the output interval. Chain batches add supervised
+loss on visible labels and the order loss on adjacent tight-to-loose patterns.
 """
 
 import os
@@ -27,9 +14,9 @@ import torch.nn.functional as F
 from tqdm import tqdm
 
 import src.util as ut
-from src.CLIQUE_bound import (
-    CLIQUEestimator_bound,
-    CLIQUEdataset_bound,
+from src.UB_LB import (
+    UBLBEstimator,
+    UBLBDataset,
     collate_fn_hybrid_bound,
     evaluate_bound_model,
     get_bound_dl_test,
@@ -83,52 +70,52 @@ def _env_int(name, default):
         return default
 
 
-class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
+class BOLTEstimator(UBLBEstimator):
     """
     上下界 + 单调性约束的 CLIQUE 模型。
 
     新增属性（在 bound 基础上）:
-        lambda_mono: float, 单调性 loss 权重
+        lambda_order: float, 单调性 loss 权重
         chain_index: list of dict, 链结构索引
     """
 
     def __init__(self):
         super().__init__()
-        self.lambda_mono = 1.0
-        self.mono_tolerance = 0.0
+        self.lambda_order = 1.0
+        self.order_tolerance = 0.0
         self.chain_index = None
-        # Keep the chain-aware batching/forward path even when lambda_mono is
+        # Keep the chain-aware batching/forward path even when lambda_order is
         # zero.  This is used by the strict B1 matched-batch control.  The
-        # default remains the historical lambda=0 -> BOUND fallback.
+        # default remains the historical lambda=0 -> UB_LB fallback.
         self.force_chain_training = False
         self.training_path = None
         self.lb_chain_conflict_summary = None
-        self.bimo_profile_enabled = _env_flag("BIMO_PROFILE")
-        self.bimo_profile_epoch = _env_int("BIMO_PROFILE_EPOCH", 5)
-        self.bimo_profile_exit = _env_flag("BIMO_PROFILE_EXIT", default=True)
-        self.bimo_profile_startup_timings = {}
-        self.bimo_profile_context = {}
-        self.bimo_cache_chain_bounds = _env_flag(
-            "BIMO_CACHE_CHAIN_BOUNDS", default=True
+        self.bolt_profile_enabled = _env_flag("BOLT_PROFILE")
+        self.bolt_profile_epoch = _env_int("BOLT_PROFILE_EPOCH", 5)
+        self.bolt_profile_exit = _env_flag("BOLT_PROFILE_EXIT", default=True)
+        self.bolt_profile_startup_timings = {}
+        self.bolt_profile_context = {}
+        self.bolt_cache_chain_bounds = _env_flag(
+            "BOLT_CACHE_CHAIN_BOUNDS", default=True
         )
-        self.bimo_verify_chain_bounds_cache = _env_flag(
-            "BIMO_VERIFY_CHAIN_BOUNDS_CACHE"
+        self.bolt_verify_chain_bounds_cache = _env_flag(
+            "BOLT_VERIFY_CHAIN_BOUNDS_CACHE"
         )
-        self.bimo_expected_chain_bounds_hash = os.getenv(
-            "BIMO_EXPECTED_CHAIN_BOUNDS_HASH", ""
+        self.bolt_expected_chain_bounds_hash = os.getenv(
+            "BOLT_EXPECTED_CHAIN_BOUNDS_HASH", ""
         ).strip()
         self.chain_pattern_bounds_cache = None
-        self._bimo_profile_current_epoch = None
-        self._bimo_profile_last_bounds_stats = {}
-        self._bimo_profile_prepare_stats = {}
-        self._bimo_profile_epoch_stats = {}
-        self._bimo_profile_prev_bounds_hash = None
-        self._bimo_profile_bounds_hash_by_epoch = {}
-        self._bimo_profile_tracked_query = None
-        self._bimo_profile_tracked_counts = {"ub": 0, "lb": 0}
+        self._bolt_profile_current_epoch = None
+        self._bolt_profile_last_bounds_stats = {}
+        self._bolt_profile_prepare_stats = {}
+        self._bolt_profile_epoch_stats = {}
+        self._bolt_profile_prev_bounds_hash = None
+        self._bolt_profile_bounds_hash_by_epoch = {}
+        self._bolt_profile_tracked_query = None
+        self._bolt_profile_tracked_counts = {"ub": 0, "lb": 0}
 
     def _profile_now(self):
-        if self.bimo_profile_enabled and torch.cuda.is_available():
+        if self.bolt_profile_enabled and torch.cuda.is_available():
             torch.cuda.synchronize()
         return time.perf_counter()
 
@@ -140,7 +127,7 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
                     "force_chain_training requires a non-empty chain index"
                 )
             return False
-        return self.lambda_mono != 0 or self.force_chain_training
+        return self.lambda_order != 0 or self.force_chain_training
 
     def _hash_chain_pattern_bounds(self, pattern_bounds):
         hasher = hashlib.sha256()
@@ -162,13 +149,13 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
 
     def _precompute_chain_pattern_bounds_cache(self, chain_index):
         all_chain_patterns = self._collect_chain_patterns(chain_index)
-        profile = self.bimo_profile_enabled
+        profile = self.bolt_profile_enabled
         start = time.perf_counter()
         ub_time = 0.0
         lb_time = 0.0
 
-        if profile and self._bimo_profile_tracked_query is None:
-            self._bimo_profile_tracked_query = next(
+        if profile and self._bolt_profile_tracked_query is None:
+            self._bolt_profile_tracked_query = next(
                 (pat for pat in sorted(all_chain_patterns) if pat != "%"),
                 None,
             )
@@ -188,9 +175,9 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
             lb = self.get_effective_lower_bound_for_query(pat, ub)
             if profile:
                 lb_time += time.perf_counter() - t0
-                if pat == self._bimo_profile_tracked_query:
-                    self._bimo_profile_tracked_counts["ub"] += 1
-                    self._bimo_profile_tracked_counts["lb"] += 1
+                if pat == self._bolt_profile_tracked_query:
+                    self._bolt_profile_tracked_counts["ub"] += 1
+                    self._bolt_profile_tracked_counts["lb"] += 1
 
             cache[pat] = (ub, lb)
 
@@ -199,22 +186,22 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
         self.chain_pattern_bounds_cache = cache
 
         if profile:
-            self.bimo_profile_startup_timings[
+            self.bolt_profile_startup_timings[
                 "precompute_chain_bounds_cache"
             ] = elapsed
-            self.bimo_profile_startup_timings[
+            self.bolt_profile_startup_timings[
                 "precompute_chain_bounds_ub_lookup"
             ] = ub_time
-            self.bimo_profile_startup_timings[
+            self.bolt_profile_startup_timings[
                 "precompute_chain_bounds_lb_lookup"
             ] = lb_time
 
-        print("\nBIMO chain bounds cache")
-        print(f"  enabled: {self.bimo_cache_chain_bounds}")
+        print("\nBOLT chain bounds cache")
+        print(f"  enabled: {self.bolt_cache_chain_bounds}")
         print(f"  unique chain patterns: {len(cache)}")
         print(f"  precompute time: {elapsed:.4f}s")
         print(f"  chain bounds hash: {cache_hash}")
-        if self.bimo_verify_chain_bounds_cache:
+        if self.bolt_verify_chain_bounds_cache:
             verify_start = time.perf_counter()
             uncached = {}
             for pat in all_chain_patterns:
@@ -239,22 +226,22 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
             if mismatches:
                 print(f"    first_mismatches: {mismatches}")
         if (
-            self.bimo_expected_chain_bounds_hash
-            and cache_hash != self.bimo_expected_chain_bounds_hash
+            self.bolt_expected_chain_bounds_hash
+            and cache_hash != self.bolt_expected_chain_bounds_hash
         ):
             raise RuntimeError(
-                "BIMO chain bounds cache hash mismatch: "
-                f"expected {self.bimo_expected_chain_bounds_hash}, got {cache_hash}"
+                "BOLT chain bounds cache hash mismatch: "
+                f"expected {self.bolt_expected_chain_bounds_hash}, got {cache_hash}"
             )
         return cache
 
     def _bound_profile_forward_count(self):
-        data_name = self.bimo_profile_context.get("data_name")
-        workload = self.bimo_profile_context.get("workload")
-        if not data_name or not workload or not workload.endswith("_BIMO"):
+        data_name = self.bolt_profile_context.get("data_name")
+        workload = self.bolt_profile_context.get("workload")
+        if not data_name or not workload or not workload.endswith("_BOLT"):
             return None, None
 
-        bound_workload = workload[:-5] + "_BOUND"
+        bound_workload = workload[:-5] + "_UB_LB"
         train_path = os.path.join(
             "data", data_name, "training", bound_workload, "train.txt"
         )
@@ -264,9 +251,9 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
         with open(train_path, "r", encoding="utf-8") as f:
             return bound_workload, sum(1 for line in f if line.strip())
 
-    def _print_bimo_profile_report(self, epoch, n_epoch):
-        stats = self._bimo_profile_epoch_stats.get(epoch, {})
-        prepare_stats = self._bimo_profile_prepare_stats.get(epoch, {})
+    def _print_bolt_profile_report(self, epoch, n_epoch):
+        stats = self._bolt_profile_epoch_stats.get(epoch, {})
+        prepare_stats = self._bolt_profile_prepare_stats.get(epoch, {})
         stage_times = stats.get("stage_times", {})
         prepare_time = stats.get("prepare_chain_batches", 0.0)
         batch_total = stats.get("batch_loop_total", 0.0)
@@ -274,15 +261,15 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
         pct_base = max(epoch_total, 1e-12)
 
         print("\n" + "=" * 72)
-        print(f"BIMO PROFILE REPORT (epoch {epoch})")
+        print(f"BOLT PROFILE REPORT (epoch {epoch})")
         print("=" * 72)
 
         print("\n[one_time_setup]")
-        for name, value in self.bimo_profile_startup_timings.items():
+        for name, value in self.bolt_profile_startup_timings.items():
             print(f"  {name:36s} {value:12.4f}s")
         print("  note: build_count appears twice if main pre-build_count and build() both run.")
 
-        bounds_info = self._bimo_profile_bounds_hash_by_epoch.get(epoch, {})
+        bounds_info = self._bolt_profile_bounds_hash_by_epoch.get(epoch, {})
         same_prev = bounds_info.get("same_as_previous")
         same_text = "N/A"
         if same_prev is True:
@@ -291,7 +278,7 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
             same_text = "NO"
         unique_hashes = {
             item.get("hash")
-            for item in self._bimo_profile_bounds_hash_by_epoch.values()
+            for item in self._bolt_profile_bounds_hash_by_epoch.values()
             if item.get("hash")
         }
 
@@ -300,20 +287,20 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
         print(f"  same_as_previous_epoch: {same_text}")
         print(f"  unique_chain_bounds_hashes_seen: {len(unique_hashes)}")
         cache_active = (
-            self.bimo_cache_chain_bounds and self.chain_pattern_bounds_cache is not None
+            self.bolt_cache_chain_bounds and self.chain_pattern_bounds_cache is not None
         )
         print(f"  chain_bounds_cache_active: {cache_active}")
         print(
             "  tracked_query: "
-            f"{self._bimo_profile_tracked_query if self._bimo_profile_tracked_query else 'N/A'}"
+            f"{self._bolt_profile_tracked_query if self._bolt_profile_tracked_query else 'N/A'}"
         )
         print(
             "  tracked_query_ub_calls_observed: "
-            f"{self._bimo_profile_tracked_counts.get('ub', 0)}"
+            f"{self._bolt_profile_tracked_counts.get('ub', 0)}"
         )
         print(
             "  tracked_query_lb_calls_observed: "
-            f"{self._bimo_profile_tracked_counts.get('lb', 0)}"
+            f"{self._bolt_profile_tracked_counts.get('lb', 0)}"
         )
         print(
             "  projected_calls_if_no_early_stop: "
@@ -368,27 +355,27 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
         for name, value in rows:
             print(f"  {name:30s} {value:10.4f} {100 * value / pct_base:8.2f}%")
 
-        bimo_labeled = stats.get("bimo_forward_labeled", 0)
-        bimo_unlabeled = stats.get("bimo_forward_unlabeled", 0)
-        bimo_total = bimo_labeled + bimo_unlabeled
+        bolt_labeled = stats.get("bolt_forward_labeled", 0)
+        bolt_unlabeled = stats.get("bolt_forward_unlabeled", 0)
+        bolt_total = bolt_labeled + bolt_unlabeled
         bound_workload, bound_forward = self._bound_profile_forward_count()
         print("\n[forward_sample_counts]")
-        print(f"  BIMO labeled samples per epoch:   {bimo_labeled}")
-        print(f"  BIMO unlabeled chain patterns:    {bimo_unlabeled}")
-        print(f"  BIMO total forward rows:          {bimo_total}")
+        print(f"  BOLT labeled samples per epoch:   {bolt_labeled}")
+        print(f"  BOLT unlabeled chain patterns:    {bolt_unlabeled}")
+        print(f"  BOLT total forward rows:          {bolt_total}")
         print(
-            "  note: forward is timed once over all BIMO rows; it is not "
+            "  note: forward is timed once over all BOLT rows; it is not "
             "split into extra labeled/unlabeled forwards."
         )
         if bound_forward is None:
-            print(f"  BOUND workload inferred:          {bound_workload or 'N/A'}")
-            print("  BOUND total forward rows:         N/A")
-            print("  BIMO/BOUND forward-row ratio:     N/A")
+            print(f"  UB_LB workload inferred:          {bound_workload or 'N/A'}")
+            print("  UB_LB total forward rows:         N/A")
+            print("  BOLT/UB_LB forward-row ratio:     N/A")
         else:
-            ratio = bimo_total / max(bound_forward, 1)
-            print(f"  BOUND workload inferred:          {bound_workload}")
-            print(f"  BOUND total forward rows:         {bound_forward}")
-            print(f"  BIMO/BOUND forward-row ratio:     {ratio:.4f}x")
+            ratio = bolt_total / max(bound_forward, 1)
+            print(f"  UB_LB workload inferred:          {bound_workload}")
+            print(f"  UB_LB total forward rows:         {bound_forward}")
+            print(f"  BOLT/UB_LB forward-row ratio:     {ratio:.4f}x")
 
         a_repeat = (
             prepare_stats.get("chain_bounds_total", 0.0)
@@ -421,11 +408,11 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
         返回:
             dict: {pattern: (upper_bound, lower_bound)}
         """
-        profile = self.bimo_profile_enabled
+        profile = self.bolt_profile_enabled
         ub_time = 0.0
         lb_time = 0.0
         total_start = time.perf_counter() if profile else None
-        if self.bimo_cache_chain_bounds and self.chain_pattern_bounds_cache is not None:
+        if self.bolt_cache_chain_bounds and self.chain_pattern_bounds_cache is not None:
             pattern_bounds = {}
             missing_patterns = []
             for pat in all_chain_patterns:
@@ -436,12 +423,12 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
 
             if missing_patterns:
                 raise KeyError(
-                    "BIMO chain bounds cache missing patterns: "
+                    "BOLT chain bounds cache missing patterns: "
                     f"{missing_patterns[:5]} (total={len(missing_patterns)})"
                 )
 
             if profile:
-                self._bimo_profile_last_bounds_stats = {
+                self._bolt_profile_last_bounds_stats = {
                     "total": time.perf_counter() - total_start,
                     "ub_lookup": 0.0,
                     "lb_lookup": 0.0,
@@ -453,8 +440,8 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
                 }
             return pattern_bounds
 
-        if profile and self._bimo_profile_tracked_query is None:
-            self._bimo_profile_tracked_query = next(
+        if profile and self._bolt_profile_tracked_query is None:
+            self._bolt_profile_tracked_query = next(
                 (pat for pat in sorted(all_chain_patterns) if pat != "%"),
                 None,
             )
@@ -471,15 +458,15 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
                     t0 = time.perf_counter()
                     lb = self.get_effective_lower_bound_for_query(pat, ub)
                     lb_time += time.perf_counter() - t0
-                    if pat == self._bimo_profile_tracked_query:
-                        self._bimo_profile_tracked_counts["ub"] += 1
-                        self._bimo_profile_tracked_counts["lb"] += 1
+                    if pat == self._bolt_profile_tracked_query:
+                        self._bolt_profile_tracked_counts["ub"] += 1
+                        self._bolt_profile_tracked_counts["lb"] += 1
                 else:
                     ub = self.get_bound(pat)
                     lb = self.get_effective_lower_bound_for_query(pat, ub)
                 pattern_bounds[pat] = (ub, lb)
         if profile:
-            self._bimo_profile_last_bounds_stats = {
+            self._bolt_profile_last_bounds_stats = {
                 "total": time.perf_counter() - total_start,
                 "ub_lookup": ub_time,
                 "lb_lookup": lb_time,
@@ -506,8 +493,8 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
                 - "pair_tight_idx": list of int
                 - "pair_loose_idx": list of int
         """
-        profile = self.bimo_profile_enabled
-        epoch = self._bimo_profile_current_epoch
+        profile = self.bolt_profile_enabled
+        epoch = self._bolt_profile_current_epoch
         prepare_start = time.perf_counter() if profile else None
 
         # pattern -> card
@@ -525,21 +512,21 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
         pattern_bounds = self._build_chain_pattern_bounds(all_chain_patterns)
         if profile:
             bounds_hash = self._hash_chain_pattern_bounds(pattern_bounds)
-            previous_hash = self._bimo_profile_prev_bounds_hash
-            self._bimo_profile_bounds_hash_by_epoch[epoch] = {
+            previous_hash = self._bolt_profile_prev_bounds_hash
+            self._bolt_profile_bounds_hash_by_epoch[epoch] = {
                 "hash": bounds_hash,
                 "same_as_previous": (
                     None if previous_hash is None else bounds_hash == previous_hash
                 ),
             }
-            self._bimo_profile_prev_bounds_hash = bounds_hash
+            self._bolt_profile_prev_bounds_hash = bounds_hash
             if (
-                self.bimo_expected_chain_bounds_hash
-                and bounds_hash != self.bimo_expected_chain_bounds_hash
+                self.bolt_expected_chain_bounds_hash
+                and bounds_hash != self.bolt_expected_chain_bounds_hash
             ):
                 raise RuntimeError(
-                    "BIMO chain bounds epoch hash mismatch: "
-                    f"expected {self.bimo_expected_chain_bounds_hash}, got {bounds_hash}"
+                    "BOLT chain bounds epoch hash mismatch: "
+                    f"expected {self.bolt_expected_chain_bounds_hash}, got {bounds_hash}"
                 )
 
         # 打乱链顺序
@@ -637,7 +624,7 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
             )
 
         if profile:
-            bounds_stats = self._bimo_profile_last_bounds_stats
+            bounds_stats = self._bolt_profile_last_bounds_stats
             prepare_total = time.perf_counter() - prepare_start
             known_prepare = (
                 card_dict_time
@@ -647,7 +634,7 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
                 + batch_materialize_time
                 + pair_index_time
             )
-            self._bimo_profile_prepare_stats[epoch] = {
+            self._bolt_profile_prepare_stats[epoch] = {
                 "card_dict": card_dict_time,
                 "collect_chain_patterns": collect_patterns_time,
                 "chain_bounds_total": bounds_stats.get("total", 0.0),
@@ -707,8 +694,8 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
         seed = self.seed
         char_dict = self.char_dict
         model_path = self.model_path
-        lambda_mono = self.lambda_mono
-        mono_tolerance = getattr(self, "mono_tolerance", 0.0)
+        lambda_order = self.lambda_order
+        order_tolerance = getattr(self, "order_tolerance", 0.0)
         chain_index = self.chain_index
         label_free_selection = getattr(self, "label_free_selection", False)
         selection_trace = []
@@ -719,8 +706,8 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
             self.training_path = "bound_fallback"
             labeled_train_data = ut.labeled_training_rows(train_data)
             print(
-                "No chain index or lambda_mono=0, falling back to "
-                f"CLIQUE_bound training with {len(labeled_train_data)}/"
+                "No chain index or lambda_order=0, falling back to "
+                f"UB_LB training with {len(labeled_train_data)}/"
                 f"{len(train_data)} labeled rows"
             )
             return super().build_model(
@@ -729,52 +716,52 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
 
         self.training_path = (
             "chain_strict_zero_mono"
-            if self.force_chain_training and lambda_mono == 0
+            if self.force_chain_training and lambda_order == 0
             else "chain_joint"
         )
 
         # 记录 train 的下界覆盖率；valid/test 用标准 bound dataloader 评估。
-        t0 = time.perf_counter() if self.bimo_profile_enabled else None
+        t0 = time.perf_counter() if self.bolt_profile_enabled else None
         self.record_lower_bound_coverage("train", train_data)
-        if self.bimo_profile_enabled:
-            self.bimo_profile_startup_timings["train_lb_coverage"] = (
+        if self.bolt_profile_enabled:
+            self.bolt_profile_startup_timings["train_lb_coverage"] = (
                 time.perf_counter() - t0
             )
-        t0 = time.perf_counter() if self.bimo_profile_enabled else None
+        t0 = time.perf_counter() if self.bolt_profile_enabled else None
         valid_data_bounded = self.append_bound(valid_data, split_name="valid")
-        if self.bimo_profile_enabled:
-            self.bimo_profile_startup_timings["append_bound_valid"] = (
+        if self.bolt_profile_enabled:
+            self.bolt_profile_startup_timings["append_bound_valid"] = (
                 time.perf_counter() - t0
             )
-        t0 = time.perf_counter() if self.bimo_profile_enabled else None
+        t0 = time.perf_counter() if self.bolt_profile_enabled else None
         test_data_bounded = self.append_bound(test_data, split_name="test")
-        if self.bimo_profile_enabled:
-            self.bimo_profile_startup_timings["append_bound_test"] = (
+        if self.bolt_profile_enabled:
+            self.bolt_profile_startup_timings["append_bound_test"] = (
                 time.perf_counter() - t0
             )
 
-        t0 = time.perf_counter() if self.bimo_profile_enabled else None
+        t0 = time.perf_counter() if self.bolt_profile_enabled else None
         dl_valid = get_bound_dl_test(valid_data_bounded, bs, char_dict)
         dl_test = get_bound_dl_test(test_data_bounded, bs, char_dict)
-        if self.bimo_profile_enabled:
-            self.bimo_profile_startup_timings["valid_test_dataloader_build"] = (
+        if self.bolt_profile_enabled:
+            self.bolt_profile_startup_timings["valid_test_dataloader_build"] = (
                 time.perf_counter() - t0
             )
 
         ut.set_seed(seed)
-        if self.bimo_cache_chain_bounds:
+        if self.bolt_cache_chain_bounds:
             self._precompute_chain_pattern_bounds_cache(chain_index)
         else:
-            print("\nBIMO chain bounds cache")
+            print("\nBOLT chain bounds cache")
             print("  enabled: False")
             print("  using old path: chain bounds are recomputed each epoch")
 
         ut.set_seed(seed)
-        t0 = time.perf_counter() if self.bimo_profile_enabled else None
+        t0 = time.perf_counter() if self.bolt_profile_enabled else None
         model.cuda()
         optim = torch.optim.Adam(model.parameters(), lr=lr, weight_decay=l2)
-        if self.bimo_profile_enabled:
-            self.bimo_profile_startup_timings["model_cuda_and_optimizer"] = (
+        if self.bolt_profile_enabled:
+            self.bolt_profile_startup_timings["model_cuda_and_optimizer"] = (
                 time.perf_counter() - t0
             )
         bs_step = 0
@@ -788,8 +775,8 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
 
         print(f"\n{'=' * 60}")
         print(f"Training: Lower Bound + Monotonicity")
-        print(f"  lambda_mono = {lambda_mono}")
-        print(f"  mono_tolerance = {mono_tolerance}")
+        print(f"  lambda_order = {lambda_order}")
+        print(f"  order_tolerance = {order_tolerance}")
         print(f"  chains = {len(chain_index)}")
         print(f"  train samples = {len(train_data)} total")
         print(f"  labeled train samples = {n_labeled}")
@@ -805,14 +792,14 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
 
             # 每 epoch 重建 chain-aware batches
             np.random.seed(seed + epoch)
-            self._bimo_profile_current_epoch = epoch
-            prepare_start = time.perf_counter() if self.bimo_profile_enabled else None
+            self._bolt_profile_current_epoch = epoch
+            prepare_start = time.perf_counter() if self.bolt_profile_enabled else None
             chain_batches = self._prepare_chain_batches(
                 train_data, chain_index, char_dict, bs
             )
-            if self.bimo_profile_enabled:
-                self._bimo_profile_epoch_stats.setdefault(epoch, {})
-                self._bimo_profile_epoch_stats[epoch][
+            if self.bolt_profile_enabled:
+                self._bolt_profile_epoch_stats.setdefault(epoch, {})
+                self._bolt_profile_epoch_stats[epoch][
                     "prepare_chain_batches"
                 ] = time.perf_counter() - prepare_start
 
@@ -820,7 +807,7 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
             epoch_mono_loss = 0.0
             n_batches = 0
             profile_epoch = (
-                self.bimo_profile_enabled and epoch == self.bimo_profile_epoch
+                self.bolt_profile_enabled and epoch == self.bolt_profile_epoch
             )
             if profile_epoch:
                 stage_times = {
@@ -835,8 +822,8 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
                     "other": 0.0,
                 }
                 batch_loop_start = self._profile_now()
-                bimo_forward_labeled = 0
-                bimo_forward_unlabeled = 0
+                bolt_forward_labeled = 0
+                bolt_forward_unlabeled = 0
 
             for batch_dict in tqdm(
                 chain_batches,
@@ -858,7 +845,7 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
                 if profile_epoch:
                     stage_times["data_loading"] += self._profile_now() - t0
 
-                # 前向（走 CLIQUE_bound 的 logit: LB + (UB-LB)*sigmoid）
+                # 前向（走 UB_LB 的 logit: LB + (UB-LB)*sigmoid）
                 t0 = self._profile_now() if profile_epoch else None
                 preds = model(xs)
                 if profile_epoch:
@@ -873,8 +860,8 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
                     loss_msle = torch.tensor(0.0, device=preds.device)
                 if profile_epoch:
                     n_labeled_batch = int(labeled_mask.detach().sum().cpu())
-                    bimo_forward_labeled += n_labeled_batch
-                    bimo_forward_unlabeled += int(ys.numel()) - n_labeled_batch
+                    bolt_forward_labeled += n_labeled_batch
+                    bolt_forward_unlabeled += int(ys.numel()) - n_labeled_batch
                     stage_times["msle_loss"] += self._profile_now() - t0
 
                 # ---- 单调性 loss（链内相邻对）----
@@ -891,7 +878,7 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
                     loss_mono = hinge_monotonicity_loss(
                         preds_tight,
                         preds_loose,
-                        tolerance=mono_tolerance,
+                        tolerance=order_tolerance,
                     )
                     if profile_epoch:
                         stage_times["mono_loss"] += self._profile_now() - t0
@@ -902,7 +889,7 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
                         stage_times["mono_loss"] += self._profile_now() - t0
 
                 # ---- 总 loss ----
-                loss = loss_msle + lambda_mono * loss_mono
+                loss = loss_msle + lambda_order * loss_mono
                 t0 = self._profile_now() if profile_epoch else None
                 loss.backward()
                 if profile_epoch:
@@ -919,7 +906,7 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
 
                 sw.add_scalars("Loss", {
                     "train_msle": float(loss_msle.detach().cpu()),
-                    "train_mono": float(loss_mono.detach().cpu()),
+                    "train_order": float(loss_mono.detach().cpu()),
                     "train_total": float(loss.detach().cpu()),
                 }, global_step=bs_step)
                 if profile_epoch:
@@ -930,22 +917,22 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
             avg_msle = epoch_msle_loss / max(n_batches, 1)
             avg_mono = epoch_mono_loss / max(n_batches, 1)
             if profile_epoch:
-                self._bimo_profile_epoch_stats[epoch]["stage_times"] = stage_times
-                self._bimo_profile_epoch_stats[epoch]["batch_loop_total"] = (
+                self._bolt_profile_epoch_stats[epoch]["stage_times"] = stage_times
+                self._bolt_profile_epoch_stats[epoch]["batch_loop_total"] = (
                     self._profile_now() - batch_loop_start
                 )
-                self._bimo_profile_epoch_stats[epoch][
-                    "bimo_forward_labeled"
-                ] = bimo_forward_labeled
-                self._bimo_profile_epoch_stats[epoch][
-                    "bimo_forward_unlabeled"
-                ] = bimo_forward_unlabeled
-                self._print_bimo_profile_report(epoch, n_epoch)
-                if self.bimo_profile_exit:
+                self._bolt_profile_epoch_stats[epoch][
+                    "bolt_forward_labeled"
+                ] = bolt_forward_labeled
+                self._bolt_profile_epoch_stats[epoch][
+                    "bolt_forward_unlabeled"
+                ] = bolt_forward_unlabeled
+                self._print_bolt_profile_report(epoch, n_epoch)
+                if self.bolt_profile_exit:
                     raise SystemExit(0)
 
             if label_free_selection:
-                selection_trace.append({'epoch': epoch, 'train_mono': float(avg_mono),
+                selection_trace.append({'epoch': epoch, 'train_order': float(avg_mono),
                                         'train_msle': float(avg_msle)})
                 end_time = time.time()
                 build_time += end_time - start_time
@@ -1011,7 +998,7 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
             self.selection_best_score = float(best_val_score)
             self.selection_epochs_completed = int(epoch)
             with open(os.path.join(os.path.dirname(model_path), 'selection_trace.json'), 'w') as handle:
-                json.dump({'selection_policy': 'train_mono', 'best_epoch': best_epoch,
+                json.dump({'selection_policy': 'train_order', 'best_epoch': best_epoch,
                            'best_score': best_val_score, 'patience': patience,
                            'epochs': selection_trace}, handle, indent=2)
         print(f"{best_val_score = }, {best_test_score = }, {patience = }, {best_epoch = }")
@@ -1019,22 +1006,22 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
         return build_time
 
     def build(self, data_name, db, train_data, valid_data, test_data):
-        """BIMO build path with optional profiling probes; training logic is unchanged."""
+        """BOLT build path with optional profiling probes; training logic is unchanged."""
         seed = self.seed
         self.n_db = len(db)
         np.random.seed(seed)
 
-        t0 = time.perf_counter() if self.bimo_profile_enabled else None
+        t0 = time.perf_counter() if self.bolt_profile_enabled else None
         build_time_count = self.build_count(data_name)
-        if self.bimo_profile_enabled:
-            self.bimo_profile_startup_timings["build_count_inside_build"] = (
+        if self.bolt_profile_enabled:
+            self.bolt_profile_startup_timings["build_count_inside_build"] = (
                 time.perf_counter() - t0
             )
         print(f"{build_time_count = }")
 
         if self.use_lower_bound:
             full_scan = getattr(self, "full_scan", True)
-            t0 = time.perf_counter() if self.bimo_profile_enabled else None
+            t0 = time.perf_counter() if self.bolt_profile_enabled else None
             self.build_lower_bound_table(
                 data_name,
                 db,
@@ -1045,8 +1032,8 @@ class CLIQUEestimator_bound_mono(CLIQUEestimator_bound):
                 min_freq_ratio=getattr(self, "lb_min_freq_ratio", 0.0005),
                 full_scan=full_scan,
             )
-            if self.bimo_profile_enabled:
-                self.bimo_profile_startup_timings[
+            if self.bolt_profile_enabled:
+                self.bolt_profile_startup_timings[
                     "build_lower_bound_table"
                 ] = time.perf_counter() - t0
 

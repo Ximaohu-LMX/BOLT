@@ -20,7 +20,7 @@ from .prediction import selectivity
 from .database import export_column,identity
 from a_route.scheduler import locks,GLOBAL_LOCKS,TIMING_LOCKS
 
-ARMS=('PG','CLIQUE_A100','BIMO_A100','CLIQUE_A0','BIMO_A0','TrueCard')
+ARMS=('PG','CLIQUE_A100','BOLT_A100','CLIQUE_A0','BOLT_A0','TrueCard')
 SETTINGS={'max_parallel_workers_per_gather':'0','jit':'off','work_mem':'64MB','statement_timeout':'120000',
           'ml_joinest_enabled':'off','print_single_tbl_queries':'off','ml_cardest_enabled':'off'}
 

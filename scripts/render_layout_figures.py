@@ -23,21 +23,17 @@ PAPER = Path(__file__).resolve().parents[1]
 DATASETS = ['AUTHOR', 'DBLP', 'IMDB', 'WIKI']
 BUDGETS = ['A100', 'A75', 'A50', 'A25', 'A10', 'A1', 'A0']
 COLORS = {
-    'CLIQUE': '#264653', 'BOUND': '#6c757d', 'MONO': '#2a9d8f',
-    'BIMO': '#e76f51', 'LB_ORDER': '#b07aa1', 'NO_BOUND': '#aeb7bf', 'BIMO-L0': '#6c757d',
+    'CLIQUE': '#264653', 'UB_LB': '#6c757d', 'UB_ORDER': '#2a9d8f',
+    'BOLT': '#e76f51', 'LB_ORDER': '#b07aa1', 'NO_BOUND': '#aeb7bf', 'BOLT_L0': '#6c757d',
 }
 def display_method(method):
-    """Use the paper name while retaining recorded experiment identifiers."""
-    return method.replace('BIMO', 'BOLT').replace('MONO', 'ORDER').replace('_', '-')
+    from repro.names import display_method as paper_label
+    return r'BOLT ($\lambda=0$)' if method == 'BOLT_L0' else paper_label(method)
 
 
 def display_ablation(method):
-    """Name components without changing the recorded run identifiers."""
-    return {
-        'CLIQUE': 'UB', 'BOUND': 'UB+LB', 'MONO': 'UB+Order',
-        'BIMO': 'BOLT', 'LB_ORDER': 'LB+Order', 'NO_BOUND': 'NO-BOUND',
-        'BIMO-L0': r'BOLT ($\lambda=0$)',
-    }[method]
+    from repro.names import display_method as paper_label
+    return r'BOLT ($\lambda=0$)' if method == 'BOLT_L0' else paper_label(method, ablation=True)
 
 
 WIDE_SIZE = (7.0, 2.25)
@@ -128,7 +124,7 @@ def accuracy(core, supplement, preview_dir):
         ax.minorticks_off()
         ax.set_xlim(-.55, len(BUDGETS)-.45)
         ax.set_xticks(range(len(BUDGETS)), BUDGETS, rotation=45, ha='right')
-        for mi, method in enumerate(['CLIQUE', 'BIMO']):
+        for mi, method in enumerate(['CLIQUE', 'BOLT']):
             color = COLORS[method]
             fill = tuple(.62 + .38*c for c in to_rgb(color))
             for bi, budget in enumerate(BUDGETS):
@@ -150,7 +146,7 @@ def accuracy(core, supplement, preview_dir):
                    linewidth=.8, zorder=4)
     axes[0].set_ylabel('Q-error (log scale)')
     handles = [Patch(facecolor=tuple(.62+.38*c for c in to_rgb(COLORS[m])),
-                     edgecolor=COLORS[m], label=display_method(m)) for m in ['CLIQUE', 'BIMO']]
+                     edgecolor=COLORS[m], label=display_method(m)) for m in ['CLIQUE', 'BOLT']]
     handles += [Line2D([], [], color='#444444', marker='o', linestyle='none',
                        markeredgewidth=0, label='Mean (dot)'),
                 Patch(facecolor='#cccccc', edgecolor='#555555', label='q50–q99 (box)'),
@@ -168,7 +164,7 @@ def accuracy(core, supplement, preview_dir):
 
 def ablations(core, preview_dir):
     fig, axes = wide_panels()
-    methods = ['BIMO', 'CLIQUE', 'BOUND', 'MONO', 'LB_ORDER', 'NO_BOUND']
+    methods = ['BOLT', 'CLIQUE', 'UB_LB', 'UB_ORDER', 'LB_ORDER', 'NO_BOUND']
     budgets = ['A0', 'A10', 'A100']
     centers, width = np.arange(3), .123
     for ax, dataset in zip(axes, DATASETS):
@@ -190,12 +186,12 @@ def ablations(core, preview_dir):
 def matched_loss(core, preview_dir):
     pairs = {}
     for dataset in DATASETS:
-        off, on = [select(core, dataset, 'A0', m) for m in ['BIMO-L0', 'BIMO']]
+        off, on = [select(core, dataset, 'A0', m) for m in ['BOLT_L0', 'BOLT']]
         for field in ['seed', 'label_mask_id', 'test_sha256', 'revealed_unique',
                       'output_convention', 'checkpoint_selection', 'chain_ratio',
                       'protocol', 'lower_bound_mode']:
             assert off[field] == on[field], (dataset, field)
-        assert float(off['lambda_mono']) == 0 and float(on['lambda_mono']) > 0
+        assert float(off['lambda_order']) == 0 and float(on['lambda_order']) > 0
         pairs[dataset] = [off, on]
     fig, axes = plt.subplots(2, 1, figsize=COLUMN_SIZE)
     # Preserve the panel heights while reducing inter-panel and outer whitespace.
@@ -204,7 +200,7 @@ def matched_loss(core, preview_dir):
     for ax, metric, title, limit in zip(axes, ['q_avg', 'q99'],
                                        ['Mean Q-error', 'q99 Q-error'], [10.5, 165]):
         clean(ax)
-        for mi, method in enumerate(['BIMO-L0', 'BIMO']):
+        for mi, method in enumerate(['BOLT_L0', 'BOLT']):
             values = [float(pairs[d][mi][metric]) for d in DATASETS]
             bars = ax.bar(centers+(mi-.5)*.36, values, width=.32,
                           color=COLORS[method], edgecolor='none',

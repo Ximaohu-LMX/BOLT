@@ -2221,11 +2221,12 @@ def get_common_pathes_for_estimator(data_name, model, workload, trial):
         f"res/{data_name}/{workload}/estimation/{model}/{trial}", f"time.csv"
     )
 
-    if "EST" in model:
+    estimator_name = os.path.basename(os.path.normpath(model))
+    if "EST" in estimator_name:
         model_path = model_path.replace("pkl", "txt")
-    elif "Astrid" in model or "E2E" in model or "DREAM" in model or "LPLM" in model or "CLIQUE" in model:
+    elif any(name in estimator_name for name in ("Astrid", "E2E", "DREAM", "LPLM", "CLIQUE", "BOLT", "UB_LB", "UB_ORDER", "LB_ORDER", "NO_BOUND")):
         model_path = model_path.replace("pkl", "pth")
-    elif "LBS" in model:
+    elif "LBS" in estimator_name:
         pass
     else:
         print(model)
@@ -3554,7 +3555,7 @@ EXPERIMENT_SUMMARY_FIELDS = [
     "full_chain_index_sha256",
     "full_split_info_sha256",
     "run_command",
-    "lambda_mono",
+    "lambda_order",
     "lb_min_substr_len",
     "lb_max_substr_len",
     "lb_top_k_strings",
@@ -3737,7 +3738,7 @@ def append_experiment_summary(
     neural_size,
     stat_path,
     est_path,
-    lambda_mono="",
+    lambda_order="",
     lb_min_substr_len="",
     lb_max_substr_len="",
     lb_top_k_strings="",
@@ -3802,7 +3803,7 @@ def append_experiment_summary(
         "full_chain_index_sha256": provenance["full_chain_index_sha256"],
         "full_split_info_sha256": provenance["full_split_info_sha256"],
         "run_command": " ".join(sys.argv),
-        "lambda_mono": lambda_mono,
+        "lambda_order": lambda_order,
         "lb_min_substr_len": lb_min_substr_len,
         "lb_max_substr_len": lb_max_substr_len,
         "lb_top_k_strings": lb_top_k_strings,

@@ -8,7 +8,7 @@ actual build_model paths on small CPU data before this transform is admitted.
 import ast
 from .io import require
 
-FILES=('src/CLIQUE.py','src/CLIQUE_bound.py','src/CLIQUE_mono.py','src/CLIQUE_bound_mono.py')
+FILES=('src/CLIQUE.py','src/UB_LB.py','src/UB_ORDER.py','src/BOLT.py')
 
 def skip_test(loader, model):
     import torch

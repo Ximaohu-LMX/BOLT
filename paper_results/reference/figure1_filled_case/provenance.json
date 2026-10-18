@@ -19,7 +19,7 @@
     8,
     9
   ],
-  "nodes_sha256": "912389528a0cebc732bf12e27643371d2722d80f99f11328c75263051eca54dc",
+  "nodes_sha256": "3d3d01b3d954eeec239f385c61acfc2d5eb538e712a4aed6e1c016a4183b8cfc",
   "audit_sha256": "d6ab879560fc7434710417c9514378164b1866f079ecd0f75784f415083c907c",
   "audit": "paper_v3/results/figure1_subsequence_search/audit.json",
   "exact_counts_recomputed": true,
@@ -29,19 +29,19 @@
   "selection": "Post-hoc illustrative selection for pairwise visual separation; not representative evidence.",
   "category": "bolt_better",
   "metrics": {
-    "BOUND": {
+    "UB_LB": {
       "mean_q_error": 3.9012113121536958,
       "mae": 13.872024461627007,
       "strict_inversions": 3,
       "tolerant_inversions": 2
     },
-    "NO_BOUND_MONO": {
+    "NO_BOUND_ORDER": {
       "mean_q_error": 2.4517593793704124,
       "mae": 19.582389500386277,
       "strict_inversions": 2,
       "tolerant_inversions": 1
     },
-    "BIMO": {
+    "BOLT": {
       "mean_q_error": 1.7967249999497332,
       "mae": 3.1994022130966187,
       "strict_inversions": 1,
@@ -50,9 +50,9 @@
   },
   "score": 0.19642680662941198,
   "gaps_fraction": {
-    "BOUND_NO_BOUND_MONO": 0.4721377167194836,
-    "BOUND_BIMO": 0.13910916646321614,
-    "NO_BOUND_MONO_BIMO": 0.3988038377688444
+    "UB_LB_NO_BOUND_ORDER": 0.4721377167194836,
+    "UB_LB_BOLT": 0.13910916646321614,
+    "NO_BOUND_ORDER_BOLT": 0.3988038377688444
   },
   "renderer_sha256": "ab56568b03b5c69c8cb9be11f2581f729479ef1fcb491f7661e73bfdb67a2348",
   "plot": {
@@ -72,5 +72,8 @@
   },
   "selected_from": "paper_v3/results/figure1_ten_chains/candidate_figures.pdf, page 1",
   "selection_reason": "User selected the first case in PDF1 (chain 5539).",
-  "prediction_markers": "Hollow circles on all predictions; dashed true counts; endpoint supervision described in caption."
+  "prediction_markers": "Hollow circles on all predictions; dashed true counts; endpoint supervision described in caption.",
+  "original_nodes_sha256": "912389528a0cebc732bf12e27643371d2722d80f99f11328c75263051eca54dc",
+  "original_revision": "paper-v1.0",
+  "naming": "Paper method names; predictions and bounds are unchanged."
 }

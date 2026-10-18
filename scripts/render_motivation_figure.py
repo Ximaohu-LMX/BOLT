@@ -18,7 +18,7 @@ from render_layout_figures import COLORS, PAPER, plt
 
 
 def render(preview=None, case_dir=None, output=None):
-    # LaTeX: \begin{figure}[t]  ... \includegraphics[width=\linewidth]{figs/fig1_bimo_overview.pdf}
+    # LaTeX: \begin{figure}[t]  ... \includegraphics[width=\linewidth]{figs/fig1_bolt_overview.pdf}
     # Actual saved predictions; all layout settings below retain the original.
     folder = case_dir if case_dir is not None else PAPER / "results/figure1_filled_case"
     source = folder / "nodes.csv"
@@ -36,9 +36,9 @@ def render(preview=None, case_dir=None, output=None):
         "panels": [
             {"title": title, "pred": [float(r[method]) for r in rows], "anchors": anchors}
             for title, method in [
-                ("(a) bound-only", "BOUND"),
-                ("(b) order-only", "NO_BOUND_MONO"),
-                ("(c) order+bound", "BIMO"),
+                ("(a) bound-only", "UB_LB"),
+                ("(b) order-only", "NO_BOUND_ORDER"),
+                ("(c) order+bound", "BOLT"),
             ]
         ],
     }
@@ -71,9 +71,9 @@ def render(preview=None, case_dir=None, output=None):
     line_color = COLORS["CLIQUE"]
     bounds_fill_color = "#aeb7bf"
     inactive_fill_color = "#d9d9d9"
-    callout_color = COLORS["BIMO"]
+    callout_color = COLORS["BOLT"]
 
-    ref_ratio = 423.066 / 188.524  # figs/fig1_bimo_overview_0.pdf 的宽高比
+    ref_ratio = 423.066 / 188.524  # figs/fig1_bolt_overview_0.pdf 的宽高比
     src_scale = 2.0
     s_pt = src_scale
     s_area = src_scale ** 2
@@ -90,7 +90,7 @@ def render(preview=None, case_dir=None, output=None):
         ax.fill_between(x, lb, ub, color=interval_color, alpha=0.36, zorder=1)
         ax.plot(x, lb, color=interval_color, linewidth=0.6 * s_pt, alpha=0.95, zorder=2)
         ax.plot(x, ub, color=interval_color, linewidth=0.6 * s_pt, alpha=0.95, zorder=2)
-        ax.plot(x, true, color=COLORS["BOUND"],
+        ax.plot(x, true, color=COLORS["UB_LB"],
                 linewidth=0.8 * s_pt, linestyle="--", alpha=0.9, zorder=3,
                 label="Ground truth")
         ax.plot(x, pred, color=line_color, linewidth=0.95 * s_pt, zorder=3)
@@ -145,7 +145,7 @@ def render(preview=None, case_dir=None, output=None):
 
     fig.subplots_adjust(left=0.105, right=0.995, bottom=0.25, top=0.86,
                         wspace=0.10)
-    fig.savefig(output if output is not None else PAPER / "figs/fig1_bimo_overview.pdf",
+    fig.savefig(output if output is not None else PAPER / "figs/fig1_bolt_overview.pdf",
                 metadata={"CreationDate": None, "ModDate": None})
     if preview:
         fig.savefig(preview, dpi=240)

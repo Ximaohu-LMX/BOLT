@@ -9,8 +9,8 @@ rnn_hs,256,tables/configuration.tex
 pred_hs,128,tables/configuration.tex
 n_pred_layer,3,tables/configuration.tex
 N,5,tables/configuration.tex
-lambda_mono,5.0,tables/configuration.tex
-mono_tolerance,0.1,tables/configuration.tex
+lambda_order,5.0,tables/configuration.tex
+order_tolerance,0.1,tables/configuration.tex
 lb_min_substr_len,5,tables/configuration.tex
 lb_max_substr_len,15,tables/configuration.tex
 lb_top_k_strings,500,tables/configuration.tex

@@ -8,11 +8,11 @@ import yaml
 from .common import ROOT, tasks, read_json, atomic_json
 from .metrics import evaluate
 
-ENTRIES = {"CLIQUE": "main_CLIQUE.py", "BOLT": "main_CLIQUE_bound_mono.py",
-           "UB_LB": "main_CLIQUE_bound.py", "UB_ORDER": "main_CLIQUE_mono.py",
-           "NO_BOUND": "main_no_bound.py", "BOLT_L0": "main_CLIQUE_bound_mono.py",
+ENTRIES = {"CLIQUE": "main_CLIQUE.py", "BOLT": "main_BOLT.py",
+           "UB_LB": "main_UB_LB.py", "UB_ORDER": "main_UB_ORDER.py",
+           "NO_BOUND": "main_no_bound.py", "BOLT_L0": "main_BOLT.py",
            "DREAM": "main_DREAM.py", "LPLM": "main_LPLM.py", "LBS": "main_LBS.py"}
-BOUND_KEYS = ("lb_min_substr_len", "lb_max_substr_len", "lb_top_k_strings", "lb_top_k_substrings", "lb_min_freq_ratio")
+UB_LB_KEYS = ("lb_min_substr_len", "lb_max_substr_len", "lb_top_k_strings", "lb_top_k_substrings", "lb_min_freq_ratio")
 
 
 def command_for(task, tag, epochs=None, overrides=None):
@@ -33,19 +33,19 @@ def command_for(task, tag, epochs=None, overrides=None):
             command.append(option if value else "--no-" + key.replace("_", "-"))
         elif value is not None:
             command += [option, str(value)]
-    if method in ("BOLT", "UB_LB", "BOLT_L0", "ZERO_LB", "ZERO_MID", "ZERO_MID_MONO", "ANCHORED_MID_MONO"):
-        for key in BOUND_KEYS:
+    if method in ("BOLT", "UB_LB", "BOLT_L0", "ZERO_LB", "ZERO_MID", "ZERO_MID_ORDER", "ANCHORED_MID_ORDER"):
+        for key in UB_LB_KEYS:
             command += ["--" + key, str(cfg[key])]
-    if method in ("BOLT", "UB_ORDER", "BOLT_L0", "ZERO_LB", "ZERO_MID", "ZERO_MID_MONO", "ANCHORED_MID_MONO"):
-        command += ["--lambda_mono", str(0 if method == "BOLT_L0" else cfg.get("lambda_mono", 5)),
-                    "--mono_tolerance", str(cfg.get("mono_tolerance", .1))]
+    if method in ("BOLT", "UB_ORDER", "BOLT_L0", "ZERO_LB", "ZERO_MID", "ZERO_MID_ORDER", "ANCHORED_MID_ORDER"):
+        command += ["--lambda_order", str(0 if method == "BOLT_L0" else cfg.get("lambda_order", 5)),
+                    "--order_tolerance", str(cfg.get("order_tolerance", .1))]
     if method in ("BOLT", "BOLT_L0"):
         command += ["--chain_sample_ratio", str(cfg.get("chain_sample_ratio", 1))]
     if method == "BOLT_L0":
         command += ["--force-chain-training"]
-    if method.startswith("ZERO_") or method == "ANCHORED_MID_MONO":
-        variant = {"ZERO_LB": "LB", "ZERO_MID": "MID", "ZERO_MID_MONO": "MID_MONO", "ANCHORED_MID_MONO": "ANCHORED_MID_MONO"}[method]
-        command += ["--zero-variant", variant, "--selection-policy", "train_mono"]
+    if method.startswith("ZERO_") or method == "ANCHORED_MID_ORDER":
+        variant = {"ZERO_LB": "LB", "ZERO_MID": "MID", "ZERO_MID_ORDER": "MID_ORDER", "ANCHORED_MID_ORDER": "ANCHORED_MID_ORDER"}[method]
+        command += ["--zero-variant", variant, "--selection-policy", "train_order"]
     return command
 
 
