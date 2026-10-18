@@ -6,6 +6,7 @@ import subprocess
 import sys
 import tarfile
 import urllib.request
+from urllib.parse import quote, urlsplit
 from pathlib import Path, PurePosixPath
 from .common import ROOT, DATASETS, digest, read_json, verify_files
 from .archive_compat import paper_names, materialized_bytes
@@ -19,6 +20,16 @@ def safe_members(archive):
         yield member
 
 
+def artifact_url(bundle):
+    base = os.getenv("BOLT_ASSET_BASE_URL", "").strip()
+    if not base:
+        return bundle.get("url")
+    parsed = urlsplit(base)
+    if parsed.scheme not in ("http", "https") or not parsed.netloc or parsed.query or parsed.fragment:
+        raise ValueError("BOLT_ASSET_BASE_URL must be an HTTP(S) directory URL without a query or fragment")
+    return base.rstrip("/") + "/" + quote(bundle["name"], safe="")
+
+
 def download_file(url, target, expected=None, local=None):
     target = Path(target)
     target.parent.mkdir(parents=True, exist_ok=True)
@@ -28,6 +39,12 @@ def download_file(url, target, expected=None, local=None):
     if local:
         shutil.copyfile(Path(local) / target.name, temporary)
     else:
+        if not url:
+            raise ValueError(
+                f"No anonymous download source is configured for {target.name}. "
+                "Set BOLT_ASSET_DIR to a directory containing the artifact bundles, "
+                "or BOLT_ASSET_BASE_URL to an anonymous HTTP(S) directory. See docs/DATA.md."
+            )
         request = urllib.request.Request(url, headers={"User-Agent": "BOLT-reproduction/1.0"})
         with urllib.request.urlopen(request, timeout=120) as response, temporary.open("wb") as output:
             shutil.copyfileobj(response, output, length=1024 * 1024)
@@ -69,7 +86,7 @@ def install_bundle(bundle, local=None):
         return
     except (ValueError, OSError):
         pass
-    archive = download_file(bundle["url"], ROOT / ".cache/downloads" / bundle["name"],
+    archive = download_file(None if local else artifact_url(bundle), ROOT / ".cache/downloads" / bundle["name"],
                             bundle["sha256"], local)
     with tarfile.open(archive, "r:gz") as tar:
         members = list(safe_members(tar))

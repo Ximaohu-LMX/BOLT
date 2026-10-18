@@ -2,7 +2,11 @@
 
 The source of the four raw columns is [CLIQUE's download script](https://github.com/sykwon/sigmod2025like/blob/main/download.sh). `download.sh` uses its original Google Drive IDs through `gdown`, extracts the raw column only, and checks the exact SHA-256 in `manifests/artifacts.json`.
 
-The release supplies the final paper's frozen workload inputs separately. A new clone needs no file from the author's original research workspace. Release archives contain only listed regular files; path traversal and links are rejected during extraction. Both compressed archives and extracted files are checked.
+The final paper's frozen workload inputs are separate artifact bundles. This review snapshot has no configured anonymous remote bundle host. The bundle URLs in both current and historical manifests are therefore `null`; all archive hashes, member hashes, sizes, and copy mappings are retained.
+
+To use locally supplied bundles, set `BOLT_ASSET_DIR` to their directory. To use an anonymous download service, set `BOLT_ASSET_BASE_URL` to its HTTP(S) directory URL; the downloader appends each manifest bundle filename. The directory URL must not contain query parameters or a fragment. Local bundles take priority over the remote override, and verified cached or installed files are reused. A missing bundle with no configured source stops with a data-access message.
+
+Reviewers can run the CPU smoke tests and dry-run planner without artifact bundles. Saved-prediction verification and paper training require the bundles below. Archives contain only listed regular files; path traversal and links are rejected during extraction. Both compressed archives and extracted files are checked.
 
 | Bundle | Contents |
 |---|---|

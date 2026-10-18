@@ -1,5 +1,16 @@
 # Release validation
 
+## Anonymous review snapshot (paper-v1.2)
+
+- The source download and citation metadata use the anonymous review repository. Account-specific source and Release URLs were removed from both current and historical artifact manifests.
+- All frozen archive hashes, member hashes, byte counts, and copy mappings are unchanged. No model, training configuration, prediction, or numerical reference result was changed.
+- 60 tests passed. New cases cover missing-source errors without network access, verified cache reuse, local-source priority, a real HTTP bundle download, and rejection of corrupted downloads.
+- A fresh temporary checkout installed all 105 AUTHOR workload files from the frozen local archive, checked every hash, and skipped the second installation.
+- The dry-run experiment planner passed without paper artifacts.
+- All ten archive owner/group fields are anonymous. Inspected experiment metadata and the tracked framework PDF contain no author identity or personal workspace paths.
+
+An anonymous remote artifact host is not configured in this snapshot. CPU smoke tests and planning work from the source archive; full paper-data reproduction requires `BOLT_ASSET_DIR` or an independently supplied anonymous `BOLT_ASSET_BASE_URL`. See [data access](DATA.md).
+
 ## Paper-name update
 
 The current code uses BOLT, UB+Order, UB+LB, and the paper's Order control names throughout its entry points, configurations, workloads, reports, and JOB arms. Validation for this naming update:

@@ -21,6 +21,14 @@ Synthetic outputs stay in `res/smoke_*` and cannot be mistaken for paper results
 
 ## 2. Frozen data and fast numerical verification
 
+Paper artifact bundles need a local directory or an anonymous remote host. This review snapshot does not configure a remote host. Put the bundles from [docs/DATA.md](docs/DATA.md) in one directory and set:
+
+```bash
+export BOLT_ASSET_DIR=/path/to/anonymous-artifact-bundles
+```
+
+Alternatively, set `BOLT_ASSET_BASE_URL` to an anonymous HTTPS directory containing the same bundle filenames. The downloader checks the original archive and extracted-file SHA-256 values for either source. CPU smoke tests and the dry-run planner work without these bundles.
+
 ```bash
 bash download.sh
 bash scripts/prepare_data.sh
@@ -30,7 +38,7 @@ bash scripts/run_job.sh --verify
 bash scripts/render_paper.sh --source reference
 ```
 
-The raw columns use the original CLIQUE Google Drive IDs. BOLT chains, train/validation/test splits, masks, LPLM prefix targets, and summaries are downloaded from this repository's release. The original CLIQUE workloads are not substituted for the BOLT paper workloads. If data already exist, the downloader verifies them and skips transfer. `BOLT_ASSET_DIR=/path/to/release/files` supports a local mirror of release tarballs.
+The raw columns use the original CLIQUE Google Drive IDs. BOLT chains, train/validation/test splits, masks, LPLM prefix targets, and summaries come from the separately supplied frozen bundles. The original CLIQUE workloads are not substituted for the BOLT paper workloads. If data already exist, the downloader verifies them and skips transfer. A missing bundle without a configured source produces an explicit data-access error.
 
 For a smaller first check, append `--dataset AUTHOR` to `download.sh`, `prepare_data.sh`, `verify_results.sh`, and `audit_data.sh`. Figure rendering requires the full matrix; do not use a dataset filter there.
 

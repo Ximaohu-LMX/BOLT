@@ -2,22 +2,32 @@
 
 Code, frozen inputs, configurations, and experiment evidence for reproducing BOLT. The repository builds on [CLIQUE](https://github.com/sykwon/sigmod2025like) and retains its `src/`, `configs/`, `data/`, `res/`, `setting.sh`, `download.sh`, and model entry-point organization.
 
-Current code release: [paper-v1.1](https://github.com/Ximaohu-LMX/BOLT/releases/tag/paper-v1.1).
+Current review version: `paper-v1.2`. [Anonymous review repository](https://anonymous.4open.science/r/BOLT-350F/).
 
 Start with [REPRODUCE.md](REPRODUCE.md). The [figure and table index](docs/PAPER_MAP.md) covers all 5 figures, 13 main-paper tables, and 30 supplementary tables. [PROTOCOLS.md](docs/PROTOCOLS.md) explains the label budgets, evaluation population, and timing rules.
 
 ## Quick review: no GPU training
 
+Download the anonymous source archive, then run the CPU checks:
+
 ```bash
-git clone https://github.com/Ximaohu-LMX/BOLT.git
+curl -fL --retry 3 https://anonymous.4open.science/api/repo/BOLT-350F/zip -o BOLT.zip
+unzip BOLT.zip -d BOLT
 cd BOLT
 conda env create -f environment.yml
 conda activate bolt
 bash scripts/smoke_test.sh
+bash run_all.sh --dry-run
+```
+
+The checks above require no paper data. Saved-result verification and training require the frozen artifact bundles listed in [docs/DATA.md](docs/DATA.md). An anonymous remote bundle host is not configured in this review snapshot. If the bundles are available locally, set `BOLT_ASSET_DIR` to their directory; `BOLT_ASSET_BASE_URL` supports an independently supplied anonymous HTTPS directory. Existing verified downloads are reused.
+
+```bash
+export BOLT_ASSET_DIR=/path/to/anonymous-artifact-bundles
 bash scripts/verify_results.sh --dataset AUTHOR
 ```
 
-The last command downloads the frozen AUTHOR workload and saved predictions, checks their SHA-256 hashes, and recomputes the metrics. To check all four datasets and regenerate the paper displays:
+This verifies the frozen AUTHOR workload and saved predictions against their SHA-256 hashes, and recomputes the metrics. With the bundles available, check all four datasets and regenerate the paper displays:
 
 ```bash
 bash scripts/verify_results.sh
@@ -86,7 +96,7 @@ tests/                    model semantics and reproduction integrity checks
 data/, res/, artifacts/   downloaded/generated files; excluded from Git
 ```
 
-Large data, checkpoints, and predictions live in the versioned [paper-v1.0 release](https://github.com/Ximaohu-LMX/BOLT/releases/tag/paper-v1.0), not in Git history. Download and extraction both verify hashes. Method identifiers and figure labels follow the paper; see [method names](docs/PROTOCOLS.md#method-names).
+Large data, checkpoints, and predictions are separate, checksum-pinned artifact bundles; see [data access](docs/DATA.md). Both transfer and extraction verify hashes. Method identifiers and figure labels follow the paper; see [method names](docs/PROTOCOLS.md#method-names).
 
 The original chain-generation provenance is not sufficient to promise regeneration from a seed alone. Reproduction therefore starts from the published frozen chains and masks, as disclosed in the supplement. No unpublished local research directory is required.
 
