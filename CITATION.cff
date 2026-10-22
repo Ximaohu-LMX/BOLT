@@ -2,7 +2,15 @@ cff-version: 1.2.0
 message: "Please cite the accompanying BOLT paper when using this research artifact."
 title: "BOLT: Label-Efficient LIKE Cardinality Estimation"
 type: software
-version: paper-v1.2
+version: paper-v1.3
 authors:
-  - family-names: "Anonymous Authors"
-url: "https://anonymous.4open.science/r/BOLT-350F/"
+  - family-names: "Li"
+    given-names: "Minxuan"
+  - family-names: "Shen"
+    given-names: "Derong"
+  - family-names: "Nie"
+    given-names: "Tiezheng"
+  - family-names: "Kou"
+    given-names: "Yue"
+url: "https://github.com/Ximaohu-LMX/BOLT"
+repository-code: "https://github.com/Ximaohu-LMX/BOLT"

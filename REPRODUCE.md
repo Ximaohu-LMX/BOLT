@@ -21,13 +21,9 @@ Synthetic outputs stay in `res/smoke_*` and cannot be mistaken for paper results
 
 ## 2. Frozen data and fast numerical verification
 
-Paper artifact bundles need a local directory or an anonymous remote host. This review snapshot does not configure a remote host. Put the bundles from [docs/DATA.md](docs/DATA.md) in one directory and set:
+The default commands download original CLIQUE columns from Google Drive and all required BOLT bundles from the public [GitHub release](https://github.com/Ximaohu-LMX/BOLT/releases/tag/paper-v1.0). No environment override or GitHub login is needed. The downloader verifies both archive and extracted-file SHA-256 values before reuse. CPU smoke tests and the dry-run planner work without these bundles.
 
-```bash
-export BOLT_ASSET_DIR=/path/to/anonymous-artifact-bundles
-```
-
-Alternatively, set `BOLT_ASSET_BASE_URL` to an anonymous HTTPS directory containing the same bundle filenames. The downloader checks the original archive and extracted-file SHA-256 values for either source. CPU smoke tests and the dry-run planner work without these bundles.
+For offline reuse, optionally set `BOLT_ASSET_DIR=/path/to/bolt-artifact-bundles`. To use a mirror, set `BOLT_ASSET_BASE_URL` to an HTTP(S) directory containing the same filenames. Local bundles take priority over the mirror, which takes priority over the manifest URLs. See [docs/DATA.md](docs/DATA.md) for direct links.
 
 ```bash
 bash download.sh
@@ -38,7 +34,7 @@ bash scripts/run_job.sh --verify
 bash scripts/render_paper.sh --source reference
 ```
 
-The raw columns use the original CLIQUE Google Drive IDs. BOLT chains, train/validation/test splits, masks, LPLM prefix targets, and summaries come from the separately supplied frozen bundles. The original CLIQUE workloads are not substituted for the BOLT paper workloads. If data already exist, the downloader verifies them and skips transfer. A missing bundle without a configured source produces an explicit data-access error.
+The raw columns use the original CLIQUE Google Drive IDs. BOLT chains, train/validation/test splits, masks, LPLM prefix targets, and summaries come from the published frozen BOLT bundles. The original CLIQUE workloads are not substituted for the BOLT paper workloads. If data already exist, the downloader verifies them and skips transfer. The public URLs are configured by default; optional local and mirror sources must contain the same checksum-pinned files.
 
 For a smaller first check, append `--dataset AUTHOR` to `download.sh`, `prepare_data.sh`, `verify_results.sh`, and `audit_data.sh`. Figure rendering requires the full matrix; do not use a dataset filter there.
 

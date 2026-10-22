@@ -1,4 +1,4 @@
-"""Keep anonymous artifact access usable without silently selecting a public origin."""
+"""Check public artifact defaults, local overrides, and download integrity."""
 import functools
 import hashlib
 import io
@@ -31,7 +31,7 @@ def no_network(*args, **kwargs):
 
 def test_unconfigured_source_fails_without_network(tmp_path, monkeypatch):
     monkeypatch.setattr(datasets.urllib.request, "urlopen", no_network)
-    with pytest.raises(ValueError, match="No anonymous download source"):
+    with pytest.raises(ValueError, match="No download source"):
         datasets.download_file(None, tmp_path / "bundle.tar.gz", "unavailable")
     assert not (tmp_path / "bundle.tar.gz").exists()
     assert not (tmp_path / "bundle.tar.gz.part").exists()
@@ -42,7 +42,7 @@ def test_verified_cache_needs_no_source(tmp_path, monkeypatch):
     target.write_bytes(b"already verified")
     monkeypatch.setattr(datasets.urllib.request, "urlopen", no_network)
     assert datasets.download_file(None, target, digest(target)) == target
-    with pytest.raises(ValueError, match="No anonymous download source"):
+    with pytest.raises(ValueError, match="No download source"):
         datasets.download_file(None, target, "incorrect hash")
     assert target.read_bytes() == b"already verified"
 
@@ -95,10 +95,18 @@ def test_remote_override_rejects_ambiguous_directory_urls(monkeypatch, base):
         datasets.artifact_url({"name": "workload.tar.gz", "url": None})
 
 
-def test_review_manifests_have_no_named_origin():
+def test_paper_manifests_have_public_downloads(monkeypatch):
+    monkeypatch.delenv("BOLT_ASSET_BASE_URL", raising=False)
     root = Path(__file__).resolve().parents[1]
-    for name in ("manifests/artifacts.json", "manifests/archive/paper-v1.0/artifacts.json"):
-        bundles = json.loads((root / name).read_text())["bundles"]
-        assert bundles
-        for bundle in bundles:
-            assert bundle["url"] is None or bundle["url"].startswith("https://anonymous.4open.science/")
+    manifests = [json.loads((root / name).read_text()) for name in
+                 ("manifests/artifacts.json", "manifests/archive/paper-v1.0/artifacts.json")]
+    release = "https://github.com/Ximaohu-LMX/BOLT/releases/download/paper-v1.0/"
+    frozen = {bundle["name"]: bundle for bundle in manifests[1]["bundles"]}
+    assert len(frozen) == 10
+    assert {bundle["name"] for bundle in manifests[0]["bundles"]} == set(frozen)
+    for manifest in manifests:
+        for bundle in manifest["bundles"]:
+            assert bundle["url"] == release + bundle["name"]
+            assert datasets.artifact_url(bundle) == bundle["url"]
+            assert (bundle["sha256"], bundle["bytes"]) == (
+                frozen[bundle["name"]]["sha256"], frozen[bundle["name"]]["bytes"])

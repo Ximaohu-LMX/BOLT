@@ -41,9 +41,9 @@ def download_file(url, target, expected=None, local=None):
     else:
         if not url:
             raise ValueError(
-                f"No anonymous download source is configured for {target.name}. "
+                f"No download source is configured for {target.name}. "
                 "Set BOLT_ASSET_DIR to a directory containing the artifact bundles, "
-                "or BOLT_ASSET_BASE_URL to an anonymous HTTP(S) directory. See docs/DATA.md."
+                "or BOLT_ASSET_BASE_URL to an HTTP(S) mirror directory. See docs/DATA.md."
             )
         request = urllib.request.Request(url, headers={"User-Agent": "BOLT-reproduction/1.0"})
         with urllib.request.urlopen(request, timeout=120) as response, temporary.open("wb") as output:

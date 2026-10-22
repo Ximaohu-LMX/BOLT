@@ -1,15 +1,19 @@
 # Release validation
 
-## Anonymous review snapshot (paper-v1.2)
+## Public GitHub downloads (paper-v1.3)
 
-- The source download and citation metadata use the anonymous review repository. Account-specific source and Release URLs were removed from both current and historical artifact manifests.
-- All frozen archive hashes, member hashes, byte counts, and copy mappings are unchanged. No model, training configuration, prediction, or numerical reference result was changed.
-- 60 tests passed. New cases cover missing-source errors without network access, verified cache reuse, local-source priority, a real HTTP bundle download, and rejection of corrupted downloads.
-- A fresh temporary checkout installed all 105 AUTHOR workload files from the frozen local archive, checked every hash, and skipped the second installation.
-- The dry-run experiment planner passed without paper artifacts.
-- All ten archive owner/group fields are anonymous. Inspected experiment metadata and the tracked framework PDF contain no author identity or personal workspace paths.
+Source checkout instructions and citation metadata point to the public GitHub repository. The original CLIQUE Google Drive IDs remain in use for the four raw columns. All ten BOLT bundle URLs in both manifests point to existing `paper-v1.0` GitHub Release assets; their archive hashes, member hashes, sizes, and copy mappings are unchanged. No model, training configuration, prediction, or numerical reference result was changed.
 
-An anonymous remote artifact host is not configured in this snapshot. CPU smoke tests and planning work from the source archive; full paper-data reproduction requires `BOLT_ASSET_DIR` or an independently supplied anonymous `BOLT_ASSET_BASE_URL`. See [data access](DATA.md).
+The default downloader requires no login or host configuration. Local bundle directories and HTTP(S) mirrors remain optional, and verified downloads and extracted files are reused. See [data access](DATA.md).
+
+Validation for the public-download update:
+
+- All ten Release asset URLs returned HTTP 200 without authentication; asset sizes and GitHub SHA-256 digests matched both manifests.
+- The four Google Drive IDs matched the current upstream CLIQUE download script.
+- A fresh directory downloaded the AUTHOR raw column from Google Drive and installed its 105 workload files and the shared summaries from GitHub Releases. Archive and extracted-file checksum checks passed. A second invocation skipped all three verified inputs.
+- All 60 CPU tests passed, including public manifest defaults, missing-source errors, local-source priority, HTTP transfers, corruption rejection, and verified cache reuse.
+- The same fresh directory downloaded the saved prediction bundle and verified all 39 AUTHOR experiment cells. The filtered dry-run planner passed.
+- Bash syntax checks passed, and no anonymous mirror URL remains in any tracked file.
 
 ## Paper-name update
 

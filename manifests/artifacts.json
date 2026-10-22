@@ -27,7 +27,7 @@
       "name": "workloads-AUTHOR.tar.gz",
       "kind": "workloads",
       "dataset": "AUTHOR",
-      "url": null,
+      "url": "https://github.com/Ximaohu-LMX/BOLT/releases/download/paper-v1.0/workloads-AUTHOR.tar.gz",
       "bytes": 21865206,
       "sha256": "e4c04af3d2146805761e3c487d801aa1df65131e5bf2d32d8eb514c73faf61bc",
       "files": {
@@ -143,7 +143,7 @@
       "name": "summaries.tar.gz",
       "kind": "summaries",
       "dataset": null,
-      "url": null,
+      "url": "https://github.com/Ximaohu-LMX/BOLT/releases/download/paper-v1.0/summaries.tar.gz",
       "bytes": 92523316,
       "sha256": "fbb6325ec8ac5e77e7897872eb9fb15c689294db01f396d0b372df8180bac7d4",
       "files": {
@@ -174,7 +174,7 @@
       "name": "workloads-DBLP.tar.gz",
       "kind": "workloads",
       "dataset": "DBLP",
-      "url": null,
+      "url": "https://github.com/Ximaohu-LMX/BOLT/releases/download/paper-v1.0/workloads-DBLP.tar.gz",
       "bytes": 21437932,
       "sha256": "39aed2ca25423fbfbefe37b20233fd30380c4cace53ae56d38dec69046f1a7e5",
       "files": {
@@ -290,7 +290,7 @@
       "name": "workloads-IMDB.tar.gz",
       "kind": "workloads",
       "dataset": "IMDB",
-      "url": null,
+      "url": "https://github.com/Ximaohu-LMX/BOLT/releases/download/paper-v1.0/workloads-IMDB.tar.gz",
       "bytes": 199735511,
       "sha256": "04c5bc445fe9d621792bcd5e783ff01c7de1ac4d3dc5a7a195e5fc15f380cf36",
       "files": {
@@ -406,7 +406,7 @@
       "name": "workloads-WIKI.compact.tar.gz",
       "kind": "workloads",
       "dataset": "WIKI",
-      "url": null,
+      "url": "https://github.com/Ximaohu-LMX/BOLT/releases/download/paper-v1.0/workloads-WIKI.compact.tar.gz",
       "bytes": 260688172,
       "sha256": "676704efa4d3a6545531dc2ad4922a516e1d3e805b1ae7a88bb54b501d8048cd",
       "files": {
@@ -602,7 +602,7 @@
       "name": "predictions.tar.gz",
       "kind": "predictions",
       "dataset": null,
-      "url": null,
+      "url": "https://github.com/Ximaohu-LMX/BOLT/releases/download/paper-v1.0/predictions.tar.gz",
       "bytes": 136376466,
       "sha256": "a66199512cc00870f5c2e33520c34a728af7a0bb2031222222b53b735c42159e",
       "files": {
@@ -791,7 +791,7 @@
       "name": "checkpoints.tar.gz",
       "kind": "checkpoints",
       "dataset": null,
-      "url": null,
+      "url": "https://github.com/Ximaohu-LMX/BOLT/releases/download/paper-v1.0/checkpoints.tar.gz",
       "bytes": 311166287,
       "sha256": "9b3fa89ae5c2415c04aa1ce0ad98ac0b999c512992cdd5639ba5cf5390b65187",
       "files": {
@@ -952,7 +952,7 @@
       "name": "timing.tar.gz",
       "kind": "timing",
       "dataset": null,
-      "url": null,
+      "url": "https://github.com/Ximaohu-LMX/BOLT/releases/download/paper-v1.0/timing.tar.gz",
       "bytes": 1949784,
       "sha256": "967f6c6558b0dd1cba2a5036d6bb26c6b17449bd73336d3f4dc4126f3cc93bca",
       "files": {
@@ -978,7 +978,7 @@
       "name": "job-evidence.tar.gz",
       "kind": "job-evidence",
       "dataset": null,
-      "url": null,
+      "url": "https://github.com/Ximaohu-LMX/BOLT/releases/download/paper-v1.0/job-evidence.tar.gz",
       "bytes": 361157,
       "sha256": "6cdb2a0b29f8fecc5ddaa23e735376de7d9371bfa5242799271d478fcfe2b94f",
       "files": {
@@ -993,7 +993,7 @@
       "name": "job-inputs.tar.gz",
       "kind": "job-inputs",
       "dataset": null,
-      "url": null,
+      "url": "https://github.com/Ximaohu-LMX/BOLT/releases/download/paper-v1.0/job-inputs.tar.gz",
       "bytes": 167875829,
       "sha256": "aee879ba75eaf39ea68a2a6e960aaf4391c66d892821d5b85cb50e5b75db5f10",
       "files": {

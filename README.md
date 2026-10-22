@@ -2,17 +2,16 @@
 
 Code, frozen inputs, configurations, and experiment evidence for reproducing BOLT. The repository builds on [CLIQUE](https://github.com/sykwon/sigmod2025like) and retains its `src/`, `configs/`, `data/`, `res/`, `setting.sh`, `download.sh`, and model entry-point organization.
 
-Current review version: `paper-v1.2`. [Anonymous review repository](https://anonymous.4open.science/r/BOLT-350F/).
+Current source version: `paper-v1.3`. [GitHub repository](https://github.com/Ximaohu-LMX/BOLT). Frozen artifact bundles are hosted in the [paper-v1.0 release](https://github.com/Ximaohu-LMX/BOLT/releases/tag/paper-v1.0); their checksums are unchanged.
 
 Start with [REPRODUCE.md](REPRODUCE.md). The [figure and table index](docs/PAPER_MAP.md) covers all 5 figures, 13 main-paper tables, and 30 supplementary tables. [PROTOCOLS.md](docs/PROTOCOLS.md) explains the label budgets, evaluation population, and timing rules.
 
 ## Quick review: no GPU training
 
-Download the anonymous source archive, then run the CPU checks:
+Clone the GitHub repository, then run the CPU checks:
 
 ```bash
-curl -fL --retry 3 https://anonymous.4open.science/api/repo/BOLT-350F/zip -o BOLT.zip
-unzip BOLT.zip -d BOLT
+git clone --branch paper-v1.3 https://github.com/Ximaohu-LMX/BOLT.git
 cd BOLT
 conda env create -f environment.yml
 conda activate bolt
@@ -20,14 +19,13 @@ bash scripts/smoke_test.sh
 bash run_all.sh --dry-run
 ```
 
-The checks above require no paper data. Saved-result verification and training require the frozen artifact bundles listed in [docs/DATA.md](docs/DATA.md). An anonymous remote bundle host is not configured in this review snapshot. If the bundles are available locally, set `BOLT_ASSET_DIR` to their directory; `BOLT_ASSET_BASE_URL` supports an independently supplied anonymous HTTPS directory. Existing verified downloads are reused.
+The checks above require no paper data. Saved-result verification and training automatically download the frozen artifact bundles from GitHub Releases using the URLs in [manifests/artifacts.json](manifests/artifacts.json). The four original raw columns use CLIQUE's Google Drive downloads. No account, access token, or custom download host is required. Existing files are checked against their SHA-256 hashes and reused; see [docs/DATA.md](docs/DATA.md) for direct links and optional local/mirror overrides.
 
 ```bash
-export BOLT_ASSET_DIR=/path/to/anonymous-artifact-bundles
 bash scripts/verify_results.sh --dataset AUTHOR
 ```
 
-This verifies the frozen AUTHOR workload and saved predictions against their SHA-256 hashes, and recomputes the metrics. With the bundles available, check all four datasets and regenerate the paper displays:
+This verifies the frozen AUTHOR workload and saved predictions against their SHA-256 hashes, and recomputes the metrics. To check all four datasets and regenerate the paper displays:
 
 ```bash
 bash scripts/verify_results.sh
